@@ -1,0 +1,91 @@
+.Main {
+    background-image: url('../../assets/cool-background.png');
+    background-position: center;
+    display: flex;
+    
+}
+
+.Header {
+    width: 300px;
+    height: 100vh;
+    background-color: #e6e6e6;
+    display: flex;
+    flex-direction: column;
+}
+
+.UserDiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #a0a0a0;
+    width: 100%;
+    height: 70px;
+    padding: 10px;
+}
+
+.User {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: cornflowerblue;
+    width: 38px;
+    height: 38px;
+}
+
+.Icon {
+    font-size: 20px;
+    color: whitesmoke;
+}
+
+.TodayDiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+}
+
+.TodayDiv:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+
+.TodayDivActive {
+    background-color: whitesmoke;
+}
+
+.IconDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    /* background-color: cornflowerblue; */
+    width: 38px;
+    height: 38px;
+}
+
+.SunIcon {
+    font-size: 28px;
+    color: #ffcc00;
+}
+
+.TomorrowIcon {
+    font-size: 24px;
+    color: #339933;
+}
+
+.WeekIcon {
+    font-size: 24px;
+    color: #6600cc;
+}
+
+.ScheduleDiv {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+
+}
