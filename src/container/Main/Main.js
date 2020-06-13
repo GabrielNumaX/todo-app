@@ -11,10 +11,14 @@ import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
 
 import css from './Main.module.css';
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 // import Header from '../../components/Header/Header';
 
 import Today from '../../components/Today/Today';
-import Tomorrow from '../../components/Tomorrow/Tomorrow'
+import Tomorrow from '../../components/Tomorrow/Tomorrow';
+import Week from '../../components/Week/Week';
 
 
 class Main extends Component {
@@ -26,9 +30,16 @@ class Main extends Component {
             todayShow: true,
             tomorrowShow: false,
             weekShow: false,
+            startDate: new Date(),
 
         }
     }
+
+    handleChange = (date) => {
+        this.setState({
+          startDate: date
+        });
+      };
 
     setActive = (string) => {
 
@@ -78,7 +89,8 @@ class Main extends Component {
                         </div>
 
                         <div className={css.ScheduleDiv}>
-                            <span>Today</span> <span>{this.props.todayTask.length}</span>
+                            <span>Today</span> 
+                            <span>{this.props.todayTask.length}</span>
                         </div>
                     </div>
 
@@ -90,7 +102,8 @@ class Main extends Component {
                         </div>
 
                         <div className={css.ScheduleDiv}>
-                            <span>Tomorrow</span> <span>{this.props.tomorrowTask.length}</span>
+                            <span>Tomorrow</span> 
+                            <span>{this.props.tomorrowTask.length}</span>
                         </div>
                     </div>
 
@@ -102,8 +115,23 @@ class Main extends Component {
                         </div>
 
                         <div className={css.ScheduleDiv}>
-                            <span>This Week</span> <span>1</span>
+                            <span>This Week</span> 
+                            <span>{this.props.weekTask.length}</span>
                         </div>
+                    </div>
+
+                    <div className={css.DatePickerDiv}>
+
+                    { this.state.weekShow ?
+
+                        <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChange}
+                        />
+                        :
+                        null
+                    }
+                    
                     </div>
                 </header>
 
@@ -115,9 +143,9 @@ class Main extends Component {
                     this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
                 }
 
-                {/* {
-                    this.state.WeekShow ? <Week></Week> : null
-                } */}
+                {
+                    this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
+                }
 
 
             </div>
@@ -130,9 +158,21 @@ class Main extends Component {
 const mapGlobalStateToProps = (globalState) => {
     return {
         todayTask: globalState.todayTask,
-        tomorrowTask: globalState.tomorrowTask
+        tomorrowTask: globalState.tomorrowTask,
+        weekTask: globalState.weekTask
     }
 }
+
+// // this writes to STORE
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+// 	//NOMBRE PROP - NOM PARAM
+//         updateWeekTask: (arr) => {
+//  			//nom ACTION	nom-param reducer
+//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
+//         },
+//     }
+// }
 
 
 export default connect(mapGlobalStateToProps, null)(Main);
