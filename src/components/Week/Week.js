@@ -161,10 +161,14 @@ class Week extends Component {
                 )
         })
 
+        const today = Date.now()
+        const endWeek = new Date(today)
+        endWeek.setDate(endWeek.getDate() + 7)
+
         return(
             <div className={css.Today}>
                <div className={css.DateNow}>
-                   {`Week ${moment().week()} of ${moment().weekYear()}`}
+                   {`${moment(Date.now()).format('Do MMM')} - ${moment(endWeek).format('Do MMM')}`}
                </div>
 
                <div className={css.TodayTask}>

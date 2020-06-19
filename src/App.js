@@ -5,7 +5,7 @@ import Main from './container/Main/Main'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
     
       <Route path="/" component={Main}></Route>
 
