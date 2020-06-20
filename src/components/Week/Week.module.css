@@ -97,6 +97,11 @@
     padding: 0;
 }
 
+
+.PTaskDone {
+    text-decoration: line-through;
+}
+
 .DivDateAndTrash {
     display: flex;
     align-items: center;

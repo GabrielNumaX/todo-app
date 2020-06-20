@@ -96,3 +96,8 @@
     margin: 0;
     padding: 0;
 }
+
+
+.PTaskDone {
+    text-decoration: line-through;
+}

@@ -130,7 +130,7 @@ class Tomorrow extends Component {
 
 
                                 
-                                <p className={css.PTask}>
+                                <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
                                     {item.task}
                                 </p>
                                 
