@@ -1,0 +1,41 @@
+.welcomeHeader {
+    height: 55px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+.iconDiv {
+    width: 120px;
+    /* background: chartreuse; */
+    /* display: flex;
+    /* justify-content: space-between; */
+    /* align-items: center;  */
+}
+
+.iconDiv div {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.iconDiv p {
+    font-size: var(--p-size);
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.chevronIcon {
+    font-size: var(--p-size);
+    color: var(--icon-color);
+}

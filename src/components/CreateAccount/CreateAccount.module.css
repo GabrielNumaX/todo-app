@@ -1,39 +1,38 @@
-.loginContainer {
+.createContainer {
     min-height: 100vh;
     /* background: url('../../assets/calendar.jpg') center no-repeat; */
     background: url('../../assets/cool-background.png') center no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
+p, input, input::placeholder, label {
+    font-size: var(--p-size);
+}
 
 h2 {
     font-size: var(--h2-size);
-}
-
-p, input, input::placeholder {
-    font-size: var(--p-size);
 }
 
 .formContainer {
     width: 400px;
     /* height: 380px; */
     background: rgba(255, 255, 255, 0.5);
-    /* backdrop-filter: blur(5px); */
+    backdrop-filter: blur(5px);
     border-radius: 10px;
     box-shadow: 0 25px 45px rgba(0,0,0,0.1);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding: 20px 28px;
+    margin: 30px 0;
 }
 
 .formContainer h2 {
     font-weight: bolder;
     letter-spacing: 1px;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0,0,0,1);
     position: relative;
     margin-bottom: 10px;
 }
@@ -41,12 +40,13 @@ p, input, input::placeholder {
 .formContainer h2::after {
     position: absolute;
     content: '';
-    width: 70px;
+    width: 190px;
     height: 3px;
-    background: rgba(0,0,0,1);
+    background: rgba(0,0,0,0.8);
     bottom: -5px;
     left: 0;
 }
+
 
 .formContainer form {
     display: flex;
@@ -58,13 +58,27 @@ p, input, input::placeholder {
 
 .inputBox {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     position: relative;
 }
 
-.inputBox input {
+.inputBox label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding-left: 20px;
+}
+
+.inputBox p {
+    font-weight: 600;
+    margin-top: 2px;
+    padding-left: 20px;
+    color:#e62d2d
+}
+
+.inputBox input, .inputBoxSubmit input {
     width: 100%;
     background: rgba(255, 255, 255, 0.4);
     border: none;
@@ -75,7 +89,6 @@ p, input, input::placeholder {
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     /* font-size: 16px; */
-    /* font-size: var(--p-size); */
     letter-spacing: 1px;
     color: black;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -85,32 +98,45 @@ p, input, input::placeholder {
     color: black;
 }
 
+.inputBoxSubmit {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+}
+
 .eyeIcon {
     position: absolute;
     right: 20px;
-    top: 12px;
-    color: var(--icon-color);
+    top: 38px;
+    color:  var(--icon-color);
     font-size: var(--p-size);
     cursor: pointer;
 }
 
-.inputBox input[type="submit"] {
+.inputBoxSubmit input[type="submit"] {
     background: #fff;
     color: #666;
-    max-width: 100px;
+    max-width: 220px;
+    height: 50px;
     cursor: pointer;
     margin-bottom: 20px;
     font-weight: bolder;
 }
 
-.forgot {
-    color: black;
-    font-weight: 600;
-    margin-top: 5px;
-}
-
-.forgot span {
-    text-decoration: underline;
+.loader {
+    position: absolute;
+    background: #fff;
+    width: 220px;
+    height: 50px;
     cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: not-allowed;
 }
-

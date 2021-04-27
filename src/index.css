@@ -1,7 +1,21 @@
+@font-face {
+  font-family: 'JosefinSans';
+  src: local('JosefinSans'), url(./assets/JosefinSans-SemiBold.ttf) format('truetype');
+}
+
+:root {
+  --color-text: black;
+  --color-background: lightgray;
+  --p-size: 18px;
+  --h2-size: 24px;
+  --icon-color: #333;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'JosefinSans';
 }
 
 body {

@@ -1,0 +1,16 @@
+.welcome {
+    min-height: 100vh;
+    background: url('../../assets/cool-background.png') center no-repeat;
+    display: flex;
+    flex-direction: column;
+    /* align-items: stretch; */
+}
+
+.welcomeContainer {
+    /* height: calc(100% - 55px); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: chocolate; */
+    flex-grow: 3;
+}
