@@ -4,6 +4,8 @@ import css from './Login.module.css';
  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+
+import axios from 'axios';
  
 const Login = (props) => {
 
@@ -13,6 +15,61 @@ const Login = (props) => {
         setShowPass(!showPass)
     }, [showPass])
 
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: '',
+    })
+
+    const validateLogin = () => {
+
+        if(loginData.email === '') {
+
+            // handle toast
+
+            return false;
+        }
+
+        if(loginData.password === ''){
+
+            // handle toast
+
+            return false;
+        }
+
+        return true;
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        // console.log(e);
+
+        if(validateLogin()) {
+
+            axios({
+                method: 'post',
+                url: '/login'
+            })
+            .then(res => {
+
+                console.log(res.data);
+
+                // handle token AND login;
+                // Show loader;
+            })
+            .catch(error => {
+
+                console.log(error);
+
+                // handle error and Show toast
+            })
+        }
+        else {
+            // validate FAIL
+            // show Toast;
+        }
+    }
+
     return(
         // <div className={css.loginContainer}>
 
@@ -20,13 +77,17 @@ const Login = (props) => {
 
                 <h2>Login</h2>
 
-                <form>
+                <form onSubmit={handleLogin}>
 
                     <div className={css.inputBox}>
-                        <input type="text" placeholder="E-mail or Username"/>
+                        <input type="text" placeholder="E-mail or Username"
+                            onChange={(e) => setLoginData({...loginData, email: e.target.value})}
+                        />
                     </div>
                     <div className={css.inputBox}>
-                        <input type={ showPass ? "text": "password"} placeholder="Password"/>
+                        <input type={ showPass ? "text": "password"} placeholder="Password"
+                            onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                        />
                         <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPass}/>
                     </div>
                     <div className={css.inputBox}>

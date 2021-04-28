@@ -7,6 +7,26 @@ import Welcome from './containers/Welcome/Welcome';
 import Login from './components/Login/Login';
 import CreateAccount from './components/CreateAccount/CreateAccount';
 
+import axios from 'axios';
+import { backendUrl } from './config/config';
+
+
+
+axios.interceptors.request.use(async (config) => {
+  
+  config.url = backendUrl + config.url
+
+  console.log('config.url', config.url);
+
+  if(localStorage.token) {
+    config.headers = {
+      ...config.headers,
+      "Authorization": localStorage.getItem("token")
+    }
+  }
+  return config
+});
+
 function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>

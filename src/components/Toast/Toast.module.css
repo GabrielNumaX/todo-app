@@ -1,0 +1,51 @@
+.toast {
+    /* visibility: hidden; */
+    min-width: 250px; /* Set a default minimum width */
+    /* margin-left: -125px;  */
+    /* Divide value of min-width by 2 */
+    background: rgb(255, 255, 255); /* Black background color */
+    color: #333; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 10px; /* Rounded borders */
+    padding: 12px; /* Padding */
+    position: absolute;
+    z-index: 10; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    transform: translateX(-50%);
+    bottom: 15px; /* 30px from the bottom */
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toast p {
+    margin: 0 12px 0 8px;
+}
+
+.close {
+    position: relative;
+    top: -8px;
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 15px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 15px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
