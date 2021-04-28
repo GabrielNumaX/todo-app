@@ -1,10 +1,21 @@
 const { body, validationResult } = require("express-validator");
 const userModel = require('../models/userModel');
 
+const usernameVal = () => {
+
+    return [
+        body('username').notEmpty().isLength({ min: 2, max: 24 }).custom(user => {
+
+            return userModel.findOne({ username: user }).then(user => {
+                if (user) {
+                    return Promise.reject('Username already in use');
+                }
+            });
+        }),
+    ]
+};
 
 const signUpVal = () => {
-
-    // console.log('signup Val');
 
     return [
         body('email').notEmpty().isEmail().withMessage('Invalid Email').custom(email => {
@@ -15,14 +26,17 @@ const signUpVal = () => {
                 }
             })
         }),
-        body('username').notEmpty().custom(user => {
+        body('username').notEmpty().isLength({min: 2, max: 24}).withMessage('Invalid Username')
+        
+        // .custom(user => {
 
-            return userModel.findOne({ username: user }).then(user => {
-                if (user) {
-                    return Promise.reject('Username already in use');
-                }
-            });
-        }),
+        //     return userModel.findOne({ username: user }).then(user => {
+        //         if (user) {
+        //             return Promise.reject('Username already in use');
+        //         }
+        //     });
+        // })
+        ,
         body('password').notEmpty().isLength({ min: 8, max: 32 }).withMessage('Password not Valid'),
     ]
 };
@@ -49,4 +63,4 @@ const valResult = (req, res, next) => {
     }
 }
 
-module.exports = {signUpVal, valResult};
+module.exports = {usernameVal, signUpVal, valResult};

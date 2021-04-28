@@ -12,8 +12,8 @@ const app = express();
 const port = parseInt(process.env.PORT, 10) || 3030;
 const dev = process.env.NODE_ENV !== "production";
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 app.use( signUpRoute );
 
