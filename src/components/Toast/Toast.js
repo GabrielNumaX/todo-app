@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
@@ -7,27 +7,46 @@ import { faExclamationTriangle, faTimes } from '@fortawesome/free-solid-svg-icon
 import css from './Toast.module.css';
 import './Icons.css';
 
+import { connect } from 'react-redux';
+
+import { onCloseToast } from '../../containers/App/actions';
+
 const Toast = (props) => {
 
-    const [show, setShow] = React.useState(props.showToast);
+    // const [show, setShow] = React.useState(props.showToast);
+
+    // console.log('TOAST');
+
+    // console.log(props);
 
     // React.useEffect(() => {
     //     setShow(props.showToast)
-    // },[props.showToast])
+    // }, [props.showToast])
 
-    return ( 
+    return (
+        <React.Fragment>
+            {
+                props.showToast &&
+                < div className={css.toast} >
+                    <FontAwesomeIcon icon={props.icon === 'error' ? faExclamationTriangle : faCheckCircle} />
 
-        <div className={css.toast}>
+                    <p>{props.message}</p>
 
-            <FontAwesomeIcon icon={faExclamationTriangle} />
-
-            <p>This is Toast Message with super long text</p>
-
-            <FontAwesomeIcon icon={faTimes} className={css.close}/>
-
-
-        </div>
-     );
+                    <FontAwesomeIcon icon={faTimes} className={css.close} 
+                        onClick={props.onCloseToast}
+                    />
+                </div >
+            }
+        </React.Fragment>
+    );
 }
- 
-export default Toast;
+
+// export default Toast;
+
+const mapStateToProps = state => ({
+    showToast: state.app.toastShow,
+    message: state.app.toastMessage,
+    icon: state.app.toastIcon,
+})
+
+export default connect(mapStateToProps, { onCloseToast })(Toast);

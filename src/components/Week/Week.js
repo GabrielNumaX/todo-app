@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
+import { onWeekTask } from '../../containers/Main/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +42,7 @@ class Week extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
         //   console.log('pokemons state has changed.')
-          this.props.updateWeekTask(this.state.todayTask)
+          this.props.onWeekTask(this.state.todayTask)
         }
     }
 
@@ -210,18 +211,18 @@ class Week extends Component {
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
     return {
-        weekTask: globalState.weekTask,
+        weekTask: globalState.main.weekTask,
     }
 }
 
-// this writes to STORE
-const mapDispatchToProps = (dispatch) => {
-    return {
-	//NOMBRE PROP - NOM PARAM
-        updateWeekTask: (arr) => {
- 			//nom ACTION	nom-param reducer
-            dispatch({type: 'WEEK_TASK', arrFromState: arr})        
-        },
-    }
-}
-export default connect(mapGlobalStateToProps, mapDispatchToProps)(Week);
+// // this writes to STORE
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+// 	//NOMBRE PROP - NOM PARAM
+//         updateWeekTask: (arr) => {
+//  			//nom ACTION	nom-param reducer
+//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
+//         },
+//     }
+// }
+export default connect(mapGlobalStateToProps, { onWeekTask })(Week);

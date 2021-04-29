@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
+import { onTodayTask } from '../../containers/Main/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -40,7 +41,7 @@ class Today extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
         //   console.log('pokemons state has changed.')
-          this.props.updateTodayTask(this.state.todayTask)
+          this.props.onTodayTask(this.state.todayTask)
         }
       }
       
@@ -195,24 +196,28 @@ const mapGlobalStateToProps = (globalState) => {
     }
 }
 
-// this writes to STORE
-const mapDispatchToProps = (dispatch) => {
-    return {
-	//NOMBRE PROP - NOM PARAM
-        updateTodayTask: (arr) => {
- 			//nom ACTION	nom-param reducer
-            dispatch({type: 'TODAY_TASK', arrFromState: arr})        
-        },
-        checkTask: (pos) => {
-            dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
-        },
-        deleteTask: (filterObj, pos) => {
-            dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
-        },
-        fillGlobalState: (prodArr) => {
-            dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
-        }
-    }
-}
-export default connect(mapGlobalStateToProps, mapDispatchToProps)(Today);
+// // this writes to STORE
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+// 	//NOMBRE PROP - NOM PARAM
+//         updateTodayTask: (arr) => {
+//  			//nom ACTION	nom-param reducer
+//             dispatch({type: 'TODAY_TASK', arrFromState: arr})        
+//         },
+
+//         // this methods are NOT in reducer they are handled by state -> CHANGE TO 
+//         // USE in MainReducer
+//         checkTask: (pos) => {
+//             dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
+//         },
+//         deleteTask: (filterObj, pos) => {
+//             dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
+//         },
+//         fillGlobalState: (prodArr) => {
+//             dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
+//         }
+//     }
+// }
+
+export default connect(mapGlobalStateToProps, { onTodayTask })(Today);
 // export default Today;

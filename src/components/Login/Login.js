@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import css from './Login.module.css';
+
+import Toast from '../Toast/Toast';
  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 
 import axios from 'axios';
+
+import { connect } from 'react-redux';
+
+import { setLogInOut, onShowToast } from '../../containers/App/actions';
  
 const Login = (props) => {
 
@@ -20,18 +26,23 @@ const Login = (props) => {
         password: '',
     })
 
+    console.log('LOGIN', props);
     const validateLogin = () => {
+
+        console.log('valLogin');
 
         if(loginData.email === '') {
 
-            // handle toast
+            console.log('NO EMAIL OR USER');
+
+            props.onShowToast('Enter E-Mail or Username', 'error');
 
             return false;
         }
 
         if(loginData.password === ''){
 
-            // handle toast
+            props.onShowToast('Enter Password', 'error');
 
             return false;
         }
@@ -71,7 +82,9 @@ const Login = (props) => {
     }
 
     return(
-        // <div className={css.loginContainer}>
+
+        <React.Fragment>
+        {/* // <div className={css.loginContainer}> */}
 
             <div className={css.formContainer}>
 
@@ -103,9 +116,17 @@ const Login = (props) => {
 
             </div>
 
-        // </div> 
+            <Toast/>
+
+        {/* // </div>  */}
+
+        </React.Fragment>
 
     )
 }
 
-export default Login;
+// const mapStateToProps = state => ({
+//     isLoggedIn: state.app.isLoggedIn
+// })
+
+export default connect(null, { setLogInOut, onShowToast })(Login);

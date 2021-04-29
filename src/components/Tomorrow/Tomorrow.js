@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
 
+import { onTomorrowTask } from '../../containers/Main/actions';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -40,7 +42,7 @@ class Tomorrow extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
         //   console.log('pokemons state has changed.')
-          this.props.updateTomorrowTask(this.state.todayTask)
+          this.props.onTomorrowTask(this.state.todayTask)
         }
       }
       
@@ -194,28 +196,31 @@ class Tomorrow extends Component {
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
     return {
-        tomorrowTask: globalState.tomorrowTask,
+        tomorrowTask: globalState.main.tomorrowTask,
     }
 }
 
-// this writes to STORE
-const mapDispatchToProps = (dispatch) => {
-    return {
-	//NOMBRE PROP - NOM PARAM
-        updateTomorrowTask: (arr) => {
- 			//nom ACTION	nom-param reducer
-            dispatch({type: 'TOMORROW_TASK', arrFromState: arr})        
-        },
-        checkTask: (pos) => {
-            dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
-        },
-        deleteTask: (filterObj, pos) => {
-            dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
-        },
-        fillGlobalState: (prodArr) => {
-            dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
-        }
-    }
-}
-export default connect(mapGlobalStateToProps, mapDispatchToProps)(Tomorrow);
+// // this writes to STORE
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+// 	//NOMBRE PROP - NOM PARAM
+//         updateTomorrowTask: (arr) => {
+//  			//nom ACTION	nom-param reducer
+//             dispatch({type: 'TOMORROW_TASK', arrFromState: arr})        
+//         },
+
+//         //this methods are NOT in reducer they are handled by state -> CHANGE TO 
+//         // USE in MainReducer
+//         checkTask: (pos) => {
+//             dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
+//         },
+//         deleteTask: (filterObj, pos) => {
+//             dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
+//         },
+//         fillGlobalState: (prodArr) => {
+//             dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
+//         }
+//     }
+// }
+export default connect(mapGlobalStateToProps, { onTomorrowTask })(Tomorrow);
 // export default Today;

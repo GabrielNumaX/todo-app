@@ -1,16 +1,21 @@
 import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { createBrowserHistory } from "history";
+
+import PrivateRoute from './routes/PrivateRoute';
 
 import Main from './containers/Main/Main'
 
 import Welcome from './containers/Welcome/Welcome';
-import Login from './components/Login/Login';
-import CreateAccount from './components/CreateAccount/CreateAccount';
+// import Login from './components/Login/Login';
+// import CreateAccount from './components/CreateAccount/CreateAccount';
 
 import axios from 'axios';
 import { backendUrl } from './config/config';
 
-
+const hist = createBrowserHistory();
 
 axios.interceptors.request.use(async (config) => {
   
@@ -27,13 +32,16 @@ axios.interceptors.request.use(async (config) => {
   return config
 });
 
-function App() {
-  return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+function App(props) {
 
-      {/* <Route exact path="/" component={Welcome}></Route> */}
+  return (
+    <BrowserRouter basename={process.env.PUBLIC_URL} history={hist}>
+
+      <Route exact path="/" component={Welcome}></Route>
     
-      <Route path="/" component={Main}></Route>
+      {/* <Route path="/tasks" component={Main}></Route> */}
+
+      <PrivateRoute exact path='/tasks' component={Main}/>
 
       {/* <Route exact path="/" component={Login}></Route> */}
 
@@ -43,4 +51,9 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.app.isLoggedIn
+})
+export default connect(mapStateToProps, null)(App);

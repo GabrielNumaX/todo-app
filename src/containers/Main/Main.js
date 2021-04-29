@@ -139,13 +139,13 @@ class Main extends Component {
                     this.state.todayShow ? <Today></Today> : null
                 }
 
-                {/* {
+                {
                     this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
                 }
 
                 {
                     this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
-                } */}
+                }
 
 
             </div>

@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';  
+import { combineReducers } from 'redux';
 // import appReducer from './app/reducer'; 
 // import productReducer from './product/reducer'
 // import categoryReducer from './category/reducer'
@@ -8,14 +8,15 @@ import { combineReducers } from 'redux';
 // import testimonialReducer from './testimonial/reducer';
 
 import mainReducer from './Main/MainReducer';
+import appReducer from './App/AppReducer';
 
-export default combineReducers({ 
+export default combineReducers({
     main: mainReducer,
-//   app: appReducer,
-//   product: productReducer,
-//   category: categoryReducer,
-//   banner: bannerReducer,
-//   testimonial: testimonialReducer,
-//   manager: managerReducer,
-//   home: homeReducer
+    app: appReducer,
+    //   product: productReducer,
+    //   category: categoryReducer,
+    //   banner: bannerReducer,
+    //   testimonial: testimonialReducer,
+    //   manager: managerReducer,
+    //   home: homeReducer
 });
