@@ -4,21 +4,19 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { createStore } from 'redux';
-import {Provider} from 'react-redux';
-import MainReducer from './reducers/MainReducer';
+// import { createStore } from 'redux';
+// import {Provider} from 'react-redux';
+// import MainReducer from './reducers/MainReducer';
 
-const globalStore = createStore(MainReducer, 
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// const globalStore = createStore(MainReducer, 
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 
-
-globalStore.subscribe(() => {
-    // console.log(globalStore.getState());
- })
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 ReactDOM.render(
-  <Provider store={globalStore}>
+  <Provider store={store}>
     <React.StrictMode>
       <App />
     </React.StrictMode>

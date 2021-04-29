@@ -191,7 +191,7 @@ class Today extends Component {
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
     return {
-        todayTask: globalState.todayTask,
+        todayTask: globalState.main.todayTask,
     }
 }
 

@@ -31,9 +31,9 @@ function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
 
-      <Route exact path="/" component={Welcome}></Route>
+      {/* <Route exact path="/" component={Welcome}></Route> */}
     
-      {/* <Route path="/" component={Main}></Route> */}
+      <Route path="/" component={Main}></Route>
 
       {/* <Route exact path="/" component={Login}></Route> */}
 

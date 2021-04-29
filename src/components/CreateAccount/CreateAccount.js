@@ -80,6 +80,18 @@ const CreateAccount = (props) => {
         }
     }
 
+    const validatePassword = (password) => {
+
+        if(/^[A-Za-z\S]{8,32}$/g.test(password)) {
+
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
+
     const valUser = () => {
 
         if (!validateUsername(accountData.username)) {
@@ -154,7 +166,7 @@ const CreateAccount = (props) => {
 
     const valPassword = () => {
 
-        if (accountData.password.length < 8 || accountData.password.length > 32) {
+        if (!validatePassword(accountData.password)) {
             setPassword({
                 isInvalid: true,
                 message: 'Password must be between 8 and 32 characters'
@@ -182,8 +194,7 @@ const CreateAccount = (props) => {
                 isInvalid: true,
                 message: 'Passwords do not match'
             })
-
-            console.log('pass rep false');
+            
             return false;
         }
         else {

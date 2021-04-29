@@ -90,7 +90,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>Today</span> 
-                            <span>{this.props.todayTask.length}</span>
+                            {/* <span>{this.props.todayTask.length}</span> */}
                         </div>
                     </div>
 
@@ -103,7 +103,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>Tomorrow</span> 
-                            <span>{this.props.tomorrowTask.length}</span>
+                            {/* <span>{this.props.tomorrowTask.length}</span> */}
                         </div>
                     </div>
 
@@ -116,7 +116,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>This Week</span> 
-                            <span>{this.props.weekTask.length}</span>
+                            {/* <span>{this.props.weekTask.length}</span> */}
                         </div>
                     </div>
 
@@ -139,13 +139,13 @@ class Main extends Component {
                     this.state.todayShow ? <Today></Today> : null
                 }
 
-                {
+                {/* {
                     this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
                 }
 
                 {
                     this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
-                }
+                } */}
 
 
             </div>
@@ -156,25 +156,13 @@ class Main extends Component {
 
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
+
     return {
-        todayTask: globalState.todayTask,
-        tomorrowTask: globalState.tomorrowTask,
-        weekTask: globalState.weekTask
+        todayTask: globalState.main.todayTask,
+        tomorrowTask: globalState.main.tomorrowTask,
+        weekTask: globalState.main.weekTask
     }
 }
 
-// // this writes to STORE
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-// 	//NOMBRE PROP - NOM PARAM
-//         updateWeekTask: (arr) => {
-//  			//nom ACTION	nom-param reducer
-//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
-//         },
-//     }
-// }
-
 
 export default connect(mapGlobalStateToProps, null)(Main);
-
-// export default Main;
