@@ -4,48 +4,43 @@ const bcrypt = require('bcrypt');
 const loginController = {};
 
 loginController.login = async (req, res) => {
-
-    console.log('login');
-
+    
     const {
-        username,
         email,
         password,
     } = req.body;
 
-    console.log(username, email, password);
 
-    // return res.status(200);
+        const emailCheck = await userModel.findOne({email: email})
 
-    if(!username) {
+        if(emailCheck) {
 
-        const loginUser = await userModel.findOne({email: email})
+            const checkPass = await bcrypt.compare(password, emailCheck.password);
 
-        if(!loginUser) return res.status(400).send({message: 'Invalid User or Password'});
+            if(!checkPass) return res.status(400).send({message: 'Invalid User or Password'});
 
-        const checkPass = await bcrypt.compare(password, loginUser.password);
+            const token = emailCheck.generateAuthToken();
 
-        if(!checkPass) return res.status(400).send({message: 'Invalid User or Password'});
+            return res.status(200).send({token: token});
 
-        const token = loginUser.generateAuthToken();
+        }
 
-        return res.status(200).send({token: token});
-    }
+        const userCheck = await userModel.findOne({username: email});
 
-    if(!email) {
+        if(userCheck) {
 
-        const loginUser = await userModel.findOne({username: username});
+            const checkPass = await bcrypt.compare(password, userCheck.password);
 
-        if(!loginUser) return res.status(400).send({message: 'Invalid User or Password'});
+            if(!checkPass) return res.status(400).send({message: 'Invalid User or Password'});
 
-        const checkPass = await bcrypt.compare(password, loginUser.password);
+            const token = userCheck.generateAuthToken();
 
-        if(!checkPass) return res.status(400).send({message: 'Invalid User or Password'});
+            return res.status(200).send({token: token});
 
-        const token = loginUser.generateAuthToken();
+        }
 
-        return res.status(200).send({token: token});
-    }
+        return res.status(400).send({message: 'Invalid User or Password'});
+    
 }
 
 module.exports = loginController;

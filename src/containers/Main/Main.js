@@ -71,6 +71,8 @@ class Main extends Component {
 
     render() {
 
+        console.log('MAIN');
+
         return(
             <div className={css.Main}>
 

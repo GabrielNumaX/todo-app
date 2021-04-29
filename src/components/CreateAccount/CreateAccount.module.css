@@ -128,6 +128,7 @@ h2 {
 }
 
 .loader {
+    cursor: not-allowed;
     position: absolute;
     background: #fff;
     width: 220px;
@@ -138,5 +139,4 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: not-allowed;
 }

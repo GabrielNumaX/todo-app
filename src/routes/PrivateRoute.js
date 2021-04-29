@@ -2,6 +2,7 @@ import React from 'react';
 import { Route }  from 'react-router-dom';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
+import { setLogInOut } from '../containers/App/actions';
 
 const PrivateRoute = (props) => {
     const [auth, setAuth] = React.useState(false);
@@ -11,11 +12,21 @@ const PrivateRoute = (props) => {
         if(props.isLoggedIn && localStorage.token) {
         // if(localStorage.token) {
 
-            console.log('TOKEN')
+            console.log('isLogged && TOKEN')
 
             setAuth(true)
             setLoaded(true)
-        } else {
+        } 
+        else if(localStorage.token) {
+            console.log('just TOKEN');
+
+            props.setLogInOut(true);
+
+            setAuth(true)
+            setLoaded(true)
+
+        }
+        else {
             setLoaded(true)
 
             console.log('NO TOKEN');
@@ -36,4 +47,4 @@ const PrivateRoute = (props) => {
 const mapStateToProps = state => ({
     isLoggedIn: state.app.isLoggedIn
 })
-export default withRouter(connect(mapStateToProps)(PrivateRoute));
+export default withRouter(connect(mapStateToProps, { setLogInOut })(PrivateRoute));

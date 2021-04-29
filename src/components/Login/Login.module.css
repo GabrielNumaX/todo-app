@@ -97,7 +97,8 @@ p, input, input::placeholder {
 .inputBox input[type="submit"] {
     background: #fff;
     color: #666;
-    max-width: 100px;
+    /* max-width: 100px; */
+    width: 120px;
     cursor: pointer;
     margin-bottom: 20px;
     font-weight: bolder;
@@ -114,3 +115,18 @@ p, input, input::placeholder {
     cursor: pointer;
 }
 
+.loader {
+    position: absolute;
+    background: #fff;
+    /* width: 220px; */
+    width: 120px;
+    height: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: not-allowed;
+}

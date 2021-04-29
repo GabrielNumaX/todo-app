@@ -13,6 +13,9 @@ const Welcome = (props) => {
 
     const [showComponent, setShowComponent] = useState('login');
 
+    console.log('welcome');
+    console.log(props);
+
     return (
 
         <div className={css.welcome}>
@@ -22,7 +25,7 @@ const Welcome = (props) => {
                 {/* <WelcomeHeader/> */}
 
                 {showComponent === 'login' && 
-                    <Login show={() => setShowComponent('create')} 
+                    <Login showCreate={() => setShowComponent('create')} 
                             showForgot={() => setShowComponent('forgot')}
                     />}
                 {showComponent === 'create' && <CreateAccount show={() => setShowComponent('login')} />}

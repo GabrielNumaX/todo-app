@@ -1,6 +1,8 @@
-import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, BrowserRouter, useHistory } from 'react-router-dom';
+
 import { connect } from 'react-redux';
+import { setLogInOut } from './containers/App/actions';
 
 import { createBrowserHistory } from "history";
 
@@ -34,10 +36,33 @@ axios.interceptors.request.use(async (config) => {
 
 function App(props) {
 
+  const useHist = useHistory();
+
+  console.log('APP')
+
+  // useEffect(() => {
+
+  //   console.log('app useFX')
+
+  //   if(localStorage.token) {
+
+  //     console.log('APP useFX token')
+
+  //     props.setLogInOut(true);
+
+  //     // I have to check that it does NOT ALWAYS redirects to this;
+  //     hist.push('/tasks');
+
+  //   }
+  // }, [props.isLoggedIn])
+
+  console.log(hist, 'hist');
+  // console.log(useHist, 'useHist');  
+
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL} history={hist}>
 
-      <Route exact path="/" component={Welcome}></Route>
+      <Route exact path="/" component={Welcome} history={hist}></Route>
     
       {/* <Route path="/tasks" component={Main}></Route> */}
 
@@ -56,4 +81,4 @@ function App(props) {
 const mapStateToProps = state => ({
   isLoggedIn: state.app.isLoggedIn
 })
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, { setLogInOut })(App);
