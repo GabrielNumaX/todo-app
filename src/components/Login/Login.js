@@ -6,6 +6,7 @@ import css from './Login.module.css';
 
 import Toast from '../Toast/Toast';
 import PulseLoader from '../PulseLoader/PulseLoader';
+import PageLoader from '../PageLoader/PageLoader';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
@@ -24,6 +25,8 @@ const Login = (props) => {
 
     const [showPulse, setShowPulse] = useState(false);
 
+    const [showLoader, setShowLoader] = useState(true);
+
     const onShowPass = useCallback(() => {
         setShowPass(!showPass)
     }, [showPass])
@@ -33,22 +36,28 @@ const Login = (props) => {
         password: '',
     });
 
-    console.log(props);
-
-    React.useEffect(() => {
-        if(localStorage.token) {
+    useEffect(() => {
+        if (localStorage.token) {
 
             props.setLogInOut(true);
 
             history.push("/tasks")
         }
-        else if(localStorage.token && props.isLoggedIn) {
+        else if (localStorage.token && props.isLoggedIn) {
 
             props.setLogInOut(true);
 
             history.push('/tasks');
         }
-    },[props.isLoggedIn]);
+        else {
+            props.setLogInOut(false);
+
+            history.push('/');
+        }
+
+        setShowLoader(false);
+
+    }, [props.isLoggedIn, history]);
 
     const validateLogin = () => {
 
@@ -93,7 +102,7 @@ const Login = (props) => {
                     setShowPulse(false);
                 })
                 .catch(error => {
-            
+
                     if (error.response.data.hasOwnProperty('message')) {
 
                         console.log('catch IF');
@@ -112,50 +121,49 @@ const Login = (props) => {
 
     return (
 
-        <React.Fragment>
-            {/* // <div className={css.loginContainer}> */}
+        <PageLoader visible={showLoader}>
+            <React.Fragment>
 
-            <div className={css.formContainer}>
+                <div className={css.formContainer}>
 
-                <h2>Login</h2>
+                    <h2>Login</h2>
 
-                <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLogin}>
 
-                    <div className={css.inputBox}>
-                        <input type="text" placeholder="E-mail or Username"
-                            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                        />
-                    </div>
-                    <div className={css.inputBox}>
-                        <input type={showPass ? "text" : "password"} placeholder="Password"
-                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                        />
-                        <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPass} />
-                    </div>
-                    <div className={css.inputBox}>
-                        <input type="submit" value="Login" />
-                        {
-                            showPulse &&
-                            <div className={css.loader}>
-                                <PulseLoader />
-                            </div>
-                        }
-                    </div>
-                </form>
+                        <div className={css.inputBox}>
+                            <input type="text" placeholder="E-mail or Username"
+                                onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                            />
+                        </div>
+                        <div className={css.inputBox}>
+                            <input type={showPass ? "text" : "password"} placeholder="Password"
+                                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                            />
+                            <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPass} />
+                        </div>
+                        <div className={css.inputBox}>
+                            <input type="submit" value="Login" />
+                            {
+                                showPulse &&
+                                <div className={css.loader}>
+                                    <PulseLoader />
+                                </div>
+                            }
+                        </div>
+                    </form>
 
-                <p className={css.forgot}>Don't have an account yet?  <span onClick={props.showCreate}>Create One Here</span>
+                    <p className={css.forgot}>Don't have an account yet?  <span onClick={props.showCreate}>Create One Here</span>
 
-                </p>
+                    </p>
 
-                <p className={css.forgot}>Forgot password? <span onClick={props.showForgot}>Click Here</span></p>
+                    <p className={css.forgot}>Forgot password? <span onClick={props.showForgot}>Click Here</span></p>
 
-            </div>
+                </div>
 
-            <Toast />
+                <Toast />
 
-            {/* // </div>  */}
-
-        </React.Fragment>
+            </React.Fragment>
+        </PageLoader>
 
     )
 }

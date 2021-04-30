@@ -15,7 +15,7 @@ const WelcomeHeader = (props) => {
 
                 {
                     props.show !== 'login' &&
-                    <div onClick={props.onShow}>
+                    <div onClick={props.onShowLogin}>
                         <FontAwesomeIcon icon={faChevronCircleLeft} className={css.chevronIcon} />
                         <p>Go Back</p>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import css from './Welcome.module.css';
 
@@ -13,16 +13,14 @@ const Welcome = (props) => {
 
     const [showComponent, setShowComponent] = useState('login');
 
-    console.log('welcome');
-    console.log(props);
+    // console.log('welcome');
+    // console.log(props);
 
     return (
 
         <div className={css.welcome}>
-            <WelcomeHeader show={showComponent} onShow={() => setShowComponent('login')}/>
+            <WelcomeHeader show={showComponent} onShowLogin={() => setShowComponent('login')}/>
             <div className={css.welcomeContainer}>
-
-                {/* <WelcomeHeader/> */}
 
                 {showComponent === 'login' && 
                     <Login showCreate={() => setShowComponent('create')} 

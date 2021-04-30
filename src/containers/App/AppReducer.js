@@ -5,6 +5,7 @@ const initialState = {
     toastMessage: '',
     toastIcon: null,
     isLoggedIn: false,
+    userType: 'user',
 }
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,6 +18,8 @@ const appReducer = (state = initialState, action) => {
                 toastMessage: action.message,
                 toastIcon: action.icon,
             }
+        case actionTypes.SET_USER_TYPE:
+            return { ...state, userType: action.payload }
         default:
             return state
     }

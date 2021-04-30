@@ -7,6 +7,7 @@ import { setLogInOut } from '../containers/App/actions';
 const PrivateRoute = (props) => {
     const [auth, setAuth] = React.useState(false);
     const [loaded, setLoaded] = React.useState(false);
+    
 
     React.useEffect(() => {
         if(props.isLoggedIn && localStorage.token) {

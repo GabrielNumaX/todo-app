@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route, BrowserRouter, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Route, BrowserRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { setLogInOut } from './containers/App/actions';
@@ -36,7 +36,7 @@ axios.interceptors.request.use(async (config) => {
 
 function App(props) {
 
-  const useHist = useHistory();
+  // const useHist = useHistory();
 
   console.log('APP')
 
@@ -56,7 +56,7 @@ function App(props) {
   //   }
   // }, [props.isLoggedIn])
 
-  console.log(hist, 'hist');
+  // console.log(hist, 'hist');
   // console.log(useHist, 'useHist');  
 
   return (

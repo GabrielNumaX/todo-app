@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 
 import { faSun } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
@@ -79,8 +79,9 @@ class Main extends Component {
                 <header className={css.Header}>
                     <div className={css.UserDiv}>
                         <div className={css.User}>
-                            <FontAwesomeIcon icon={faUser} className={css.Icon}/>
+                            <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon}/>
                         </div>
+                        <p className={css.UserP}>Some Text super long and hard</p>
                     </div>
 
                     <div className={css.TodayDiv} 
@@ -92,7 +93,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>Today</span> 
-                            {/* <span>{this.props.todayTask.length}</span> */}
+                            <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
                         </div>
                     </div>
 
@@ -105,7 +106,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>Tomorrow</span> 
-                            {/* <span>{this.props.tomorrowTask.length}</span> */}
+                            <span>{this.props.tomorrowTask.length === 0 ? null : this.props.tomorrowTask.length}</span>
                         </div>
                     </div>
 
@@ -118,7 +119,7 @@ class Main extends Component {
 
                         <div className={css.ScheduleDiv}>
                             <span>This Week</span> 
-                            {/* <span>{this.props.weekTask.length}</span> */}
+                            <span>{this.props.weekTask.length === 0 ? null : this.props.weekTask.length}</span>
                         </div>
                     </div>
 
@@ -162,7 +163,8 @@ const mapGlobalStateToProps = (globalState) => {
     return {
         todayTask: globalState.main.todayTask,
         tomorrowTask: globalState.main.tomorrowTask,
-        weekTask: globalState.main.weekTask
+        weekTask: globalState.main.weekTask,
+        userType: globalState.app.userType
     }
 }
 

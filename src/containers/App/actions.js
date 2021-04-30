@@ -33,3 +33,10 @@ export const onCloseToast = () => dispatch => {
         icon: '',
     })
 }
+
+export const onSetUserType = (type) => dispatch => {
+    dispatch({
+        type: actionTypes.SET_USER_TYPE,
+        payload: type,
+    })
+}

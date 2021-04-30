@@ -23,6 +23,15 @@
     padding: 10px;
 }
 
+.UserP {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+    width: 252px;
+    background: greenyellow;
+}
+
 .User {
     display: flex;
     justify-content: center;
