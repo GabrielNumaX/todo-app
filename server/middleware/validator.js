@@ -1,6 +1,8 @@
 const { body, validationResult } = require("express-validator");
 const userModel = require('../models/userModel');
 
+const ObjectId = require('mongoose').Types.ObjectId;
+
 const usernameVal = () => {
 
     return [
@@ -41,12 +43,15 @@ const signUpVal = () => {
     ]
 };
 
-// validate.loginVal = () => {
+// task: Joi.string().min(3).max(64).trim().required(),
+// date: Joi.number().sign('positive').integer().required(),
+const taskVal = () => {
 
-//     return [
+    return [
+        body('task').notEmpty().withMessage('Invalid Task')
+    ]
 
-//     ]
-// }
+}
 
 const valResult = (req, res, next) => {
 
@@ -63,4 +68,15 @@ const valResult = (req, res, next) => {
     }
 }
 
-module.exports = {usernameVal, signUpVal, valResult};
+
+const isValidObjectId = (id) => {
+    
+    if(ObjectId.isValid(id)){
+        if((String)(new ObjectId(id)) === id)
+            return true;
+        return false;
+    }
+    return false;
+}
+
+module.exports = {usernameVal, signUpVal, taskVal, valResult, isValidObjectId};

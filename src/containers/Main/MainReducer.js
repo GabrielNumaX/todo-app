@@ -1,13 +1,20 @@
 import * as actionTypes from './actionTypes'
 
 const initialState = {
+    pastTask: [],
     todayTask: [],
     tomorrowTask: [],
     weekTask: [],
   }
 
   const mainReducer = (previousState = initialState, action) => {
-    if(action.type === actionTypes.TODAY_TASK){
+    if(action.type === actionTypes.PAST_TASK) {
+
+      previousState.pastTask = [...action.payload];
+
+      return previousState;
+    }
+    else if(action.type === actionTypes.TODAY_TASK){
 
       previousState.todayTask = [...action.payload]
        return {...previousState};
@@ -22,7 +29,6 @@ const initialState = {
 
       previousState.weekTask = [...action.payload]
       return {...previousState}
-
     }
     return {...previousState}
   }

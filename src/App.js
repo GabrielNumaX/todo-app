@@ -66,7 +66,7 @@ function App(props) {
     
       {/* <Route path="/tasks" component={Main}></Route> */}
 
-      <PrivateRoute exact path='/tasks' component={Main}/>
+      <PrivateRoute exact path='/my-tasks' component={Main}/>
 
       {/* <Route exact path="/" component={Login}></Route> */}
 

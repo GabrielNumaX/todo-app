@@ -1,5 +1,12 @@
 import * as actionTypes from './actionTypes';
 
+export const onPastTask = (arr) => dispatch => {
+    dispatch({
+        type: actionTypes.PAST_TASK,
+        payload: arr
+    })
+}
+
 export const onTodayTask = (arr) => dispatch => {
     dispatch({
         type: actionTypes.TODAY_TASK,

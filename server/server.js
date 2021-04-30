@@ -7,6 +7,7 @@ require('./db/db');
 // router routes
 const signUpRoute = require('./routes/signUpRoute');
 const loginRoute = require('./routes/loginRoute');
+const taskRoute = require('./routes/taskRoute');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use( signUpRoute );
 app.use( loginRoute );
+app.use( taskRoute ); 
 
 app.listen(port, () => {
 

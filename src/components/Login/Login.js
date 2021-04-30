@@ -41,13 +41,13 @@ const Login = (props) => {
 
             props.setLogInOut(true);
 
-            history.push("/tasks")
+            history.push("/my-tasks")
         }
         else if (localStorage.token && props.isLoggedIn) {
 
             props.setLogInOut(true);
 
-            history.push('/tasks');
+            history.push('/my-tasks');
         }
         else {
             props.setLogInOut(false);

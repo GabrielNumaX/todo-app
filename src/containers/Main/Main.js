@@ -47,6 +47,11 @@ class Main extends Component {
         }
     }
 
+    // aca en compDidMount obtener todas las tasks y filtar con moment
+    // para luego pasarlas a los reducers que cargan en cada uno de los 
+    // componentes;
+    // VER appReducer -> capaz filtro en el action de App
+
     handleChange = (date) => {
 
         // aca prodria validar que la fecha sea dentro de una semana
