@@ -169,7 +169,8 @@ class Today extends Component {
                             className={css.Input}
                             value={this.state.addTask.task}
                             onChange={(e) => this.onChangeTask(e)}
-                            onKeyUp={this.keyPress}>        
+                            onKeyUp={this.keyPress}
+                            autoFocus={true}>        
                         </input>
 
                    </div>

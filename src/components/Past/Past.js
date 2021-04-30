@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
-
-import { onTomorrowTask } from '../../containers/Main/actions';
+import { onTodayTask } from '../../containers/Main/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,10 +11,10 @@ import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 import moment from 'moment';
 
-import css from './Tomorrow.module.css';
+import css from './Past.module.css';
 
 
-class Tomorrow extends Component {
+class Past extends Component {
     constructor(props){
         super(props);
 
@@ -25,7 +24,7 @@ class Tomorrow extends Component {
                     task: '',
                     checked: false,
                 },
-            todayTask: [],
+            pastTask: [],
 
         }
     }
@@ -33,16 +32,16 @@ class Tomorrow extends Component {
     componentDidMount() {
     
         this.setState({
-            todayTask: [...this.props.tomorrowTask]
+            pastTask: [...this.props.todayTask]
         })
     }
 
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.todayTask !== this.state.todayTask) {
+        if (prevState.pastTask !== this.state.pastTask) {
         //   console.log('pokemons state has changed.')
-          this.props.onTomorrowTask(this.state.todayTask)
+          this.props.onTodayTask(this.state.pastTask)
         }
       }
       
@@ -62,7 +61,7 @@ class Tomorrow extends Component {
         if(e.keyCode === 13){
 
             this.setState({
-                todayTask: [...this.state.todayTask, this.state.addTask]
+                pastTask: [...this.state.pastTask, this.state.addTask]
             })
 
             this.setState({
@@ -76,7 +75,7 @@ class Tomorrow extends Component {
     addTask = () => {
 
         this.setState( prevState => ({
-            todayTask: [...prevState.todayTask, this.state.addTask],
+            pastTask: [...prevState.pastTask, this.state.addTask],
             addTask: {
                 task: '',
             }
@@ -85,37 +84,37 @@ class Tomorrow extends Component {
 
     onCheck = (pos) => {
 
-        let todayArr = [...this.state.todayTask]
+        let pastArr = [...this.state.pastTask]
 
-        todayArr.map((item, index) => {
+        pastArr.map((item, index) => {
 
             if(index === pos){
 
                 return item.checked = !item.checked;
             }
 
-            return todayArr;
+            return pastArr;
         })
 
-        this.setState({todayTask: [...todayArr]});
+        this.setState({pastTask: [...pastArr]});
     }
 
     taskDelete = (pos) => {
 
-        let todayArr = [...this.state.todayTask]
+        let pastArr = [...this.state.pastTask]
 
-        todayArr.splice(pos, 1)
+        pastArr.splice(pos, 1)
 
-        this.setState({todayTask: [...todayArr]});
+        this.setState({pastTask: [...pastArr]});
     }
 
     render() {
 
         // console.log('render')
 
-        // console.log(this.state);
-        
-        const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.tomorrowTask
+        // console.log(this.state.todayTask);
+
+        const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.todayTask
 
         const task = taskArr.map((item, pos) => {
             return(
@@ -147,18 +146,15 @@ class Tomorrow extends Component {
                 )
         })
 
-        const today = Date.now()
-        const tomorrow = new Date(today)
-        tomorrow.setDate(tomorrow.getDate() + 1)
-
         return(
+
             <div className={css.Today}>
                <div className={css.DateNow}>
-                   {moment(tomorrow).format('dddd, MMMM Do YYYY')}
+                   {moment(Date.now()).format('dddd, MMMM Do YYYY')}
                </div>
 
                <div className={css.TodayTask}>
-                      Tomorrow
+                      Old Tasks
                 </div>
 
                <div className={css.AddTodayTask}>
@@ -169,12 +165,11 @@ class Tomorrow extends Component {
                                         onClick={this.addTask}
                         />
 
-                        <input placeholder='Add Tomorrow Task' 
+                        <input placeholder='Add Past Task' 
                             className={css.Input}
                             value={this.state.addTask.task}
                             onChange={(e) => this.onChangeTask(e)}
-                            onKeyUp={this.keyPress}
-                            autoFocus={true}>        
+                            onKeyUp={this.keyPress}>        
                         </input>
 
                    </div>
@@ -197,31 +192,9 @@ class Tomorrow extends Component {
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
     return {
-        tomorrowTask: globalState.main.tomorrowTask,
+        todayTask: globalState.main.todayTask,
     }
 }
 
-// // this writes to STORE
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-// 	//NOMBRE PROP - NOM PARAM
-//         updateTomorrowTask: (arr) => {
-//  			//nom ACTION	nom-param reducer
-//             dispatch({type: 'TOMORROW_TASK', arrFromState: arr})        
-//         },
-
-//         //this methods are NOT in reducer they are handled by state -> CHANGE TO 
-//         // USE in MainReducer
-//         checkTask: (pos) => {
-//             dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
-//         },
-//         deleteTask: (filterObj, pos) => {
-//             dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
-//         },
-//         fillGlobalState: (prodArr) => {
-//             dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
-//         }
-//     }
-// }
-export default connect(mapGlobalStateToProps, { onTomorrowTask })(Tomorrow);
+export default connect(mapGlobalStateToProps, { onTodayTask })(Past);
 // export default Today;

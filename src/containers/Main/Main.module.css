@@ -23,15 +23,6 @@
     padding: 10px;
 }
 
-.UserP {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 10px;
-    width: 252px;
-    background: greenyellow;
-}
-
 .User {
     display: flex;
     justify-content: center;
@@ -40,6 +31,16 @@
     background-color: cornflowerblue;
     width: 38px;
     height: 38px;
+}
+
+.UserP {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+    max-width: 162px;
+    width: auto;
+    /* background: greenyellow; */
 }
 
 .Icon {
@@ -75,6 +76,11 @@
     height: 38px;
 }
 
+.FolderIcon {
+    font-size: 22px;
+    color: #ff8800;
+}
+
 .SunIcon {
     font-size: 28px;
     color: #ffcc00;
@@ -104,5 +110,5 @@
     justify-content: flex-end;
     align-items: center;
     height: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
 }

@@ -36,7 +36,7 @@
     /* background-color: royalblue; */
     height: 70%;
     padding: 4px 0;
-    width: 94%;
+    width: 80%;
 }
 
 .AddTask {
@@ -64,6 +64,7 @@
     background-color: none;
     border: none;
     background-color: #e6e6e6;
+    outline: none;
 }
 
 .TaskContainer {

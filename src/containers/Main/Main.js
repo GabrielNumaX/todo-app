@@ -3,11 +3,16 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { 
+        faUser, 
+        faUserSecret,
+        faSun,
+        faCalendarDay,
+        faCalendarWeek,
+        faFolderOpen,
+        } from '@fortawesome/free-solid-svg-icons'
 
-import { faSun } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
+
 
 import css from './Main.module.css';
 
@@ -16,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // import Header from '../../components/Header/Header';
 
+import Past from '../../components/Past/Past';
 import Today from '../../components/Today/Today';
 import Tomorrow from '../../components/Tomorrow/Tomorrow';
 import Week from '../../components/Week/Week';
@@ -27,6 +33,7 @@ class Main extends Component {
 
         this.state = {
 
+            pastShow: false,
             todayShow: true,
             tomorrowShow: false,
             weekShow: false,
@@ -44,8 +51,17 @@ class Main extends Component {
     setActive = (string) => {
 
         switch(string){
+            case 'past':
+                this.setState({
+                    pastShow: true,
+                    todayShow: false,
+                    tomorrowShow: false,
+                    weekShow: false,
+                })
+                break;
             case 'today':
                 this.setState({
+                    pastShow: false,
                     todayShow: true,
                     tomorrowShow: false,
                     weekShow: false,
@@ -53,6 +69,7 @@ class Main extends Component {
                 break;
             case 'tomorrow':
                 this.setState({
+                    pastShow: false,
                     todayShow: false,
                     tomorrowShow: true,
                     weekShow: false,
@@ -60,6 +77,7 @@ class Main extends Component {
                 break;
             case 'week':
                 this.setState({
+                    pastShow: false,
                     todayShow: false,
                     tomorrowShow: false,
                     weekShow: true,
@@ -81,7 +99,21 @@ class Main extends Component {
                         <div className={css.User}>
                             <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon}/>
                         </div>
-                        <p className={css.UserP}>Some Text super long and hard</p>
+                        <p className={css.UserP}>Username or Guest</p>
+                    </div>
+
+                    <div className={css.TodayDiv} 
+                        style={this.state.pastShow ? {backgroundColor: 'whitesmoke'} : null}
+                        onClick={() => this.setActive('past')}>
+                        <div className={css.IconDiv}>
+                            <FontAwesomeIcon icon={faFolderOpen} className={css.FolderIcon}/>
+                        </div>
+
+                        <div className={css.ScheduleDiv}>
+                            <span>Old</span> 
+                            {/* this needs to be taken care of */}
+                            <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
+                        </div>
                     </div>
 
                     <div className={css.TodayDiv} 
@@ -137,6 +169,10 @@ class Main extends Component {
                     
                     </div>
                 </header>
+
+                {
+                    this.state.pastShow ? <Past></Past> : null
+                }
 
                 {
                     this.state.todayShow ? <Today></Today> : null
