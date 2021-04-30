@@ -13,7 +13,7 @@
     left: 50%; /* Center the snackbar */
     transform: translateX(-50%);
     bottom: 15px; /* 30px from the bottom */
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 5s;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
+import { onShowToast } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
@@ -26,6 +27,10 @@ import Today from '../../components/Today/Today';
 import Tomorrow from '../../components/Tomorrow/Tomorrow';
 import Week from '../../components/Week/Week';
 
+import Toast from '../../components/Toast/Toast';
+
+import moment from 'moment';
+
 
 class Main extends Component {
     constructor(props){
@@ -43,9 +48,36 @@ class Main extends Component {
     }
 
     handleChange = (date) => {
-        this.setState({
-          startDate: date
-        });
+
+        // aca prodria validar que la fecha sea dentro de una semana
+        // 6 dias mas
+        // esto es de Week
+        const currentDate = new Date();
+        const currentDateMillis = currentDate.getTime();
+        const endWeek = new Date(currentDate)
+        endWeek.setDate(endWeek.getDate() + 7);
+        const endMillis = endWeek.getTime();
+
+        const selectDateMillis = date.getTime();
+        
+        if(selectDateMillis > endMillis) {
+
+            this.props.onShowToast(`Choose a date between ${moment(currentDate).format('MM/DD')}
+                                    and ${moment(endWeek).format('MM/DD')}`, 'error')
+
+            return;
+        }
+        else if(selectDateMillis < currentDateMillis) {
+
+            this.props.onShowToast('Choose a future date', 'error');
+
+            return;
+        }
+        else {
+            this.setState({
+                startDate: date
+              });
+        }
       };
 
     setActive = (string) => {
@@ -185,8 +217,8 @@ class Main extends Component {
                 {
                     this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
                 }
-
-
+    
+                <Toast/>
             </div>
         )
     }
@@ -205,4 +237,4 @@ const mapGlobalStateToProps = (globalState) => {
 }
 
 
-export default connect(mapGlobalStateToProps, null)(Main);
+export default connect(mapGlobalStateToProps, { onShowToast })(Main);
