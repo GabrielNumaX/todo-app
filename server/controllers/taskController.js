@@ -66,4 +66,24 @@ taskController.delTask = async (req, res) => {
     return res.status(200).send({message: 'Task Deleted'});
 }
 
+taskController.putTask = async (req, res) => {
+
+    const { 
+        taskId,
+        isChecked
+    } = req.body;
+
+    if(!taskId) return res.status(400).send({message: 'No Task Found'});
+
+    if(!isValidObjectId(taskId)) return res.status(400).send({message: 'Invalid Id'});
+
+    // await taskModel.findByIdAndRemove(taskId)
+    await taskModel.findByIdAndUpdate(taskId, {
+        isChecked,
+    })
+                    
+
+    return res.status(200).send({message: 'Task Updated'});
+}
+
 module.exports = taskController;  

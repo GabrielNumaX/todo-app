@@ -8,6 +8,7 @@ const joiTasksSchema = Joi.object({
 
     task: Joi.string().min(3).max(64).trim().required(),
     date: Joi.number().sign('positive').integer().required(),
+    isChecked: Joi.boolean().default(false),
     createdAt: Joi.date().default(new Date()),
 
     user: Joi.string().meta({

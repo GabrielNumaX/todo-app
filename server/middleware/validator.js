@@ -28,8 +28,8 @@ const signUpVal = () => {
                 }
             })
         }),
-        body('username').notEmpty().isLength({min: 2, max: 24}).withMessage('Invalid Username')
-        
+        body('username').notEmpty().isLength({ min: 2, max: 24 }).withMessage('Invalid Username')
+
         // .custom(user => {
 
         //     return userModel.findOne({ username: user }).then(user => {
@@ -53,6 +53,15 @@ const taskVal = () => {
 
 }
 
+const taskEditVal = () => {
+
+    return [
+        body('taskId').notEmpty().withMessage('Invalid Task'),
+        body('isChecked').notEmpty().isBoolean().withMessage('Invalid Data'),
+    ]
+
+}
+
 const valResult = (req, res, next) => {
 
     // console.log('valResult');
@@ -70,13 +79,20 @@ const valResult = (req, res, next) => {
 
 
 const isValidObjectId = (id) => {
-    
-    if(ObjectId.isValid(id)){
-        if((String)(new ObjectId(id)) === id)
+
+    if (ObjectId.isValid(id)) {
+        if ((String)(new ObjectId(id)) === id)
             return true;
         return false;
     }
     return false;
 }
 
-module.exports = {usernameVal, signUpVal, taskVal, valResult, isValidObjectId};
+module.exports = {
+    usernameVal,
+    signUpVal,
+    taskVal,
+    valResult,
+    taskEditVal,
+    isValidObjectId
+};
