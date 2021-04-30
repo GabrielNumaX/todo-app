@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { onWeekTask } from '../../containers/Main/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,23 +15,23 @@ import css from './Week.module.css';
 
 
 class Week extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
 
             addTask: {
-                    task: '',
-                    checked: false,
-                    date: ''
-                },
+                task: '',
+                checked: false,
+                date: ''
+            },
             todayTask: [],
 
         }
     }
 
     componentDidMount() {
-    
+
         this.setState({
             todayTask: [...this.props.weekTask]
         })
@@ -41,8 +41,8 @@ class Week extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
-        //   console.log('pokemons state has changed.')
-          this.props.onWeekTask(this.state.todayTask)
+            //   console.log('pokemons state has changed.')
+            this.props.onWeekTask(this.state.todayTask)
         }
     }
 
@@ -52,9 +52,9 @@ class Week extends Component {
 
     //         return true;
     //     }
-        
+
     // }
-      
+
 
     onChangeTask = (e) => {
 
@@ -69,7 +69,7 @@ class Week extends Component {
 
     keyPress = (e) => {
 
-        if(e.keyCode === 13){
+        if (e.keyCode === 13) {
 
             this.setState({
                 todayTask: [...this.state.todayTask, this.state.addTask]
@@ -85,7 +85,7 @@ class Week extends Component {
 
     addTask = () => {
 
-        this.setState( prevState => ({
+        this.setState(prevState => ({
             todayTask: [...prevState.todayTask, this.state.addTask],
             addTask: {
                 task: '',
@@ -99,7 +99,7 @@ class Week extends Component {
 
         todayArr.map((item, index) => {
 
-            if(index === pos){
+            if (index === pos) {
 
                 return item.checked = !item.checked;
             }
@@ -107,7 +107,7 @@ class Week extends Component {
             return todayArr;
         })
 
-        this.setState({todayTask: [...todayArr]});
+        this.setState({ todayTask: [...todayArr] });
     }
 
     taskDelete = (pos) => {
@@ -116,91 +116,86 @@ class Week extends Component {
 
         todayArr.splice(pos, 1)
 
-        this.setState({todayTask: [...todayArr]});
+        this.setState({ todayTask: [...todayArr] });
     }
 
     render() {
 
-        // console.log('week')
-
-        // // console.log(this.props.date);
-        // console.log(this.state.todayTask)
-        
         const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.weekTask
 
         const task = taskArr.map((item, pos) => {
-            return(
-                    <div key={pos} className={css.Task}>
+            return (
+                <div key={pos} className={css.Task}>
 
-                        <div className={css.TaskInner}>
-                                <FontAwesomeIcon icon={item.checked ? 
-                                                        faCheckCircle 
-                                                        : faCircle
-                                                    } 
-                                    className={css.Icon}
-                                    onClick={() => this.onCheck(pos)}
-                                />
+                    <div className={css.TaskInner}>
+                        <FontAwesomeIcon icon={item.checked ?
+                            faCheckCircle
+                            : faCircle
+                        }
+                            className={css.Icon}
+                            onClick={() => this.onCheck(pos)}
+                        />
 
 
-                                
-                                <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
-                                    {item.task}
-                                </p>
-                                
 
-                            </div>
-                            
-                            <div className={css.DivDateAndTrash}>
-                            <span>{moment(item.date).format('MMM Do')}</span>
+                        <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
+                            {item.task}
+                        </p>
 
-                            <FontAwesomeIcon icon={faTrashAlt} 
-                                            className={css.Icon}
-                                            onClick={() => this.taskDelete(pos)}/>
 
-                            </div>
                     </div>
-                )
+
+                    <div className={css.DivDateAndTrash}>
+                        <span>{moment(item.date).format('MMM Do')}</span>
+
+                        <FontAwesomeIcon icon={faTrashAlt}
+                            className={css.Icon}
+                            onClick={() => this.taskDelete(pos)} />
+
+                    </div>
+                </div>
+            )
         })
 
         const today = Date.now()
         const endWeek = new Date(today)
         endWeek.setDate(endWeek.getDate() + 7)
 
-        return(
+        return (
             <div className={css.Today}>
-               <div className={css.DateNow}>
-                   {`${moment(Date.now()).format('Do MMM')} - ${moment(endWeek).format('Do MMM')}`}
-               </div>
-
-               <div className={css.TodayTask}>
-                      This Week
+                <div className={css.DateNow}>
+                    {`${moment(Date.now()).format('Do MMM')} - ${moment(endWeek).format('Do MMM')}`}
                 </div>
 
-               <div className={css.AddTodayTask}>
+                <div className={css.TodayTask}>
+                    This Week
+                </div>
 
-                   <div className={css.AddTask}>
-                        <FontAwesomeIcon icon={faPlus} 
-                                        className={css.Icon}
-                                        onClick={this.addTask}
+                <div className={css.AddTodayTask}>
+
+                    <div className={css.AddTask}>
+                        <FontAwesomeIcon icon={faPlus}
+                            className={css.Icon}
+                            onClick={this.addTask}
                         />
 
-                        <input placeholder='Select Date and Add Week Task' 
+                        <input placeholder='Select Date and Add Week Task'
                             className={css.Input}
                             value={this.state.addTask.task}
                             onChange={(e) => this.onChangeTask(e)}
                             onKeyUp={this.keyPress}
-                            autoFocus={true}>        
+                            autoFocus={true}>
                         </input>
 
-                   </div>
+                    </div>
 
-                   <div className={css.TaskContainer}>
+                    <div className={css.TaskContainer}>
 
                         {task}
 
-                   </div>
+                    </div>
 
-               </div>
+                </div>
 
 
             </div>

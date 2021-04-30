@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
-import {connect} from 'react-redux';
-import { onShowToast } from '../../containers/App/actions';
+import { connect } from 'react-redux';
+import { onShowToast, getAllTasks } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { 
-        faUser, 
-        faUserSecret,
-        faSun,
-        faCalendarDay,
-        faCalendarWeek,
-        faFolderOpen,
-        } from '@fortawesome/free-solid-svg-icons'
+import {
+    faUser,
+    faUserSecret,
+    faSun,
+    faCalendarDay,
+    faCalendarWeek,
+    faFolderOpen,
+} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -29,11 +29,13 @@ import Week from '../../components/Week/Week';
 
 import Toast from '../../components/Toast/Toast';
 
+import PageLoader from '../../components/PageLoader/PageLoader';
+
 import moment from 'moment';
 
 
 class Main extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -44,6 +46,8 @@ class Main extends Component {
             weekShow: false,
             startDate: new Date(),
 
+            showLoader: true,
+
         }
     }
 
@@ -51,6 +55,16 @@ class Main extends Component {
     // para luego pasarlas a los reducers que cargan en cada uno de los 
     // componentes;
     // VER appReducer -> capaz filtro en el action de App
+
+    componentDidMount() {
+
+        this.props.getAllTasks();
+
+        this.setState({
+            showLoader: false,
+        })
+
+    }
 
     handleChange = (date) => {
 
@@ -64,15 +78,15 @@ class Main extends Component {
         const endMillis = endWeek.getTime();
 
         const selectDateMillis = date.getTime();
-        
-        if(selectDateMillis > endMillis) {
+
+        if (selectDateMillis > endMillis) {
 
             this.props.onShowToast(`Choose a date between ${moment(currentDate).format('MM/DD')}
                                     and ${moment(endWeek).format('MM/DD')}`, 'error')
 
             return;
         }
-        else if(selectDateMillis < currentDateMillis) {
+        else if (selectDateMillis < currentDateMillis) {
 
             this.props.onShowToast('Choose a future date', 'error');
 
@@ -81,13 +95,13 @@ class Main extends Component {
         else {
             this.setState({
                 startDate: date
-              });
+            });
         }
-      };
+    };
 
     setActive = (string) => {
 
-        switch(string){
+        switch (string) {
             case 'past':
                 this.setState({
                     pastShow: true,
@@ -128,103 +142,106 @@ class Main extends Component {
 
         console.log('MAIN');
 
-        return(
-            <div className={css.Main}>
+        return (
 
-                <header className={css.Header}>
-                    <div className={css.UserDiv}>
-                        <div className={css.User}>
-                            <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon}/>
-                        </div>
-                        <p className={css.UserP}>Username or Guest</p>
-                    </div>
+            <PageLoader visible={this.state.showLoader} >
+                <div className={css.Main}>
 
-                    <div className={css.TodayDiv} 
-                        style={this.state.pastShow ? {backgroundColor: 'whitesmoke'} : null}
-                        onClick={() => this.setActive('past')}>
-                        <div className={css.IconDiv}>
-                            <FontAwesomeIcon icon={faFolderOpen} className={css.FolderIcon}/>
+                    <header className={css.Header}>
+                        <div className={css.UserDiv}>
+                            <div className={css.User}>
+                                <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon} />
+                            </div>
+                            <p className={css.UserP}>Username or Guest</p>
                         </div>
 
-                        <div className={css.ScheduleDiv}>
-                            <span>Old</span> 
-                            {/* this needs to be taken care of */}
-                            <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
-                        </div>
-                    </div>
+                        <div className={css.TodayDiv}
+                            style={this.state.pastShow ? { backgroundColor: 'whitesmoke' } : null}
+                            onClick={() => this.setActive('past')}>
+                            <div className={css.IconDiv}>
+                                <FontAwesomeIcon icon={faFolderOpen} className={css.FolderIcon} />
+                            </div>
 
-                    <div className={css.TodayDiv} 
-                        style={this.state.todayShow ? {backgroundColor: 'whitesmoke'} : null}
-                        onClick={() => this.setActive('today')}>
-                        <div className={css.IconDiv}>
-                            <FontAwesomeIcon icon={faSun} className={css.SunIcon}/>
-                        </div>
-
-                        <div className={css.ScheduleDiv}>
-                            <span>Today</span> 
-                            <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
-                        </div>
-                    </div>
-
-                    <div className={css.TodayDiv} 
-                        style={this.state.tomorrowShow ? {backgroundColor: 'whitesmoke'} : null}
-                        onClick={() => this.setActive('tomorrow')}>
-                        <div className={css.IconDiv}>
-                            <FontAwesomeIcon icon={faCalendarDay} className={css.TomorrowIcon}/>
+                            <div className={css.ScheduleDiv}>
+                                <span>Old</span>
+                                {/* this needs to be taken care of */}
+                                <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
+                            </div>
                         </div>
 
-                        <div className={css.ScheduleDiv}>
-                            <span>Tomorrow</span> 
-                            <span>{this.props.tomorrowTask.length === 0 ? null : this.props.tomorrowTask.length}</span>
+                        <div className={css.TodayDiv}
+                            style={this.state.todayShow ? { backgroundColor: 'whitesmoke' } : null}
+                            onClick={() => this.setActive('today')}>
+                            <div className={css.IconDiv}>
+                                <FontAwesomeIcon icon={faSun} className={css.SunIcon} />
+                            </div>
+
+                            <div className={css.ScheduleDiv}>
+                                <span>Today</span>
+                                <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className={css.TodayDiv} 
-                        style={this.state.weekShow ? {backgroundColor: 'whitesmoke'} : null}
-                        onClick={() => this.setActive('week')}>
-                        <div className={css.IconDiv}>
-                            <FontAwesomeIcon icon={faCalendarWeek} className={css.WeekIcon}/>
+                        <div className={css.TodayDiv}
+                            style={this.state.tomorrowShow ? { backgroundColor: 'whitesmoke' } : null}
+                            onClick={() => this.setActive('tomorrow')}>
+                            <div className={css.IconDiv}>
+                                <FontAwesomeIcon icon={faCalendarDay} className={css.TomorrowIcon} />
+                            </div>
+
+                            <div className={css.ScheduleDiv}>
+                                <span>Tomorrow</span>
+                                <span>{this.props.tomorrowTask.length === 0 ? null : this.props.tomorrowTask.length}</span>
+                            </div>
                         </div>
 
-                        <div className={css.ScheduleDiv}>
-                            <span>This Week</span> 
-                            <span>{this.props.weekTask.length === 0 ? null : this.props.weekTask.length}</span>
+                        <div className={css.TodayDiv}
+                            style={this.state.weekShow ? { backgroundColor: 'whitesmoke' } : null}
+                            onClick={() => this.setActive('week')}>
+                            <div className={css.IconDiv}>
+                                <FontAwesomeIcon icon={faCalendarWeek} className={css.WeekIcon} />
+                            </div>
+
+                            <div className={css.ScheduleDiv}>
+                                <span>This Week</span>
+                                <span>{this.props.weekTask.length === 0 ? null : this.props.weekTask.length}</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className={css.DatePickerDiv}>
+                        <div className={css.DatePickerDiv}>
 
-                    { this.state.weekShow ?
+                            {this.state.weekShow ?
 
-                        <DatePicker
-                        selected={this.state.startDate}
-                        onChange={this.handleChange}
-                        />
-                        :
-                        null
+                                <DatePicker
+                                    selected={this.state.startDate}
+                                    onChange={this.handleChange}
+                                />
+                                :
+                                null
+                            }
+
+                        </div>
+                    </header>
+
+                    {
+                        this.state.pastShow ? <Past></Past> : null
                     }
-                    
-                    </div>
-                </header>
 
-                {
-                    this.state.pastShow ? <Past></Past> : null
-                }
+                    {
+                        this.state.todayShow ? <Today></Today> : null
+                    }
 
-                {
-                    this.state.todayShow ? <Today></Today> : null
-                }
+                    {
+                        this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
+                    }
 
-                {
-                    this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
-                }
+                    {
+                        this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
+                    }
 
-                {
-                    this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
-                }
-    
-                <Toast/>
-            </div>
+                    <Toast />
+                </div>
+            </PageLoader>
         )
     }
 
@@ -242,4 +259,4 @@ const mapGlobalStateToProps = (globalState) => {
 }
 
 
-export default connect(mapGlobalStateToProps, { onShowToast })(Main);
+export default connect(mapGlobalStateToProps, { onShowToast, getAllTasks })(Main);

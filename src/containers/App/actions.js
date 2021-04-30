@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import moment from 'moment';
 
 export const setLogInOut = (bool) => dispatch => {
     dispatch({
@@ -96,14 +97,83 @@ export const getAllTasks = () => dispatch => {
         url: '/task',
     })
     .then(res => {
+
         console.log(res.data);
 
-        // tambien podria filtar las tasks con moment query methods aca 
-        // y asignarlas a los reducers
-        // hacer dispatch({
-        //     type: 'PAST_TASK',
-        //     payload: filteredArray
-        // })
+        const thisDay = moment(new Date()).format('YYYY-MM-DD');
+
+        const week = [];
+        const tomorrow = [];
+        const today = [];
+        const past = [];
+
+        // YYYY-MM-DD
+
+        // this needs proper checking
+        res.data.map(item => {
+
+            const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
+
+            const dayTomorrow = moment(thisDay).add(1, 'd');
+
+            if(moment(dayTomorrow).isBefore(itemDate)){
+
+                // console.log('week');
+
+                return week.push(item);
+            }
+
+
+            if(moment(dayTomorrow).isSame(itemDate)){
+
+                // console.log('tomorrow');
+
+                return tomorrow.push(item);
+            }
+
+
+            if(moment(itemDate).isSame(thisDay)){
+
+                // console.log('today');
+
+                return today.push(item);
+            }
+
+            if(moment(thisDay).isAfter(itemDate)){
+
+                // console.log('past');
+
+                return past.push(item);
+            }
+
+            return null;
+        })
+
+        // console.log(week);
+        // console.log(tomorrow);
+        // console.log(today);
+        // console.log(past);
+
+        dispatch({
+            type: "WEEK_TASK",
+            payload: week,
+        });
+
+        dispatch({
+            type: "TOMORROW_TASK",
+            payload: tomorrow,
+        });
+
+        dispatch({
+            type: "TODAY_TASK",
+            payload: today,
+        });
+
+        dispatch({
+            type: "PAST_TASK",
+            payload: past,
+        });
+    
 
     })
     .catch(error => {
