@@ -6,7 +6,7 @@ const Joigoose = require('joigoose')(Mongoose, { convert: true });
 
 const joiTasksSchema = Joi.object({
 
-    task: Joi.string().min(3).max(256).trim().required(),
+    task: Joi.string().min(3).max(64).trim().required(),
     date: Joi.number().sign('positive').integer().trim().require(),
     createdAt: Joi.date().default(new Date()),
 
