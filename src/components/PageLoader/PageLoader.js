@@ -9,7 +9,7 @@ const PageLoader = (props) => {
 
             <div className={css.loaderContainer}>
 
-                <div class={css.stage}>
+                <div className={css.stage}>
                     <div class={css.dotSpin}></div>
                 </div>
 

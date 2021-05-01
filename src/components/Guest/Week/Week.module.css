@@ -1,0 +1,116 @@
+.Today {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 40px;
+    color: #f0f0f0;
+    width: 100%;
+    height: 100vh;
+}
+
+.DateNow {
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 38px;
+    font-weight: 500;
+    border-radius: 10px;
+    width: 400px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+.TodayTask {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 110px;
+    text-align: center;
+}
+
+.AddTodayTask {
+    display: flex;
+    flex-direction: column;
+    /* background-color: royalblue; */
+    height: 70%;
+    padding: 4px 0;
+    width: 80%;
+}
+
+.AddTask {
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.Icon {
+    margin-right: 10px;
+    color: black;
+}
+
+.Icon:hover{
+    cursor: pointer;
+}
+
+.Input {
+    width: 100%;
+    height: 100%;
+    background-color: none;
+    border: none;
+    background-color: #e6e6e6;
+    outline: none;
+}
+
+.TaskContainer {
+    /* display: flex;
+    flex-direction: column; */
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    height: 252px;
+    overflow-y: auto;
+}
+
+.Task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    color: black;
+    margin: 8px 0;
+}
+
+.TaskInner {
+    display: flex;
+    align-items: center;
+    width: 90%;
+}
+
+.PTask {
+    margin: 0;
+    padding: 4px;
+    line-height: 22px;
+}
+
+.PTaskDone {
+    text-decoration: line-through;
+}
+
+.DivDateAndTrash {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 110px;
+}
+
+/* .DivDateAndTrash span {
+    margin-right: 8px;
+} */

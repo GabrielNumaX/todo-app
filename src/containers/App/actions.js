@@ -9,6 +9,13 @@ export const setLogInOut = (bool) => dispatch => {
     })
 }
 
+export const setUsername = (user) => dispatch => {
+    dispatch({
+        type: actionTypes.SET_USERNAME,
+        payload: user
+    })
+}
+
 export const onShowToast = (msg, icon) => dispatch => {
     dispatch({
         type: actionTypes.SHOW_TOAST,
@@ -36,7 +43,7 @@ export const onCloseToast = () => dispatch => {
     })
 }
 
-export const onSetUserType = (type) => dispatch => {
+export const setUserType = (type) => dispatch => {
     dispatch({
         type: actionTypes.SET_USER_TYPE,
         payload: type,
@@ -79,6 +86,8 @@ export const delTask = (id) => dispatch => {
     .then(res => {
         console.log(res.data);
 
+        getAllTasks();
+
         onShowToast('Task Deleted', 'success');
     })
     .catch(error => {
@@ -98,7 +107,7 @@ export const getAllTasks = () => dispatch => {
     })
     .then(res => {
 
-        console.log(res.data);
+        // console.log(res.data);
 
         const thisDay = moment(new Date()).format('YYYY-MM-DD');
 
@@ -184,3 +193,24 @@ export const getAllTasks = () => dispatch => {
         console.log(error.response);
     })
 }
+
+export const setCheckUncheck = (taskId, isChecked) => dispatch => {
+
+    axios({
+        method: 'put',
+        url: '/task',
+        data: {
+            taskId: taskId,
+            isChecked: isChecked,
+        }
+    })
+    .then(res => {
+
+        getAllTasks();
+    })
+    .catch(error => {
+
+        onShowToast('Something went wrong. Try again!!!', 'error');
+    })
+
+} 

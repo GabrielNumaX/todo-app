@@ -5,12 +5,15 @@ const initialState = {
     toastMessage: '',
     toastIcon: null,
     isLoggedIn: false,
-    userType: 'user',
+    userType: 'guest',
+    username: null,
 }
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_LOG_IN_OUT:
             return { ...state, isLoggedIn: action.payload }
+        case actionTypes.SET_USERNAME:
+            return { ...state, username: action.payload }
         case actionTypes.SHOW_TOAST:
             return {
                 ...state,

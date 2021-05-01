@@ -5,7 +5,7 @@ import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { faExclamationTriangle, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import css from './Toast.module.css';
-import './Icons.css';
+import iconCss from './Icons.module.css';
 
 import { connect } from 'react-redux';
 
@@ -28,11 +28,13 @@ const Toast = (props) => {
             {
                 props.showToast &&
                 < div className={css.toast} >
-                    <FontAwesomeIcon icon={props.icon === 'error' ? faExclamationTriangle : faCheckCircle} />
+                    <FontAwesomeIcon icon={props.icon === 'error' ? faExclamationTriangle : faCheckCircle} 
+                        className={props.icon === 'error' ? iconCss.exclamationTriangle : iconCss.checkCircle}
+                    />
 
                     <p>{props.message}</p>
 
-                    <FontAwesomeIcon icon={faTimes} className={css.close} 
+                    <FontAwesomeIcon icon={faTimes} className={iconCss.times} 
                         onClick={props.onCloseToast}
                     />
                 </div >

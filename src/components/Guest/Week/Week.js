@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { onPastTask } from '../../containers/Main/actions';
-import { delTask, setCheckUncheck  } from '../../containers/App/actions';
+import { onWeekTask } from '../../containers/Main/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 import moment from 'moment';
 
-import css from './Past.module.css';
+import css from './Week.module.css';
 
 
-class Past extends Component {
+class Week extends Component {
     constructor(props) {
         super(props);
 
@@ -24,8 +23,9 @@ class Past extends Component {
             addTask: {
                 task: '',
                 checked: false,
+                date: ''
             },
-            pastTask: [],
+            todayTask: [],
 
         }
     }
@@ -33,18 +33,27 @@ class Past extends Component {
     componentDidMount() {
 
         this.setState({
-            pastTask: [...this.props.pastTask]
+            todayTask: [...this.props.weekTask]
         })
     }
 
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.pastTask !== this.state.pastTask) {
+        if (prevState.todayTask !== this.state.todayTask) {
             //   console.log('pokemons state has changed.')
-            this.props.onPastTask(this.state.pastTask)
+            this.props.onWeekTask(this.state.todayTask)
         }
     }
+
+    // shouldComponentUpdate(nextProps, nextState){
+
+    //     if(nextProps.date !== this.props.date || nextState.todayTask !== this.state.todayTask){
+
+    //         return true;
+    //     }
+
+    // }
 
 
     onChangeTask = (e) => {
@@ -53,6 +62,7 @@ class Past extends Component {
             addTask: {
                 task: e.target.value,
                 checked: false,
+                date: this.props.date,
             }
         })
     }
@@ -62,7 +72,7 @@ class Past extends Component {
         if (e.keyCode === 13) {
 
             this.setState({
-                pastTask: [...this.state.pastTask, this.state.addTask]
+                todayTask: [...this.state.todayTask, this.state.addTask]
             })
 
             this.setState({
@@ -76,7 +86,7 @@ class Past extends Component {
     addTask = () => {
 
         this.setState(prevState => ({
-            pastTask: [...prevState.pastTask, this.state.addTask],
+            todayTask: [...prevState.todayTask, this.state.addTask],
             addTask: {
                 task: '',
             }
@@ -85,35 +95,33 @@ class Past extends Component {
 
     onCheck = (pos) => {
 
-        let pastArr = [...this.state.pastTask]
+        let todayArr = [...this.state.todayTask]
 
-        pastArr.map((item, index) => {
+        todayArr.map((item, index) => {
 
             if (index === pos) {
 
                 return item.checked = !item.checked;
             }
 
-            return pastArr;
+            return todayArr;
         })
 
-        this.setState({ pastTask: [...pastArr] });
+        this.setState({ todayTask: [...todayArr] });
     }
 
     taskDelete = (pos) => {
 
-        let pastArr = [...this.state.pastTask]
+        let todayArr = [...this.state.todayTask]
 
-        pastArr.splice(pos, 1)
+        todayArr.splice(pos, 1)
 
-        this.setState({ pastTask: [...pastArr] });
+        this.setState({ todayTask: [...todayArr] });
     }
 
     render() {
 
-        console.log('PAST');
-
-        const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.pastTask
+        const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.weekTask
 
         const task = taskArr.map((item, pos) => {
             return (
@@ -134,6 +142,7 @@ class Past extends Component {
                             {item.task}
                         </p>
 
+
                     </div>
 
                     <div className={css.DivDateAndTrash}>
@@ -144,40 +153,41 @@ class Past extends Component {
                             onClick={() => this.taskDelete(pos)} />
 
                     </div>
-
                 </div>
             )
         })
 
-        return (
+        const today = Date.now()
+        const endWeek = new Date(today)
+        endWeek.setDate(endWeek.getDate() + 7)
 
+        return (
             <div className={css.Today}>
                 <div className={css.DateNow}>
-                    {moment(Date.now()).format('dddd, MMMM Do YYYY')}
+                    {`${moment(Date.now()).format('Do MMM')} - ${moment(endWeek).format('Do MMM')}`}
                 </div>
 
                 <div className={css.TodayTask}>
-                    Old Tasks
+                    This Week
                 </div>
-
-                {/* NO addind OLD TASKS */}
 
                 <div className={css.AddTodayTask}>
 
-                    {/* <div className={css.AddTask}>
+                    <div className={css.AddTask}>
                         <FontAwesomeIcon icon={faPlus}
                             className={css.Icon}
                             onClick={this.addTask}
                         />
 
-                        <input placeholder='Add Past Task'
+                        <input placeholder='Select Date and Add Week Task'
                             className={css.Input}
                             value={this.state.addTask.task}
                             onChange={(e) => this.onChangeTask(e)}
-                            onKeyUp={this.keyPress}>
+                            onKeyUp={this.keyPress}
+                            autoFocus={true}>
                         </input>
 
-                    </div> */}
+                    </div>
 
                     <div className={css.TaskContainer}>
 
@@ -197,9 +207,18 @@ class Past extends Component {
 // this reads from STORE
 const mapGlobalStateToProps = (globalState) => {
     return {
-        pastTask: globalState.main.pastTask,
+        weekTask: globalState.main.weekTask,
     }
 }
 
-export default connect(mapGlobalStateToProps, { onPastTask, delTask, setCheckUncheck })(Past);
-// export default Today;
+// // this writes to STORE
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+// 	//NOMBRE PROP - NOM PARAM
+//         updateWeekTask: (arr) => {
+//  			//nom ACTION	nom-param reducer
+//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
+//         },
+//     }
+// }
+export default connect(mapGlobalStateToProps, { onWeekTask })(Week);

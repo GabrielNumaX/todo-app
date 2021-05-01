@@ -12,7 +12,7 @@ const initialState = {
 
       previousState.pastTask = [...action.payload];
 
-      return previousState;
+      return {...previousState};
     }
     else if(action.type === actionTypes.TODAY_TASK){
 

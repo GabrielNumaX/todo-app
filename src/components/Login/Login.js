@@ -15,7 +15,7 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
-import { setLogInOut, onShowToast } from '../../containers/App/actions';
+import { setLogInOut, onShowToast, setUsername, setUserType } from '../../containers/App/actions';
 
 const Login = (props) => {
 
@@ -40,17 +40,25 @@ const Login = (props) => {
         if (localStorage.token) {
 
             props.setLogInOut(true);
+            props.setUsername(localStorage.getItem('username'));
+            props.setUserType('user');
 
             history.push("/my-tasks")
         }
         else if (localStorage.token && props.isLoggedIn) {
 
             props.setLogInOut(true);
+            props.setUsername(localStorage.getItem('username'));
+            props.setUserType('user');
 
             history.push('/my-tasks');
         }
         else {
             props.setLogInOut(false);
+            props.setUsername(null);
+            props.setUserType('guest');
+
+
 
             history.push('/');
         }
@@ -96,8 +104,16 @@ const Login = (props) => {
             })
                 .then(res => {
 
+                    console.log(res.data);
+
                     localStorage.setItem('token', res.data.token);
+
+                    localStorage.setItem('username', res.data.username);
+
+                    props.setUsername(res.data.username);
+                    props.setUserType('user');
                     props.setLogInOut(true);
+
 
                     setShowPulse(false);
                 })
@@ -172,6 +188,6 @@ const mapStateToProps = state => ({
     isLoggedIn: state.app.isLoggedIn
 })
 
-export default connect(mapStateToProps, { setLogInOut, onShowToast })(Login);
+export default connect(mapStateToProps, { setLogInOut, onShowToast, setUsername, setUserType })(Login);
 
 // export default Login;

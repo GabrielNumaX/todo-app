@@ -58,6 +58,8 @@ class Main extends Component {
 
     componentDidMount() {
 
+        console.log('MAIN didMount');
+
         this.props.getAllTasks();
 
         this.setState({
@@ -152,7 +154,13 @@ class Main extends Component {
                             <div className={css.User}>
                                 <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon} />
                             </div>
-                            <p className={css.UserP}>Username or Guest</p>
+                            {
+                                this.props.username
+                                    ?
+                                    <p className={css.UserP}>{this.props.username}</p>
+                                    :
+                                    <p className={css.UserP}>Guest User</p>
+                            }
                         </div>
 
                         <div className={css.TodayDiv}
@@ -164,8 +172,7 @@ class Main extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Old</span>
-                                {/* this needs to be taken care of */}
-                                <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span>
+                                <span>{this.props.pastTask.length === 0 ? null : this.props.pastTask.length}</span>
                             </div>
                         </div>
 
@@ -251,10 +258,12 @@ class Main extends Component {
 const mapGlobalStateToProps = (globalState) => {
 
     return {
+        pastTask: globalState.main.pastTask,
         todayTask: globalState.main.todayTask,
         tomorrowTask: globalState.main.tomorrowTask,
         weekTask: globalState.main.weekTask,
-        userType: globalState.app.userType
+        userType: globalState.app.userType,
+        username: globalState.app.username,
     }
 }
 

@@ -21,7 +21,7 @@ loginController.login = async (req, res) => {
 
             const token = emailCheck.generateAuthToken();
 
-            return res.status(200).send({token: token});
+            return res.status(200).send({token: token, username: emailCheck.username});
 
         }
 
@@ -35,7 +35,7 @@ loginController.login = async (req, res) => {
 
             const token = userCheck.generateAuthToken();
 
-            return res.status(200).send({token: token});
+            return res.status(200).send({token: token, username: userCheck.username});
 
         }
 

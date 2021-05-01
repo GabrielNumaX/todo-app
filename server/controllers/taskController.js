@@ -77,7 +77,6 @@ taskController.putTask = async (req, res) => {
 
     if(!isValidObjectId(taskId)) return res.status(400).send({message: 'Invalid Id'});
 
-    // await taskModel.findByIdAndRemove(taskId)
     await taskModel.findByIdAndUpdate(taskId, {
         isChecked,
     })
