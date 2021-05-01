@@ -17,6 +17,7 @@ export const setUsername = (user) => dispatch => {
 }
 
 export const onShowToast = (msg, icon) => dispatch => {
+
     dispatch({
         type: actionTypes.SHOW_TOAST,
         show: true,
@@ -60,16 +61,18 @@ export const postTask = (task) => dispatch => {
         }
     })
     .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
 
-        onShowToast('Task added', 'success');
+        dispatch(getAllTasks());
+
+        dispatch(onShowToast('Task added', 'success'));
     })
     .catch(error => {
 
-        onShowToast('Something went wrong. Try Again!!!', 'error');
+        dispatch(onShowToast('Something went wrong. Try Again!!!', 'error'));
 
-        console.log(error);
-        console.log(error.response);
+        // console.log(error);
+        // console.log(error.response);
     })
 }
 
@@ -84,30 +87,27 @@ export const delTask = (id) => dispatch => {
         }
     })
     .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
 
-        getAllTasks();
+        dispatch(getAllTasks());
 
-        onShowToast('Task Deleted', 'success');
+        dispatch(onShowToast('Task Deleted', 'success'));
     })
     .catch(error => {
 
-        onShowToast('Something went wrong. Try Again!!!', 'error');
-
-        console.log(error);
-        console.log(error.response);
+        dispatch(onShowToast('Something went wrong. Try Again!!!', 'error'));
     })
 }
 
 
 export const getAllTasks = () => dispatch => {
+
+    // console.log('getAllTasks');
     axios({
         method:'get',
         url: '/task',
     })
     .then(res => {
-
-        // console.log(res.data);
 
         const thisDay = moment(new Date()).format('YYYY-MM-DD');
 
@@ -137,6 +137,8 @@ export const getAllTasks = () => dispatch => {
 
                 // console.log('tomorrow');
 
+                week.push(item);
+
                 return tomorrow.push(item);
             }
 
@@ -157,11 +159,6 @@ export const getAllTasks = () => dispatch => {
 
             return null;
         })
-
-        // console.log(week);
-        // console.log(tomorrow);
-        // console.log(today);
-        // console.log(past);
 
         dispatch({
             type: "WEEK_TASK",
@@ -187,10 +184,7 @@ export const getAllTasks = () => dispatch => {
     })
     .catch(error => {
 
-        onShowToast('Something went wrong. Try Again!!!', 'error');
-
-        console.log(error);
-        console.log(error.response);
+        dispatch(onShowToast('Something went wrong. Try Again!!!', 'error'));
     })
 }
 
@@ -206,11 +200,11 @@ export const setCheckUncheck = (taskId, isChecked) => dispatch => {
     })
     .then(res => {
 
-        getAllTasks();
+        dispatch(getAllTasks());
     })
     .catch(error => {
 
-        onShowToast('Something went wrong. Try again!!!', 'error');
+        dispatch(onShowToast('Something went wrong. Try again!!!', 'error'));
     })
 
 } 

@@ -38,6 +38,7 @@
     height: 70%;
     padding: 4px 0;
     width: 80%;
+    /* background: crimson; */
 }
 
 .AddTask {
@@ -74,6 +75,7 @@
     /* background-color: rgba(0, 0, 0, 0.7); */
     height: 252px;
     overflow-y: auto;
+    /* background: blue; */
 }
 
 .Task {

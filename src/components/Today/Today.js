@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
-import { onTodayTask } from '../../containers/Main/actions';
+// import { onTodayTask } from '../../containers/Main/actions';
+
+import { delTask, postTask, setCheckUncheck } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -20,11 +22,15 @@ class Today extends Component {
 
         this.state = {
 
-            addTask: {
-                    task: '',
-                    checked: false,
-                },
+            // addTask: {
+            //         task: '',
+            //         checked: false,
+            //     },
             todayTask: [],
+            addTask: {
+                task: '',
+                date: false,
+            },
 
         }
     }
@@ -39,9 +45,16 @@ class Today extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.todayTask !== this.state.todayTask) {
-        //   console.log('pokemons state has changed.')
-          this.props.onTodayTask(this.state.todayTask)
+        // if (prevState.todayTask !== this.state.todayTask) {
+        // //   console.log('pokemons state has changed.')
+        //   this.props.onTodayTask(this.state.todayTask)
+        // }
+
+        if(prevProps.todayTask !== this.props.todayTask) {
+
+            this.setState({
+                todayTask: [...this.props.todayTask],
+            })
         }
       }
       
@@ -51,7 +64,8 @@ class Today extends Component {
         this.setState({
             addTask: {
                 task: e.target.value,
-                checked: false,
+                // checked: false,
+                date: new Date().getTime(),
             }
         })
     }
@@ -60,9 +74,23 @@ class Today extends Component {
 
         if(e.keyCode === 13){
 
-            this.setState({
-                todayTask: [...this.state.todayTask, this.state.addTask]
-            })
+            // this.setState({
+            //     todayTask: [...this.state.todayTask, this.state.addTask]
+            // })
+
+            // this.setState({
+            //     addTask: {
+            //         task: '',
+            //     }
+            // })
+
+            if(this.state.addTask.task === '') {
+
+                // console.log('empty');
+                return;
+            }
+
+            this.props.postTask(this.state.addTask);
 
             this.setState({
                 addTask: {
@@ -74,12 +102,25 @@ class Today extends Component {
 
     addTask = () => {
 
-        this.setState( prevState => ({
-            todayTask: [...prevState.todayTask, this.state.addTask],
+        // this.setState( prevState => ({
+        //     todayTask: [...prevState.todayTask, this.state.addTask],
+        //     addTask: {
+        //         task: '',
+        //     }
+        // }))
+
+        if(this.state.addTask.task === '') {
+
+            return;
+        }
+
+        this.props.postTask(this.state.addTask);
+
+        this.setState({
             addTask: {
                 task: '',
             }
-        }))
+        })
     }
 
     onCheck = (pos) => {
@@ -112,26 +153,25 @@ class Today extends Component {
 
         // console.log('render')
 
-        // console.log(this.state.todayTask);
-
         const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.todayTask
 
         const task = taskArr.map((item, pos) => {
             return(
-                    <div key={pos} className={css.Task}>
+                    <div key={item._id} className={css.Task}>
 
                         <div className={css.TaskInner}>
-                                <FontAwesomeIcon icon={item.checked ? 
+                                <FontAwesomeIcon icon={item.isChecked ? 
                                                         faCheckCircle 
                                                         : faCircle
                                                     } 
                                     className={css.Icon}
-                                    onClick={() => this.onCheck(pos)}
+                                    // onClick={() => this.onCheck(pos)}
+                                    onClick={() => this.props.setCheckUncheck(item._id, !item.isChecked)}
                                 />
 
 
                                 
-                                <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
+                                <p className={item.isChecked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
                                     {item.task}
                                 </p>
                                 
@@ -140,7 +180,9 @@ class Today extends Component {
 
                             <FontAwesomeIcon icon={faTrashAlt} 
                                             className={css.Icon}
-                                            onClick={() => this.taskDelete(pos)}/>
+                                            // onClick={() => this.taskDelete(pos)}
+                                            onClick={() => this.props.delTask(item._id)}
+                                            />
                         
                     </div>
                 )
@@ -197,28 +239,5 @@ const mapGlobalStateToProps = (globalState) => {
     }
 }
 
-// // this writes to STORE
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-// 	//NOMBRE PROP - NOM PARAM
-//         updateTodayTask: (arr) => {
-//  			//nom ACTION	nom-param reducer
-//             dispatch({type: 'TODAY_TASK', arrFromState: arr})        
-//         },
-
-//         // this methods are NOT in reducer they are handled by state -> CHANGE TO 
-//         // USE in MainReducer
-//         checkTask: (pos) => {
-//             dispatch({type: 'TODAY_TASK_CHECKED', index: pos})
-//         },
-//         deleteTask: (filterObj, pos) => {
-//             dispatch({type: 'DELETE_TODAY_TASK', obj: filterObj, index: pos})
-//         },
-//         fillGlobalState: (prodArr) => {
-//             dispatch({type: 'FILL_GLOBAL_STATE', arr: prodArr})
-//         }
-//     }
-// }
-
-export default connect(mapGlobalStateToProps, { onTodayTask })(Today);
+export default connect(mapGlobalStateToProps, { delTask, postTask, setCheckUncheck })(Today);
 // export default Today;

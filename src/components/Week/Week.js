@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { onWeekTask } from '../../containers/Main/actions';
+// import { onWeekTask } from '../../containers/Main/actions';
+
+import { delTask, postTask, setCheckUncheck } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -20,12 +22,17 @@ class Week extends Component {
 
         this.state = {
 
+            // addTask: {
+            //     task: '',
+            //     checked: false,
+            //     date: ''
+            // },
+            todayTask: [],
+
             addTask: {
                 task: '',
-                checked: false,
-                date: ''
+                date: this.props.date.getTime(),
             },
-            todayTask: [],
 
         }
     }
@@ -40,20 +47,27 @@ class Week extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.todayTask !== this.state.todayTask) {
-            //   console.log('pokemons state has changed.')
-            this.props.onWeekTask(this.state.todayTask)
+        // if (prevState.todayTask !== this.state.todayTask) {
+        //     //   console.log('pokemons state has changed.')
+        //     this.props.onWeekTask(this.state.todayTask)
+        // }
+        if(prevProps.weekTask !== this.props.weekTask) {
+
+            this.setState({
+                todayTask: [...this.props.weekTask],
+            })
+        }
+
+        if(prevProps.date !== this.props.date){
+
+            this.setState({
+                addTask: {
+                    ...this.state.addTask,
+                    date: this.props.date.getTime(),
+                }
+            })
         }
     }
-
-    // shouldComponentUpdate(nextProps, nextState){
-
-    //     if(nextProps.date !== this.props.date || nextState.todayTask !== this.state.todayTask){
-
-    //         return true;
-    //     }
-
-    // }
 
 
     onChangeTask = (e) => {
@@ -61,8 +75,8 @@ class Week extends Component {
         this.setState({
             addTask: {
                 task: e.target.value,
-                checked: false,
-                date: this.props.date,
+                // checked: false,
+                date: this.props.date.getTime(),
             }
         })
     }
@@ -71,9 +85,22 @@ class Week extends Component {
 
         if (e.keyCode === 13) {
 
-            this.setState({
-                todayTask: [...this.state.todayTask, this.state.addTask]
-            })
+            // this.setState({
+            //     todayTask: [...this.state.todayTask, this.state.addTask]
+            // })
+
+            // this.setState({
+            //     addTask: {
+            //         task: '',
+            //     }
+            // })
+
+            if(this.state.addTask.task === '') {
+
+                return;
+            }
+
+            this.props.postTask(this.state.addTask);
 
             this.setState({
                 addTask: {
@@ -85,12 +112,25 @@ class Week extends Component {
 
     addTask = () => {
 
-        this.setState(prevState => ({
-            todayTask: [...prevState.todayTask, this.state.addTask],
+        // this.setState(prevState => ({
+        //     todayTask: [...prevState.todayTask, this.state.addTask],
+        //     addTask: {
+        //         task: '',
+        //     }
+        // }))
+
+        if(this.state.addTask.task === '') {
+
+            return;
+        }
+
+        this.props.postTask(this.state.addTask);
+
+        this.setState({
             addTask: {
                 task: '',
             }
-        }))
+        })
     }
 
     onCheck = (pos) => {
@@ -123,22 +163,23 @@ class Week extends Component {
 
         const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.weekTask
 
-        const task = taskArr.map((item, pos) => {
+        const task = taskArr.reverse().map((item, pos) => {
             return (
-                <div key={pos} className={css.Task}>
+                <div key={item._id} className={css.Task}>
 
                     <div className={css.TaskInner}>
-                        <FontAwesomeIcon icon={item.checked ?
+                        <FontAwesomeIcon icon={item.isChecked ?
                             faCheckCircle
                             : faCircle
                         }
                             className={css.Icon}
-                            onClick={() => this.onCheck(pos)}
+                            // onClick={() => this.onCheck(pos)}
+                            onClick={() => this.props.setCheckUncheck(item._id, !item.isChecked)}
                         />
 
 
 
-                        <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
+                        <p className={item.isChecked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
                             {item.task}
                         </p>
 
@@ -150,7 +191,9 @@ class Week extends Component {
 
                         <FontAwesomeIcon icon={faTrashAlt}
                             className={css.Icon}
-                            onClick={() => this.taskDelete(pos)} />
+                            // onClick={() => this.taskDelete(pos)} 
+                            onClick={() => this.props.delTask(item._id)}
+                            />
 
                     </div>
                 </div>
@@ -211,14 +254,4 @@ const mapGlobalStateToProps = (globalState) => {
     }
 }
 
-// // this writes to STORE
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-// 	//NOMBRE PROP - NOM PARAM
-//         updateWeekTask: (arr) => {
-//  			//nom ACTION	nom-param reducer
-//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
-//         },
-//     }
-// }
-export default connect(mapGlobalStateToProps, { onWeekTask })(Week);
+export default connect(mapGlobalStateToProps, { delTask, postTask, setCheckUncheck })(Week);

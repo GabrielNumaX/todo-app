@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { onPastTask } from '../../containers/Main/actions';
-import { delTask, setCheckUncheck  } from '../../containers/App/actions';
+import { delTask, setCheckUncheck } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,8 @@ import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import moment from 'moment';
 
 import css from './Past.module.css';
+
+import Toast from '../Toast/Toast';
 
 
 class Past extends Component {
@@ -40,9 +42,16 @@ class Past extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.pastTask !== this.state.pastTask) {
-            //   console.log('pokemons state has changed.')
-            this.props.onPastTask(this.state.pastTask)
+        // if (prevState.pastTask !== this.state.pastTask) {
+        //     //   console.log('pokemons state has changed.')
+        //     this.props.onPastTask(this.state.pastTask)
+        // }
+
+        if(prevProps.pastTask !== this.props.pastTask) {
+
+            this.setState({
+                pastTask: [...this.props.pastTask]
+            })
         }
     }
 
@@ -116,21 +125,23 @@ class Past extends Component {
         const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.pastTask
 
         const task = taskArr.map((item, pos) => {
+
             return (
-                <div key={pos} className={css.Task}>
+                <div key={item._id} className={css.Task}>
 
                     <div className={css.TaskInner}>
-                        <FontAwesomeIcon icon={item.checked ?
+                        <FontAwesomeIcon icon={item.isChecked ?
                             faCheckCircle
                             : faCircle
                         }
                             className={css.Icon}
-                            onClick={() => this.onCheck(pos)}
+                            // onClick={() => this.onCheck(pos)}
+                            onClick={() => this.props.setCheckUncheck(item._id, !item.isChecked)}
                         />
 
 
 
-                        <p className={item.checked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
+                        <p className={item.isChecked ? [css.Ptask, css.PTaskDone].join(' ') : css.PTask}>
                             {item.task}
                         </p>
 
@@ -141,7 +152,9 @@ class Past extends Component {
 
                         <FontAwesomeIcon icon={faTrashAlt}
                             className={css.Icon}
-                            onClick={() => this.taskDelete(pos)} />
+                            // onClick={() => this.taskDelete(pos)} 
+                            onClick={() => this.props.delTask(item._id)}
+                        />
 
                     </div>
 
@@ -151,20 +164,22 @@ class Past extends Component {
 
         return (
 
-            <div className={css.Today}>
-                <div className={css.DateNow}>
-                    {moment(Date.now()).format('dddd, MMMM Do YYYY')}
+            <React.Fragment>
+
+                <div className={css.Today}>
+                    <div className={css.DateNow}>
+                        {moment(Date.now()).format('dddd, MMMM Do YYYY')}
+                    </div>
+
+                    <div className={css.TodayTask}>
+                        Old Tasks
                 </div>
 
-                <div className={css.TodayTask}>
-                    Old Tasks
-                </div>
+                    {/* NO addind OLD TASKS */}
 
-                {/* NO addind OLD TASKS */}
+                    <div className={css.AddTodayTask}>
 
-                <div className={css.AddTodayTask}>
-
-                    {/* <div className={css.AddTask}>
+                        {/* <div className={css.AddTask}>
                         <FontAwesomeIcon icon={faPlus}
                             className={css.Icon}
                             onClick={this.addTask}
@@ -179,16 +194,20 @@ class Past extends Component {
 
                     </div> */}
 
-                    <div className={css.TaskContainer}>
+                        <div className={css.TaskContainer}>
 
-                        {task}
+                            {task}
+
+                        </div>
+
+                        {/* here should be pagination */}
 
                     </div>
-
                 </div>
 
+                <Toast />
 
-            </div>
+            </React.Fragment>
         )
     }
 
