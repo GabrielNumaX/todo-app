@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { onShowToast, getAllTasks } from '../../containers/App/actions';
+import { onShowToast, getAllTasks, setLogInOut, setUsername, setUserType } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -48,6 +48,8 @@ class Main extends Component {
 
             showLoader: true,
 
+            toggleDropdown: false,
+
         }
     }
 
@@ -58,7 +60,7 @@ class Main extends Component {
 
     componentDidMount() {
 
-        console.log('MAIN didMount');
+        // console.log('MAIN didMount');
 
         this.props.getAllTasks();
 
@@ -140,9 +142,19 @@ class Main extends Component {
         }
     }
 
+    logOut = () => {
+
+        this.props.setLogInOut(false);
+        this.props.setUsername(null);
+        this.props.setUserType('guest');
+        localStorage.clear();
+
+        this.props.history.push('/');
+    }
+
     render() {
 
-        console.log('MAIN');
+        // console.log('MAIN');
 
         return (
 
@@ -151,9 +163,27 @@ class Main extends Component {
 
                     <header className={css.Header}>
                         <div className={css.UserDiv}>
-                            <div className={css.User}>
+                            <div 
+                                // className={css.User} 
+                                className={this.props.userType === 'user' ? [css.User, css.IsUser].join(' ') : css.User}
+                                onClick={() => this.setState(prevState => ({
+                                toggleDropdown: !prevState.toggleDropdown
+                            }))}>
                                 <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon} />
                             </div>
+                            {
+                                this.state.toggleDropdown && this.props.userType === 'user' ?
+                                
+                                <div className={css.Dropdown} onClick={this.logOut}>
+
+                                    <p>Log Out</p>
+
+                                </div>
+
+                                :
+
+                                null
+                            }
                             {
                                 this.props.username
                                     ?
@@ -268,4 +298,4 @@ const mapGlobalStateToProps = (globalState) => {
 }
 
 
-export default connect(mapGlobalStateToProps, { onShowToast, getAllTasks })(Main);
+export default connect(mapGlobalStateToProps, { onShowToast, getAllTasks, setLogInOut, setUsername, setUserType })(Main);

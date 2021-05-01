@@ -13,13 +13,13 @@ const PrivateRoute = (props) => {
         if(props.isLoggedIn && localStorage.token) {
         // if(localStorage.token) {
 
-            console.log('isLogged && TOKEN')
+            // console.log('isLogged && TOKEN')
 
             setAuth(true)
             setLoaded(true)
         } 
         else if(localStorage.token) {
-            console.log('just TOKEN');
+            // console.log('just TOKEN');
 
             props.setLogInOut(true);
 

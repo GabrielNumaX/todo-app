@@ -38,7 +38,7 @@ function App(props) {
 
   // const useHist = useHistory();
 
-  console.log('APP')
+  // console.log('APP')
 
   // useEffect(() => {
 
