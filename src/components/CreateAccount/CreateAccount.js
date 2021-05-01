@@ -8,11 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 
+import { onShowToast } from '../../containers/App/actions';
+
+import { connect } from 'react-redux';
+
+import Toast from '../Toast/Toast';
+
 const CreateAccount = (props) => {
 
     const [showPass, setShowPass] = useState(false);
 
     const [showPassRep, setShowPassRep] = useState(false);
+
+    const [showPulse, setShowPulse] = useState(false);
 
     const [user, setUser] = useState({
         isInvalid: null,
@@ -59,11 +67,11 @@ const CreateAccount = (props) => {
 
         if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
 
-            console.log('email true')
+            // console.log('email true')
             return true;
         }
 
-        console.log('email false')
+        // console.log('email false')
 
         return false;
     }
@@ -82,7 +90,7 @@ const CreateAccount = (props) => {
 
     const validatePassword = (password) => {
 
-        if(/^[A-Za-z\S]{8,32}$/g.test(password)) {
+        if (/^[A-Za-z\S]{8,32}$/g.test(password)) {
 
             return true;
         }
@@ -106,12 +114,14 @@ const CreateAccount = (props) => {
             setUser({
                 isInvalid: false,
                 message: '',
-                
+
             })
 
             // axios check username used
 
-            console.log('axios username')
+            // console.log('axios username')
+
+            props.onShowToast('Checking Username', 'success');
 
             axios({
                 method: 'post',
@@ -122,21 +132,14 @@ const CreateAccount = (props) => {
             })
                 .then(res => {
 
-                    console.log(res);
+                    // console.log(res);
 
                 })
                 .catch(error => {
 
-                    if (error && error.response) {
-                        setUser({
-                            isInvalid: true,
-                            message: error.response.data.error[0],
-                        })
-                    }
+                    // console.log(error.response);
 
-                    // else 
-                    //     props.showAlert("Something went wrong Try Again")
-
+                    props.onShowToast('Something Went Wrong.Try Again!!!', 'error');
 
                 })
         }
@@ -194,7 +197,7 @@ const CreateAccount = (props) => {
                 isInvalid: true,
                 message: 'Passwords do not match'
             })
-            
+
             return false;
         }
         else {
@@ -225,7 +228,7 @@ const CreateAccount = (props) => {
             setUser({
                 isInvalid: false,
                 message: '',
-                
+
             })
 
             return true;
@@ -237,14 +240,16 @@ const CreateAccount = (props) => {
 
         e.preventDefault();
 
-        if(!valUserOnSubmit() || !valEmail() || !valPassword() || !valPasswordRepeat()){
+        if (!valUserOnSubmit() || !valEmail() || !valPassword() || !valPasswordRepeat()) {
 
 
-            console.log('SUBMIT FALSE');
+            // console.log('SUBMIT FALSE');
             return;
         }
 
-        console.log('submit TRUE')
+        // console.log('submit TRUE')
+
+        setShowPulse(true);
 
         axios({
             method: 'post',
@@ -253,86 +258,109 @@ const CreateAccount = (props) => {
                 ...accountData,
             }
         })
-        .then(res => {
-            console.log(res.data);
-        })
-        .catch(error => {
-            console.log(error.message);
-            console.log(error.response.data.error)
+            .then(res => {
+                // console.log(res.data);
 
-            // this has to be toast
-            if(error && error.response) {
-                setEmail({
-                    isInvalid: true,
-                    message: error.response.data.error[0],
+                setAccountData({
+                    email: '',
+                    username: '',
+                    password: '',
+                    repeatPassword: '',
                 })
-            }
-        })
+
+                setShowPulse(false);
+
+                props.show();
+            })
+            .catch(error => {
+                // console.log(error.message);
+                // console.log(error.response.data.error);
+
+                setShowPulse(false);
+
+                if(error && error.response?.data.error){
+
+                    props.onShowToast(error.response.data.error[0], 'error');
+
+                    return;
+                }
+
+                props.onShowToast('Something Went Wrong.Try Again!!!', 'error');
+
+            })
     }
 
     return (
         // <div className={css.createContainer}>
 
-        <div className={css.formContainer}>
+        <React.Fragment>
 
-            <h2>Create Account</h2>
+            <div className={css.formContainer}>
 
-            <form onSubmit={onCreateAccount}>
+                <h2>Create Account</h2>
 
-                <div className={css.inputBox}>
-                    <label>Username</label>
-                    <input type="text" placeholder="Username"
-                        onChange={(e) => setAccountData({ ...accountData, username: e.target.value })}
-                        onBlur={valUser}
-                    />
-                    {user.isInvalid &&
-                        <p>{user.message}</p>
-                    }
-                </div>
-                <div className={css.inputBox}>
-                    <label>E-Mail</label>
-                    <input type="email" placeholder="E-Mail"
-                        onChange={(e) => setAccountData({ ...accountData, email: e.target.value })}
-                        onBlur={valEmail}
-                    />
-                    {email.isInvalid &&
-                        <p>{email.message}</p>
-                    }
-                </div>
-                <div className={css.inputBox}>
-                    <label>Password</label>
-                    <input type={showPass ? "text" : "password"} placeholder="Password"
-                        onChange={(e) => setAccountData({ ...accountData, password: e.target.value })}
-                        onBlur={valPassword}
-                    />
-                    <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPass} />
-                    {password.isInvalid &&
-                        <p>{password.message}</p>
-                    }
-                </div>
-                <div className={css.inputBox}>
-                    <label>Repeat Password</label>
-                    <input type={showPassRep ? "text" : "password"} placeholder="Repeat Password"
-                        onChange={(e) => setAccountData({ ...accountData, repeatPassword: e.target.value })}
-                    />
-                    <FontAwesomeIcon icon={showPassRep ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPassRep} />
-                    {passwordRep.isInvalid &&
-                        <p>{passwordRep.message}</p>
-                    }
-                </div>
-                <div className={css.inputBoxSubmit}>
-                    <input type="submit" value="Create Account" />
-                    {/* <div className={css.loader}>
-                            <PulseLoader/>
-                        </div> */}
-                </div>
-            </form>
+                <form onSubmit={onCreateAccount}>
 
-        </div>
+                    <div className={css.inputBox}>
+                        <label>Username</label>
+                        <input type="text" placeholder="Username"
+                            onChange={(e) => setAccountData({ ...accountData, username: e.target.value })}
+                            onBlur={valUser}
+                        />
+                        {user.isInvalid &&
+                            <p>{user.message}</p>
+                        }
+                    </div>
+                    <div className={css.inputBox}>
+                        <label>E-Mail</label>
+                        <input type="email" placeholder="E-Mail"
+                            onChange={(e) => setAccountData({ ...accountData, email: e.target.value })}
+                            onBlur={valEmail}
+                        />
+                        {email.isInvalid &&
+                            <p>{email.message}</p>
+                        }
+                    </div>
+                    <div className={css.inputBox}>
+                        <label>Password</label>
+                        <input type={showPass ? "text" : "password"} placeholder="Password"
+                            onChange={(e) => setAccountData({ ...accountData, password: e.target.value })}
+                            onBlur={valPassword}
+                        />
+                        <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPass} />
+                        {password.isInvalid &&
+                            <p>{password.message}</p>
+                        }
+                    </div>
+                    <div className={css.inputBox}>
+                        <label>Repeat Password</label>
+                        <input type={showPassRep ? "text" : "password"} placeholder="Repeat Password"
+                            onChange={(e) => setAccountData({ ...accountData, repeatPassword: e.target.value })}
+                        />
+                        <FontAwesomeIcon icon={showPassRep ? faEyeSlash : faEye} className={css.eyeIcon} onClick={onShowPassRep} />
+                        {passwordRep.isInvalid &&
+                            <p>{passwordRep.message}</p>
+                        }
+                    </div>
+                    <div className={css.inputBoxSubmit}>
+                        <input type="submit" value="Create Account" />
+                        {
+                            showPulse &&
+                            <div className={css.loader}>
+                                <PulseLoader />
+                            </div>
+                        }
+                    </div>
+                </form>
 
-        // </div>
+            </div>
+
+            <Toast />
+        </React.Fragment>
+
+        // {/* // </div> */}
     );
 }
 
-export default CreateAccount;
+export default connect(null, { onShowToast })(CreateAccount);
 

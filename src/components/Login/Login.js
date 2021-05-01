@@ -121,7 +121,7 @@ const Login = (props) => {
 
                     if (error.response.data.hasOwnProperty('message')) {
 
-                        console.log('catch IF');
+                        // console.log('catch IF');
 
                         props.onShowToast(error.response.data.message, 'error')
                     }

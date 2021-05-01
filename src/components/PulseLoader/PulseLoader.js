@@ -4,8 +4,8 @@ import css from './PulseLoader.module.css'
 
 const PulseLoader = () => {
     return ( 
-        <div class={css.stage}>
-            <div class={css.dotPulse}></div>
+        <div className={css.stage}>
+            <div className={css.dotPulse}></div>
         </div>
      );
 }
