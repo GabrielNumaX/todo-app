@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { setLogInOut } from './containers/App/actions';
@@ -11,8 +11,8 @@ import PrivateRoute from './routes/PrivateRoute';
 import Main from './containers/Main/Main'
 
 import Welcome from './containers/Welcome/Welcome';
-// import Login from './components/Login/Login';
-// import CreateAccount from './components/CreateAccount/CreateAccount';
+
+import Guest from './containers/Guest/Guest';
 
 import axios from 'axios';
 import { backendUrl } from './config/config';
@@ -20,12 +20,12 @@ import { backendUrl } from './config/config';
 const hist = createBrowserHistory();
 
 axios.interceptors.request.use(async (config) => {
-  
+
   config.url = backendUrl + config.url
 
   console.log('config.url', config.url);
 
-  if(localStorage.token) {
+  if (localStorage.token) {
     config.headers = {
       ...config.headers,
       "Authorization": localStorage.getItem("token")
@@ -62,15 +62,15 @@ function App(props) {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL} history={hist}>
 
-      <Route exact path="/" component={Welcome} history={hist}></Route>
-    
-      {/* <Route path="/tasks" component={Main}></Route> */}
+      <Switch>
 
-      <PrivateRoute exact path='/my-tasks' component={Main}/>
+        <Route exact path="/" component={Welcome} history={hist}></Route>
 
-      {/* <Route exact path="/" component={Login}></Route> */}
+        <Route exact path="/guest" component={Guest}></Route>
 
-      {/* <Route exact path="/" component={CreateAccount}></Route> */}
+        <PrivateRoute exact path='/my-tasks' component={Main} />
+
+      </Switch>
 
     </BrowserRouter>
   );

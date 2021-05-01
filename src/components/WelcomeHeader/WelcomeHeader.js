@@ -3,9 +3,13 @@ import React from 'react';
 import css from './WelcomeHeader.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons';
+
+import { useHistory } from 'react-router';
 
 const WelcomeHeader = (props) => {
+    
+    const history = useHistory();
 
     return (
         <header className={css.welcomeHeader}>
@@ -28,7 +32,15 @@ const WelcomeHeader = (props) => {
 
 
 
-            <div className={css.iconDiv}>
+            <div className={css.iconDivSecret}>
+
+                <div className={css.guestDiv}>
+                    <p>Guest User</p>
+                </div>
+
+                <div className={css.iconContainer} onClick={() => history.push('/guest')}>
+                    <FontAwesomeIcon icon={faUserSecret} className={css.icon} />
+                </div>
 
             </div>
 

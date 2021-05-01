@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import { onPastTask } from '../../containers/Main/actions';
-import { delTask, setCheckUncheck  } from '../../containers/App/actions';
+// import { connect } from 'react-redux';
+// import { onPastTask } from '../../containers/Main/actions';
+// import { delTask, setCheckUncheck  } from '../../containers/App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -32,9 +32,9 @@ class Past extends Component {
 
     componentDidMount() {
 
-        this.setState({
-            pastTask: [...this.props.pastTask]
-        })
+        // this.setState({
+        //     pastTask: [...this.props.pastTask]
+        // })
     }
 
 
@@ -113,7 +113,9 @@ class Past extends Component {
 
         console.log('PAST');
 
-        const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.pastTask
+        // const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.pastTask
+
+        const taskArr = this.state.pastTask
 
         const task = taskArr.map((item, pos) => {
             return (
@@ -194,12 +196,12 @@ class Past extends Component {
 
 }
 
-// this reads from STORE
-const mapGlobalStateToProps = (globalState) => {
-    return {
-        pastTask: globalState.main.pastTask,
-    }
-}
+// // this reads from STORE
+// const mapGlobalStateToProps = (globalState) => {
+//     return {
+//         pastTask: globalState.main.pastTask,
+//     }
+// }
 
-export default connect(mapGlobalStateToProps, { onPastTask, delTask, setCheckUncheck })(Past);
-// export default Today;
+// export default connect(mapGlobalStateToProps, { onPastTask, delTask, setCheckUncheck })(Past);
+export default Past;

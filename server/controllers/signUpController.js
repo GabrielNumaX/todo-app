@@ -26,16 +26,9 @@ signUpController.signUp = async (req, res) => {
         email,
     } = req.body;
 
-    console.log('username');
-
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
 
     const hashPass = await bcrypt.hash(password, salt);
-
-    // console.log('signUp');
-
-    // console.log('salt', salt);
-    // console.log('hash', hashPass);
 
     const newUser = new userModel({
         username,

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import { onWeekTask } from '../../containers/Main/actions';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -32,9 +29,9 @@ class Week extends Component {
 
     componentDidMount() {
 
-        this.setState({
-            todayTask: [...this.props.weekTask]
-        })
+        // this.setState({
+        //     todayTask: [...this.props.weekTask]
+        // })
     }
 
 
@@ -121,7 +118,9 @@ class Week extends Component {
 
     render() {
 
-        const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.weekTask
+        // const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.weekTask
+
+        const taskArr = this.state.todayTask
 
         const task = taskArr.map((item, pos) => {
             return (
@@ -205,20 +204,11 @@ class Week extends Component {
 }
 
 // this reads from STORE
-const mapGlobalStateToProps = (globalState) => {
-    return {
-        weekTask: globalState.main.weekTask,
-    }
-}
-
-// // this writes to STORE
-// const mapDispatchToProps = (dispatch) => {
+// const mapGlobalStateToProps = (globalState) => {
 //     return {
-// 	//NOMBRE PROP - NOM PARAM
-//         updateWeekTask: (arr) => {
-//  			//nom ACTION	nom-param reducer
-//             dispatch({type: 'WEEK_TASK', arrFromState: arr})        
-//         },
+//         weekTask: globalState.main.weekTask,
 //     }
 // }
-export default connect(mapGlobalStateToProps, { onWeekTask })(Week);
+
+// export default connect(mapGlobalStateToProps, { onWeekTask })(Week);
+export default Week;
