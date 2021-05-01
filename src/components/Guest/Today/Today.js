@@ -13,7 +13,7 @@ import moment from 'moment';
 
 import css from './Today.module.css';
 
-import {comparerIs, comparerNot } from '../../../config/comparer';
+// import {comparerIs, comparerNot } from '../../../config/comparer';
 
 
 class Today extends Component {
@@ -34,66 +34,53 @@ class Today extends Component {
 
     componentDidMount() {
 
-        console.log('didMount');
-
-        const tasks = JSON.parse(localStorage.getItem('calendarium'));
-
-        if (!tasks) {
-
-            console.log('didMount !tasks')
-
-            return;
-        }
-
-        console.log('didMount after IF')
-
-        // filter by date
-
         this.setState({
-            todayTask: [...tasks],
+            todayTask: [...this.props.todayTask],
         })
-
-        // this.setState({
-        //     todayTask: [...this.props.todayTask]
-        // })
     }
-
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
 
-            const tasks = JSON.parse(localStorage.getItem('calendarium'));
-
-            console.log('didUp')
-
-            if (!tasks) {
-                localStorage.setItem('calendarium', JSON.stringify(this.state.todayTask))
-
-                return;
-            }
-            console.log('didUp after IF');
-
-            const onlyInA = this.state.todayTask.filter(comparerIs(tasks));
-            const onlyInB = tasks.filter(comparerIs(this.state.todayTask));
-
-            const both = tasks.filter(comparerNot(this.state.todayTask));
-
-            console.log('only A')
-            console.log(onlyInA);
-            console.log('only B')
-            console.log(onlyInB);
-            console.log('both')
-            console.log(both)
-
-            const result = [...onlyInA,...onlyInB, ...both];
-
-            console.log(result);
-            // const updatedTasks = [...tasks, ...this.state.todayTask];
-
-            localStorage.setItem('calendarium', JSON.stringify(result));
-
+            localStorage.setItem('today-task',JSON.stringify(this.state.todayTask))
         }
     }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevState.todayTask !== this.state.todayTask) {
+
+    //         const tasks = JSON.parse(localStorage.getItem('calendarium'));
+
+    //         console.log('didUp')
+
+    //         if (!tasks) {
+    //             localStorage.setItem('calendarium', JSON.stringify(this.state.todayTask))
+
+    //             return;
+    //         }
+    //         console.log('didUp after IF');
+
+    //         const onlyInA = this.state.todayTask.filter(comparerIs(tasks));
+    //         const onlyInB = tasks.filter(comparerIs(this.state.todayTask));
+
+    //         const both = tasks.filter(comparerNot(this.state.todayTask));
+
+    //         console.log('only A')
+    //         console.log(onlyInA);
+    //         console.log('only B')
+    //         console.log(onlyInB);
+    //         console.log('both')
+    //         console.log(both)
+
+    //         const result = [...onlyInA,...onlyInB, ...both];
+
+    //         console.log(result);
+    //         // const updatedTasks = [...tasks, ...this.state.todayTask];
+
+    //         localStorage.setItem('calendarium', JSON.stringify(result));
+
+    //     }
+    // }
 
 
     onChangeTask = (e) => {

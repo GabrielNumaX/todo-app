@@ -15,11 +15,16 @@ class Tomorrow extends Component {
     constructor(props){
         super(props);
 
+        const today = Date.now()
+        const tomorrow = new Date(today)
+        tomorrow.setDate(tomorrow.getDate() + 1)
+
         this.state = {
 
             addTask: {
                     task: '',
                     checked: false,
+                    date: tomorrow,
                 },
             todayTask: [],
 
@@ -27,26 +32,25 @@ class Tomorrow extends Component {
     }
 
     componentDidMount() {
-    
-        // this.setState({
-        //     todayTask: [...this.props.tomorrowTask]
-        // })
+
+        this.setState({
+            todayTask: [...this.props.tomorrowTask],
+        })
     }
-
-
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
-        //   console.log('pokemons state has changed.')
-          this.props.onTomorrowTask(this.state.todayTask)
+
+            localStorage.setItem('tomorrow-task',JSON.stringify(this.state.todayTask))
         }
-      }
+    }
       
 
     onChangeTask = (e) => {
 
         this.setState({
             addTask: {
+                ...this.state.addTask,
                 task: e.target.value,
                 checked: false,
             }
@@ -57,19 +61,31 @@ class Tomorrow extends Component {
 
         if(e.keyCode === 13){
 
+            if(this.state.addTask.task === '') {
+
+                return;
+            }
+
             this.setState({
                 todayTask: [...this.state.todayTask, this.state.addTask]
             })
 
             this.setState({
                 addTask: {
+                    ...this.state.addTask,
                     task: '',
+                    checked: false,
                 }
             })
         }
     }
 
     addTask = () => {
+
+        if(this.state.addTask.task === '') {
+
+            return;
+        }
 
         this.setState( prevState => ({
             todayTask: [...prevState.todayTask, this.state.addTask],
@@ -109,7 +125,9 @@ class Tomorrow extends Component {
 
         // console.log('render')
 
-        // console.log(this.state);
+        // console.log(this.state.todayTask);
+
+        // console.log('tomorrowProps', this.props.tomorrowTask);
         
         // const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.tomorrowTask
 

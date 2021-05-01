@@ -20,7 +20,7 @@ class Week extends Component {
             addTask: {
                 task: '',
                 checked: false,
-                date: ''
+                date: null,
             },
             todayTask: [],
 
@@ -29,28 +29,24 @@ class Week extends Component {
 
     componentDidMount() {
 
-        // this.setState({
-        //     todayTask: [...this.props.weekTask]
-        // })
+        this.setState({
+            todayTask: [...this.props.weekTask],
+        })
     }
-
-
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.todayTask !== this.state.todayTask) {
-            //   console.log('pokemons state has changed.')
-            this.props.onWeekTask(this.state.todayTask)
+
+            this.props.resetDate();
+
+            // const sortedWeek = this.state.todayTask.sort((a, b) =>
+            //     (a.date > b.date) ? 1
+            //         : ((b.date > a.date) ? -1 : 0)
+            // )
+
+            localStorage.setItem('week-task', JSON.stringify(this.state.todayTask))
         }
     }
-
-    // shouldComponentUpdate(nextProps, nextState){
-
-    //     if(nextProps.date !== this.props.date || nextState.todayTask !== this.state.todayTask){
-
-    //         return true;
-    //     }
-
-    // }
 
 
     onChangeTask = (e) => {
@@ -68,13 +64,29 @@ class Week extends Component {
 
         if (e.keyCode === 13) {
 
-            this.setState({
-                todayTask: [...this.state.todayTask, this.state.addTask]
-            })
+            if (this.state.addTask.task === '') {
+
+                return;
+            }
+
+            const weekToSort = [...this.state.todayTask, this.state.addTask];
+
+            // console.log('weekToSort', weekToSort);
+
+            const sortedWeek = weekToSort.sort((a, b) =>
+                (new Date(a.date) > new Date(b.date)) ? 1
+                    : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
+            )
+
+            // console.log('sortedWeek', sortedWeek);
 
             this.setState({
+                // todayTask: [...this.state.todayTask, this.state.addTask],
+                todayTask: [...sortedWeek],
                 addTask: {
+                    ...this.state.addTask,
                     task: '',
+                    checked: false,
                 }
             })
         }
@@ -82,12 +94,27 @@ class Week extends Component {
 
     addTask = () => {
 
-        this.setState(prevState => ({
-            todayTask: [...prevState.todayTask, this.state.addTask],
+        if (this.state.addTask.task === '') {
+
+            return;
+        }
+
+        const weekToSort = [...this.state.todayTask, this.state.addTask];
+
+        const sortedWeek = weekToSort.sort((a, b) =>
+            (new Date(a.date) > new Date(b.date)) ? 1
+                : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
+        )   
+
+        this.setState({
+            // todayTask: [...this.state.todayTask, this.state.addTask],
+            todayTask: [...sortedWeek],
             addTask: {
+                ...this.state.addTask,
                 task: '',
+                checked: false,
             }
-        }))
+        })
     }
 
     onCheck = (pos) => {

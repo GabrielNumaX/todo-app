@@ -32,13 +32,13 @@ const WelcomeHeader = (props) => {
 
 
 
-            <div className={css.iconDivSecret}>
+            <div className={css.iconDivSecret} onClick={() => history.push('/guest')}>
 
                 <div className={css.guestDiv}>
                     <p>Guest User</p>
                 </div>
 
-                <div className={css.iconContainer} onClick={() => history.push('/guest')}>
+                <div className={css.iconContainer}>
                     <FontAwesomeIcon icon={faUserSecret} className={css.icon} />
                 </div>
 

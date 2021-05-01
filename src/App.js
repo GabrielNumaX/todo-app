@@ -60,7 +60,7 @@ function App(props) {
   // console.log(useHist, 'useHist');  
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL} history={hist}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
 
       <Switch>
 

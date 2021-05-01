@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { onShowToast } from '../App/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -48,6 +49,11 @@ class Guest extends Component {
 
             toggleDropdown: false,
 
+            pastTask: [],
+            todayTask: [],
+            tomorrowTask: [],
+            weekTask: [],
+
         }
     }
 
@@ -56,16 +62,209 @@ class Guest extends Component {
     // componentes;
     // VER appReducer -> capaz filtro en el action de App
 
+
     componentDidMount() {
 
-        // console.log('MAIN didMount');
+        console.log('GUEST didMount');
 
-        // this.props.getAllTasks();
+        const pastLocal = JSON.parse(localStorage.getItem('past-task'));
+        const todayLocal = JSON.parse(localStorage.getItem('today-task'))
+        const tomorrowLocal = JSON.parse(localStorage.getItem('tomorrow-task'))
+        const weekLocal = JSON.parse(localStorage.getItem('week-task'))
+
+        // console.log('tomorrow LOCAL', tomorrowLocal);
+
+        console.log('week LOCAL', weekLocal);
+
+        const week = [];
+        const tomorrow = [];
+        const today = [];
+        const past = [];
+
+        const thisDay = moment(new Date()).format('YYYY-MM-DD');
+
+        if (pastLocal) {
+
+            pastLocal.map(item => {
+
+
+                const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
+
+                const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                if (moment(dayTomorrow).isBefore(itemDate)) {
+
+                    return week.push(item);
+                }
+
+
+                if (moment(dayTomorrow).isSame(itemDate)) {
+
+                    week.push(item);
+
+                    return tomorrow.push(item);
+                }
+
+
+                if (moment(itemDate).isSame(thisDay)) {
+
+                    return today.push(item);
+                }
+
+                if (moment(thisDay).isAfter(itemDate)) {
+
+                    return past.push(item);
+                }
+
+                return null;
+            })
+
+        }
+
+        if (todayLocal) {
+
+            todayLocal.map(item => {
+
+                const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
+
+                const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                if (moment(dayTomorrow).isBefore(itemDate)) {
+
+                    return week.push(item);
+                }
+
+
+                if (moment(dayTomorrow).isSame(itemDate)) {
+
+                    week.push(item);
+
+                    return tomorrow.push(item);
+                }
+
+
+                if (moment(itemDate).isSame(thisDay)) {
+
+                    console.log('isSame(thisDay)')
+
+                    return today.push(item);
+                }
+
+                if (moment(thisDay).isAfter(itemDate)) {
+
+                    return past.push(item);
+                }
+
+                return null;
+            })
+
+        }
+
+        if (tomorrowLocal) {
+
+            tomorrowLocal.map(item => {
+
+
+                const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
+
+                const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                if (moment(dayTomorrow).isBefore(itemDate)) {
+
+                    return week.push(item);
+                }
+
+
+                if (moment(dayTomorrow).isSame(itemDate)) {
+
+                    week.push(item);
+
+                    return tomorrow.push(item);
+                }
+
+
+                if (moment(itemDate).isSame(thisDay)) {
+
+                    return today.push(item);
+                }
+
+                if (moment(thisDay).isAfter(itemDate)) {
+
+                    return past.push(item);
+                }
+
+                return null;
+            })
+
+        }
+
+        if (weekLocal) {
+
+            weekLocal.map(item => {
+
+
+                const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
+
+                const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                if (moment(dayTomorrow).isBefore(itemDate)) {
+
+                    return week.push(item);
+                }
+
+
+                // if (moment(dayTomorrow).isSame(itemDate)) {
+
+                //     // week.push(item);
+
+                //     // return tomorrow.push(item);
+
+                //     return week.push(item);
+                // }
+
+
+                if (moment(itemDate).isSame(thisDay)) {
+
+                    return today.push(item);
+                }
+
+                if (moment(thisDay).isAfter(itemDate)) {
+
+                    return past.push(item);
+                }
+
+                return null;
+            })
+
+        }
+
+
+        // const sortedWeek = week.sort((a, b) => 
+        //     (a.date > b.date) ? 1 
+        //     : ((b.date > a.date) ? -1 : 0)
+        // )
+
+        const sortedWeek = week.sort((a, b) =>
+            (new Date(a.date) > new Date(b.date)) ? 1
+                : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
+        )  
 
         this.setState({
             showLoader: false,
+            pastTask: [...past],
+            todayTask: [...today],
+            tomorrowTask: [...tomorrow],
+            // weekTask: [...week],
+            weekTask: [...sortedWeek],
         })
 
+    }
+
+    resetDate = () => {
+
+        this.setState({
+            startDate: new Date(),
+        })
     }
 
     handleChange = (date) => {
@@ -142,17 +341,17 @@ class Guest extends Component {
 
     logOut = () => {
 
-        this.props.setLogInOut(false);
-        this.props.setUsername(null);
-        this.props.setUserType('guest');
-        localStorage.clear();
+        // this.props.setLogInOut(false);
+        // this.props.setUsername(null);
+        // this.props.setUserType('guest');
+        // localStorage.clear();
 
         this.props.history.push('/');
     }
 
     render() {
 
-        // console.log('MAIN');
+        // console.log('GUEST');
 
         return (
 
@@ -161,26 +360,26 @@ class Guest extends Component {
 
                     <header className={css.Header}>
                         <div className={css.UserDiv}>
-                            <div 
+                            <div
                                 // className={css.User} 
-                                className={this.props.userType === 'user' ? [css.User, css.IsUser].join(' ') : css.User}
+                                className={[css.User, css.IsUser].join(' ')}
                                 onClick={() => this.setState(prevState => ({
-                                toggleDropdown: !prevState.toggleDropdown
-                            }))}>
+                                    toggleDropdown: !prevState.toggleDropdown
+                                }))}>
                                 <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon} />
                             </div>
                             {
-                                this.state.toggleDropdown && this.props.userType === 'user' ?
-                                
-                                <div className={css.Dropdown} onClick={this.logOut}>
+                                this.state.toggleDropdown ?
 
-                                    <p>Log Out</p>
+                                    <div className={css.Dropdown} onClick={this.logOut}>
 
-                                </div>
+                                        <p>Home Page</p>
 
-                                :
+                                    </div>
 
-                                null
+                                    :
+
+                                    null
                             }
                             {
                                 this.props.username
@@ -263,15 +462,18 @@ class Guest extends Component {
                     }
 
                     {
-                        this.state.todayShow ? <Today></Today> : null
+                        this.state.todayShow ? <Today todayTask={this.state.todayTask} /> : null
                     }
 
                     {
-                        this.state.tomorrowShow ? <Tomorrow></Tomorrow> : null
+                        this.state.tomorrowShow ? <Tomorrow tomorrowTask={this.state.tomorrowTask} /> : null
                     }
 
                     {
-                        this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
+                        this.state.weekShow ?
+                            <Week date={this.state.startDate}
+                                resetDate={this.resetDate}
+                                weekTask={this.state.weekTask} /> : null
                     }
 
                     <Toast />
@@ -291,4 +493,4 @@ const mapGlobalStateToProps = (globalState) => {
 }
 
 
-export default connect(mapGlobalStateToProps, null)(Guest);
+export default connect(mapGlobalStateToProps, { onShowToast })(Guest);
