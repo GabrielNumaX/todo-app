@@ -11,6 +11,8 @@ import {
     faCalendarDay,
     faCalendarWeek,
     faFolderOpen,
+    faBars,
+    faTimes
 } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -54,6 +56,8 @@ class Guest extends Component {
             tomorrowTask: [],
             weekTask: [],
 
+            toggleHeader: false,
+
         }
     }
 
@@ -65,7 +69,7 @@ class Guest extends Component {
 
     componentDidMount() {
 
-        console.log('GUEST didMount');
+        // console.log('GUEST didMount');
 
         const pastLocal = JSON.parse(localStorage.getItem('past-task'));
         const todayLocal = JSON.parse(localStorage.getItem('today-task'))
@@ -74,7 +78,7 @@ class Guest extends Component {
 
         // console.log('tomorrow LOCAL', tomorrowLocal);
 
-        console.log('week LOCAL', weekLocal);
+        // console.log('week LOCAL', weekLocal);
 
         const week = [];
         const tomorrow = [];
@@ -247,7 +251,7 @@ class Guest extends Component {
         const sortedWeek = week.sort((a, b) =>
             (new Date(a.date) > new Date(b.date)) ? 1
                 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
-        )  
+        )
 
         this.setState({
             showLoader: false,
@@ -349,6 +353,14 @@ class Guest extends Component {
         this.props.history.push('/');
     }
 
+    toggleHeader = () => {
+
+        this.setState(prevState => ({
+
+            toggleHeader: !prevState.toggleHeader,
+        }))
+    }
+
     render() {
 
         // console.log('GUEST');
@@ -356,9 +368,22 @@ class Guest extends Component {
         return (
 
             <PageLoader visible={this.state.showLoader} >
-                <div className={css.Main}>
+                <div className={css.Main} 
+                    // onClick={this.state.toggleHeader ? this.toggleHeader : null}   
+                >
 
-                    <header className={css.Header}>
+                    <div className={css.HeaderToogle}>
+
+                        <div className={css.HamburguerContainer}
+                            onClick={this.toggleHeader}
+                        >
+
+                            <FontAwesomeIcon icon={faBars} className={css.IconHamburguer} />
+
+                        </div>
+                    </div>
+
+                    <header className={this.state.toggleHeader ? [css.Header, css.HeaderShow].join(' ') : css.Header}>
                         <div className={css.UserDiv}>
                             <div
                                 // className={css.User} 
@@ -387,6 +412,13 @@ class Guest extends Component {
                                     <p className={css.UserP}>{this.props.username}</p>
                                     :
                                     <p className={css.UserP}>Guest User</p>
+                            }
+
+                            {
+                                this.state.toggleHeader &&
+                                <FontAwesomeIcon icon={faTimes} className={css.times}
+                                    onClick={this.toggleHeader}
+                                />
                             }
                         </div>
 

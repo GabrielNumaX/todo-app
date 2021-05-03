@@ -103,3 +103,12 @@
 .PTaskDone {
     text-decoration: line-through;
 }
+
+@media (max-width: 768px) {
+
+    .Today {
+        height: calc(100vh - 40px);
+    }
+
+
+}

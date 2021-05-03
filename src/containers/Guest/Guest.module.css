@@ -1,8 +1,11 @@
 .Main {
-    background-image: url('../../assets/cool-background.png');
+    background-image: url("../../assets/cool-background.png");
     background-position: center;
     display: flex;
-    
+}
+
+.HeaderToogle {
+    display: none;
 }
 
 .Header {
@@ -24,7 +27,6 @@
     padding: 10px;
     padding-left: 20px;
     position: relative;
-    
 }
 
 .User {
@@ -137,4 +139,67 @@
     align-items: center;
     height: 100%;
     padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .Main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Header {
+        width: 0px;
+        height: 100vh;
+        background-color: #e6e6e6;
+        flex-direction: column;
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s linear;
+    }
+
+    .HeaderShow {
+        width: 200px;
+        visibility: visible;
+        opacity: 1;    
+    }
+
+    .HeaderToogle {
+        background: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+    }
+
+    .HamburguerContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.7);
+        width: 28px;
+        height: 28px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .IconHamburguer {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 20px;
+    }
+
+    .times {
+        font-size: 14px;
+        cursor: pointer;
+        position: relative;
+        top: -16px;
+        z-index: 10;
+    }
 }
