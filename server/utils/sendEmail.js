@@ -6,7 +6,7 @@ const path = require("path");
 
 const sendEmail = async (email, subject, payload, template) => {
 
-  console.log('sendEmail');
+  // console.log('sendEmail');
   try {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
@@ -43,12 +43,12 @@ const sendEmail = async (email, subject, payload, template) => {
     transporter.sendMail(options(), (error, info) => {
       if (error) {
 
-        console.log('ERROR SENDING EMAIL');
+        // console.log('ERROR SENDING EMAIL');
         console.log(error);
         return error;
       } else {
 
-        console.log('EMAIL SENT');
+        // console.log('EMAIL SENT');
 
         return res.status(200).json({
           success: true,

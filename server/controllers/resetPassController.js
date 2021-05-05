@@ -44,7 +44,7 @@ resetPassController.requestLink = async (req, res) => {
 
     const resetLink = `http://localhost:3000/reset-password/?token=${resetToken}&id=${user._id}`;
 
-    console.log('resetLink', resetLink);
+    // console.log('resetLink', resetLink);
     
     // aca mandar EMAIL
     sendEmail(

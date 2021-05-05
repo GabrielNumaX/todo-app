@@ -14,6 +14,8 @@ import Welcome from './containers/Welcome/Welcome';
 
 import Guest from './containers/Guest/Guest';
 
+import PasswordReset from './containers/PasswordReset/PasswordReset';
+
 import axios from 'axios';
 import { backendUrl } from './config/config';
 
@@ -64,9 +66,11 @@ function App(props) {
 
       <Switch>
 
-        <Route exact path="/" component={Welcome} history={hist}></Route>
+        <Route exact path="/" component={Welcome}></Route>
 
         <Route exact path="/guest" component={Guest}></Route>
+
+        <Route exact path="/reset-password" component={PasswordReset}></Route>
 
         <PrivateRoute exact path='/my-tasks' component={Main} />
 

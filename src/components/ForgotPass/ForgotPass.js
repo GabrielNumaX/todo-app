@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 
+import { connect } from 'react-redux';
+import { onShowToast } from '../../containers/App/actions';
+
 import css from './ForgotPass.module.css';
+
+import PulseLoader from '../PulseLoader/PulseLoader';
+import Toast from '../Toast/Toast';
+
+import axios from 'axios';
+
 
 const ForgotPass = (props) => {
 
@@ -9,6 +18,8 @@ const ForgotPass = (props) => {
         message: '',
         email: '',
     });
+
+    const [showPulse, setShowPulse] = useState(false);
 
     const validateEmail = (email) => {
 
@@ -48,7 +59,7 @@ const ForgotPass = (props) => {
 
         e.preventDefault();
 
-        if(!validateEmail(email.email)) {
+        if (!validateEmail(email.email)) {
 
             setEmail({
                 ...email,
@@ -59,38 +70,81 @@ const ForgotPass = (props) => {
             return;
         }
 
+        setShowPulse(true);
+
         // handle axios call
+        axios({
+            method: 'post',
+            url: '/password/request',
+            data: {
+                email: email.email
+            }
+        })
+            .then(res => {
+
+                setShowPulse(false);
+
+                setEmail({
+                    isInvalid: null,
+                    message: '',
+                    email: '',
+                })
+
+                props.onShowToast('Email Sent', 'success');
+            })
+            .catch(error => {
+
+                setShowPulse(false);
+
+                if(error.response.data?.message) {
+
+                    props.onShowToast(error.response.data.message, 'error');
+
+                    return;
+                }
+
+                props.onShowToast('Something went wrong. Try Again!!!', 'error');
+            })
     }
 
     return (
-        <div className={css.formContainer}>
+        <React.Fragment>
+            <div className={css.formContainer}>
 
-            <h2>Reset Password</h2>
+                <h2>Reset Password</h2>
 
-            <form onSubmit={onResetPassword}>
+                <form onSubmit={onResetPassword}>
 
-                <div className={css.inputBox}>
-                    <label>E-Mail</label>
-                    <input type="email" placeholder="Enter your E-Mail"
-                        onChange={(e) => setEmail({ ...email, email: e.target.value })}
-                        onBlur={valEmail}
-                    />
-                    {email.isInvalid &&
-                        <p>{email.message}</p>
-                    }
+                    <div className={css.inputBox}>
+                        <label>E-Mail</label>
+                        <input type="email" placeholder="Enter your E-Mail"
+                            onChange={(e) => setEmail({ ...email, email: e.target.value })}
+                            onBlur={valEmail}
+                        />
+                        {email.isInvalid &&
+                            <p>{email.message}</p>
+                        }
 
-                </div>
+                    </div>
 
-                <div className={css.inputBoxSubmit}>
-                    <input type="submit" value="Reset Password" />
-                    {/* <div className={css.loader}>
-                            <PulseLoader/>
-                        </div> */}
-                </div>
-            </form>
+                    <div className={css.inputBoxSubmit}>
+                        <input type="submit" value="Reset Password" />
 
-        </div>
+                        {
+                            showPulse &&
+
+                            <div className={css.loader}>
+                                <PulseLoader />
+                            </div>
+                        }
+
+                    </div>
+                </form>
+
+            </div>
+            <Toast />
+        </React.Fragment>
     );
 }
 
-export default ForgotPass;
+export default connect(null, { onShowToast })(ForgotPass);
