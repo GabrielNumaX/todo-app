@@ -11,6 +11,12 @@ const tokenSchema = new Schema({
     type: String,
     required: true,
   },
+  createdAt: { 
+    type: Date, 
+    // seconds = 15 min
+    expires: 900, 
+    default: Date.now 
+  }
 });
 
 module.exports = model("Tokens", tokenSchema);

@@ -62,6 +62,21 @@ const taskEditVal = () => {
 
 }
 
+const requestLinkVal = () => {
+
+    return [
+        body('email').notEmpty().isEmail().withMessage('Invalid Email')
+    ]
+}
+
+const resetPassVal = () => {
+
+    return [
+        body('password').notEmpty().isLength({ min: 8, max: 32 }).withMessage('Password not Valid'),
+        body('userId').notEmpty().withMessage('Invalid Data'),
+        body('token').notEmpty().withMessage('Invalid Data'),
+    ]
+}
 const valResult = (req, res, next) => {
 
     // console.log('valResult');
@@ -94,5 +109,7 @@ module.exports = {
     taskVal,
     valResult,
     taskEditVal,
-    isValidObjectId
+    isValidObjectId,
+    requestLinkVal,
+    resetPassVal,
 };
