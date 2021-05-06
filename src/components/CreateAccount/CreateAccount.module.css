@@ -1,13 +1,16 @@
 .createContainer {
     min-height: 100vh;
     /* background: url('../../assets/calendar.jpg') center no-repeat; */
-    background: url('../../assets/cool-background.png') center no-repeat;
+    background: url("../../assets/cool-background.png") center no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-p, input, input::placeholder, label {
+p,
+input,
+input::placeholder,
+label {
     font-size: var(--p-size);
 }
 
@@ -21,7 +24,7 @@ h2 {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     border-radius: 10px;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -32,21 +35,20 @@ h2 {
 .formContainer h2 {
     font-weight: bolder;
     letter-spacing: 1px;
-    color: rgba(0,0,0,1);
+    color: rgba(0, 0, 0, 1);
     position: relative;
     margin-bottom: 10px;
 }
 
 .formContainer h2::after {
     position: absolute;
-    content: '';
+    content: "";
     width: 190px;
     height: 3px;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     bottom: -5px;
     left: 0;
 }
-
 
 .formContainer form {
     display: flex;
@@ -75,10 +77,11 @@ h2 {
     font-weight: 600;
     margin-top: 2px;
     padding-left: 20px;
-    color:#e62d2d
+    color: #e62d2d;
 }
 
-.inputBox input, .inputBoxSubmit input {
+.inputBox input,
+.inputBoxSubmit input {
     width: 100%;
     background: rgba(255, 255, 255, 0.4);
     border: none;
@@ -91,7 +94,7 @@ h2 {
     /* font-size: 16px; */
     letter-spacing: 1px;
     color: black;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .inputBox input::placeholder {
@@ -112,7 +115,7 @@ h2 {
     position: absolute;
     right: 20px;
     top: 38px;
-    color:  var(--icon-color);
+    color: var(--icon-color);
     font-size: var(--p-size);
     cursor: pointer;
 }
@@ -140,3 +143,180 @@ h2 {
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 768px) {
+    p,
+    input,
+    input::placeholder,
+    label {
+        font-size: var(--p-size);
+    }
+
+    h2 {
+        font-size: var(--h2-size);
+    }
+
+    .formContainer {
+        width: 330px;
+        padding: 16px 20px;
+        margin: 16px 0;
+    }
+
+    .formContainer h2 {
+        font-size: 24px;
+    }
+
+    .formContainer h2::after {
+        width: 180px;
+        height: 2px;
+    }
+
+
+    .inputBox {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .inputBox label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        padding-left: 12px;
+        font-size: 16px;
+    }
+
+    .inputBox p {
+        padding-left: 12px;
+        font-size: 16px;
+    }
+
+    .inputBox input,
+    .inputBoxSubmit input {
+        padding: 8px 12px;
+    }
+
+    .inputBox input::placeholder {
+        font-size: 16px;
+    }
+
+    .inputBoxSubmit {
+        width: 100%;
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: center;
+        margin-top: 10px;
+        position: relative;
+    }
+
+    .eyeIcon {
+        right:16px;
+        top: 36px;
+        font-size: 16px;
+    }
+
+    .inputBoxSubmit input[type="submit"] {
+        max-width: 200px;
+        height: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .loader {
+        margin-top: 10px;
+        width: 200px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    p,
+    input,
+    input::placeholder,
+    label {
+        font-size: var(--p-size);
+    }
+
+    h2 {
+        font-size: var(--h2-size);
+    }
+
+    .formContainer {
+        width: 250px;
+        padding: 10px 14px;
+        margin: 16px 0;
+    }
+
+    .formContainer h2 {
+        font-size: 20px;
+    }
+
+    .formContainer h2::after {
+        width: 160px;
+        height: 2px;
+    }
+
+
+    .inputBox {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .inputBox label {
+        padding-left: 10px;
+        font-size: 14px;
+    }
+
+    .inputBox p {
+        padding-left: 10px;
+        font-size: 14px;
+    }
+
+    .inputBox input,
+    .inputBoxSubmit input {
+        padding: 6px 10px;
+    }
+
+    .inputBox input::placeholder {
+        font-size: 14px;
+    }
+
+    .inputBoxSubmit {
+        width: 100%;
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: center;
+        margin-top: 10px;
+        position: relative;
+    }
+
+    .eyeIcon {
+        right:14px;
+        top: 32px;
+        font-size: 14px;
+    }
+
+    .inputBoxSubmit input[type="submit"] {
+        max-width: 160px;
+        height: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .loader {
+        margin-top: 10px;
+        width: 160px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+}
+

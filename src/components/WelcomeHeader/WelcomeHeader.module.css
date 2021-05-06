@@ -1,7 +1,7 @@
 .welcomeHeader {
     height: 55px;
     background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -39,7 +39,7 @@ h1 {
     height: 42px;
     width: 42px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,3 +76,183 @@ h1 {
     font-size: var(--p-size);
     color: var(--icon-color);
 }
+
+@media (max-width: 768px) {
+
+    .welcomeHeader {
+        padding: 0 10px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .iconDiv {
+        width: 110px;
+        /* background: chartreuse; */
+        /* display: flex;
+    /* justify-content: space-between; */
+        /* align-items: center;  */
+    }
+
+    .iconDiv div p{
+       font-size: 16px;
+    }
+
+    .iconDivSecret {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 110px;
+        cursor: pointer;
+        /* background: chartreuse; */
+        /* display: flex;
+    /* justify-content: space-between; */
+        /* align-items: center;  */
+    }
+
+    .iconContainer {
+        height: 34px;
+        width: 34px;
+        /* cursor: pointer; */
+    }
+
+    .icon {
+        font-size: 20px;
+    }
+
+ 
+    .guestDiv p {
+        font-size: 16px;
+    }
+
+    .iconDiv div {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .iconDiv p {
+        font-size: var(--p-size);
+        margin-left: 10px;
+        font-weight: 600;
+    }
+
+    .chevronIcon {
+        font-size: var(--p-size);
+        color: var(--icon-color);
+    }
+}
+
+
+@media (max-width: 570px) {
+
+    .welcomeHeader {
+        height: auto;
+        padding: 10px 5px;
+    }
+
+    h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .iconDiv {
+        width: 110px;
+        /* background: red; */
+        /* display: flex;
+    /* justify-content: space-between; */
+        /* align-items: center;  */
+    }
+
+    .iconDiv div p{
+       font-size: 14px;
+    }
+
+    .iconDivSecret {
+        width: 110px;
+    }
+
+    .iconContainer {
+        height: 30px;
+        width: 30px;
+        /* cursor: pointer; */
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+
+ 
+    .guestDiv p {
+        font-size: 14px;
+    }
+
+    /* .iconDiv p {
+        font-size: var(--p-size);
+        margin-left: 10px;
+        font-weight: 600;
+    } */
+
+    .chevronIcon {
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 420px) {
+
+    .welcomeHeader {
+        height: auto;
+        padding: 10px 5px;
+    }
+
+    h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .iconDiv {
+        width: 40px;
+        /* background: red; */
+        /* display: flex;
+    /* justify-content: space-between; */
+        /* align-items: center;  */
+    }
+
+    .iconDiv div p{
+       font-size: 14px;
+       display: none;
+    }
+
+    .iconDivSecret {
+        width: 40px;
+    }
+
+    .iconContainer {
+        height: 30px;
+        width: 30px;
+        /* cursor: pointer; */
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+
+ 
+    .guestDiv p {
+        font-size: 14px;
+        display: none;
+    }
+
+    /* .iconDiv p {
+        font-size: var(--p-size);
+        margin-left: 10px;
+        font-weight: 600;
+    } */
+
+    .chevronIcon {
+        font-size: 16px;
+    }
+}
+

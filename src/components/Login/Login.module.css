@@ -1,19 +1,19 @@
 .loginContainer {
     min-height: 100vh;
     /* background: url('../../assets/calendar.jpg') center no-repeat; */
-    background: url('../../assets/cool-background.png') center no-repeat;
+    background: url("../../assets/cool-background.png") center no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
-
 
 h2 {
     font-size: var(--h2-size);
 }
 
-p, input, input::placeholder {
+p,
+input,
+input::placeholder {
     font-size: var(--p-size);
 }
 
@@ -23,7 +23,7 @@ p, input, input::placeholder {
     background: rgba(255, 255, 255, 0.5);
     /* backdrop-filter: blur(5px); */
     border-radius: 10px;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -33,17 +33,17 @@ p, input, input::placeholder {
 .formContainer h2 {
     font-weight: bolder;
     letter-spacing: 1px;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
     position: relative;
     margin-bottom: 10px;
 }
 
 .formContainer h2::after {
     position: absolute;
-    content: '';
+    content: "";
     width: 70px;
     height: 3px;
-    background: rgba(0,0,0,1);
+    background: rgba(0, 0, 0, 1);
     bottom: -5px;
     left: 0;
 }
@@ -78,7 +78,7 @@ p, input, input::placeholder {
     /* font-size: var(--p-size); */
     letter-spacing: 1px;
     color: black;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .inputBox input::placeholder {
@@ -129,4 +129,158 @@ p, input, input::placeholder {
     align-items: center;
     justify-content: center;
     cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+   
+    p,
+    input,
+    input::placeholder {
+        font-size: var(--p-size);
+    }
+
+    .formContainer {
+        width: 330px;
+        padding: 16px 20px;
+    }
+
+    .formContainer h2 {
+        font-size: 24px;
+    }
+
+    .formContainer h2::after {
+        width: 70px;
+        height: 2px;
+    }
+
+    .inputBox {
+        margin-top: 18px;
+    }
+
+    .inputBox input {
+        padding: 8px 12px;
+    }
+
+    .inputBox input::placeholder {
+        font-size: 16px;
+    }
+
+    .eyeIcon {
+        right: 16px;
+        top: 12px;
+        font-size: 16px;
+    }
+
+    .inputBox input[type="submit"] {
+        background: #fff;
+        color: #666;
+        /* max-width: 100px; */
+        width: 120px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        font-weight: bolder;
+    }
+
+    .forgot {
+        color: black;
+        font-weight: 600;
+        margin-top: 5px;
+        font-size: 16px;
+    }
+
+    .loader {
+        position: absolute;
+        background: #fff;
+        /* width: 220px; */
+        width: 120px;
+        height: 40px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        border-radius: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: not-allowed;
+    }
+}
+
+
+@media (max-width: 480px) {
+   
+    p,
+    input,
+    input::placeholder {
+        font-size: var(--p-size);
+    }
+
+    .formContainer {
+        width: 250px;
+        padding: 10px 14px;
+    }
+
+    .formContainer h2 {
+        font-size: 20px;
+    }
+
+    .formContainer h2::after {
+        width: 60px;
+        height: 2px;
+    }
+
+    .inputBox {
+        margin-top: 18px;
+    }
+
+    .inputBox input {
+        padding: 6px 10px;
+        /* font-size: 14px; */
+    }
+
+    .inputBox input::placeholder {
+        font-size: 14px;
+    }
+
+    .eyeIcon {
+        right: 14px;
+        top: 10px;
+        font-size: 14px;
+    }
+
+    .inputBox input[type="submit"] {
+        background: #fff;
+        color: #666;
+        /* max-width: 100px; */
+        width: 120px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        font-weight: bolder;
+    }
+
+    .forgot {
+        color: black;
+        font-weight: 600;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .forgot span {
+        font-size: 14px;
+    }
+
+    .loader {
+        position: absolute;
+        background: #fff;
+        /* width: 220px; */
+        width: 120px;
+        height: 40px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        border-radius: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: not-allowed;
+    }
 }
