@@ -19,9 +19,16 @@ import {
 
 import css from './Guest.module.css';
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
+// import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+// import DatePicker from 'react-modern-calendar-datepicker';
+
+import { enUS } from 'date-fns/locale'
+import { DatePicker } from 'react-nice-dates'
+// import 'react-nice-dates/build/style.css'
+import '../../assets/style.css';
 
 import Past from '../../components/Guest/Past/Past';
 import Today from '../../components/Guest/Today/Today';
@@ -273,6 +280,8 @@ class Guest extends Component {
 
     handleChange = (date) => {
 
+        console.log(date);
+
         // aca prodria validar que la fecha sea dentro de una semana
         // 6 dias mas
         // esto es de Week
@@ -368,8 +377,8 @@ class Guest extends Component {
         return (
 
             <PageLoader visible={this.state.showLoader} >
-                <div className={css.Main} 
-                    // onClick={this.state.toggleHeader ? this.toggleHeader : null}   
+                <div className={css.Main}
+                // onClick={this.state.toggleHeader ? this.toggleHeader : null}   
                 >
 
                     <div className={css.HeaderToogle}>
@@ -478,10 +487,19 @@ class Guest extends Component {
 
                             {this.state.weekShow ?
 
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange}
-                                />
+                                // <DatePicker
+                                //     selected={this.state.startDate}
+                                //     onChange={this.handleChange}
+                                //     className={css.DatePicker}
+                                // />
+                                <DatePicker date={this.state.startDate} onDateChange={this.handleChange} locale={enUS}>
+                                    {({ inputProps, focused }) => (
+                                        <input
+                                            className={'input' + (focused ? ' -focused' : '')}
+                                            {...inputProps}
+                                        />
+                                    )}
+                                </DatePicker>
                                 :
                                 null
                             }
