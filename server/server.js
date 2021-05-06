@@ -1,3 +1,5 @@
+require('express-async-errors');
+const error = require('./middleware/asyncErrors');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -22,6 +24,8 @@ app.use( signUpRoute );
 app.use( loginRoute );
 app.use( taskRoute ); 
 app.use( '/password', resetRoute ); 
+
+app.use(error);
 
 app.listen(port, () => {
 
