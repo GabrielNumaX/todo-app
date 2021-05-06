@@ -11,16 +11,23 @@ import {
     faCalendarDay,
     faCalendarWeek,
     faFolderOpen,
+    faBars,
+    faTimes
 } from '@fortawesome/free-solid-svg-icons'
 
 
 
 import css from './Main.module.css';
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 // import Header from '../../components/Header/Header';
+
+import { enUS } from 'date-fns/locale'
+import { DatePicker } from 'react-nice-dates'
+// import 'react-nice-dates/build/style.css'
+import '../../assets/style.css';
 
 import Past from '../../components/Past/Past';
 import Today from '../../components/Today/Today';
@@ -50,6 +57,8 @@ class Main extends Component {
 
             toggleDropdown: false,
 
+            toggleHeader: false,
+
         }
     }
 
@@ -68,6 +77,13 @@ class Main extends Component {
             showLoader: false,
         })
 
+    }
+
+    resetDate = () => {
+
+        this.setState({
+            startDate: new Date(),
+        })
     }
 
     handleChange = (date) => {
@@ -152,6 +168,14 @@ class Main extends Component {
         this.props.history.push('/');
     }
 
+    toggleHeader = () => {
+
+        this.setState(prevState => ({
+
+            toggleHeader: !prevState.toggleHeader,
+        }))
+    }
+
     render() {
 
         // console.log('MAIN');
@@ -161,28 +185,39 @@ class Main extends Component {
             <PageLoader visible={this.state.showLoader} >
                 <div className={css.Main}>
 
-                    <header className={css.Header}>
+                    <div className={css.HeaderToogle}>
+
+                        <div className={css.HamburguerContainer}
+                            onClick={this.toggleHeader}
+                        >
+
+                            <FontAwesomeIcon icon={faBars} className={css.IconHamburguer} />
+
+                        </div>
+                    </div>
+
+                    <header className={this.state.toggleHeader ? [css.Header, css.HeaderShow].join(' ') : css.Header}>
                         <div className={css.UserDiv}>
-                            <div 
+                            <div
                                 // className={css.User} 
                                 className={this.props.userType === 'user' ? [css.User, css.IsUser].join(' ') : css.User}
                                 onClick={() => this.setState(prevState => ({
-                                toggleDropdown: !prevState.toggleDropdown
-                            }))}>
+                                    toggleDropdown: !prevState.toggleDropdown
+                                }))}>
                                 <FontAwesomeIcon icon={this.props.userType === 'user' ? faUser : faUserSecret} className={css.Icon} />
                             </div>
                             {
                                 this.state.toggleDropdown && this.props.userType === 'user' ?
-                                
-                                <div className={css.Dropdown} onClick={this.logOut}>
 
-                                    <p>Log Out</p>
+                                    <div className={css.Dropdown} onClick={this.logOut}>
 
-                                </div>
+                                        <p>Log Out</p>
 
-                                :
+                                    </div>
 
-                                null
+                                    :
+
+                                    null
                             }
                             {
                                 this.props.username
@@ -191,6 +226,14 @@ class Main extends Component {
                                     :
                                     <p className={css.UserP}>Guest User</p>
                             }
+
+                            {
+                                this.state.toggleHeader &&
+                                <FontAwesomeIcon icon={faTimes} className={css.times}
+                                    onClick={this.toggleHeader}
+                                />
+                            }
+
                         </div>
 
                         <div className={css.TodayDiv}
@@ -249,10 +292,18 @@ class Main extends Component {
 
                             {this.state.weekShow ?
 
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange}
-                                />
+                                // <DatePicker
+                                //     selected={this.state.startDate}
+                                //     onChange={this.handleChange}
+                                // />
+                                <DatePicker date={this.state.startDate} onDateChange={this.handleChange} locale={enUS}>
+                                    {({ inputProps, focused }) => (
+                                        <input
+                                            className={'input' + (focused ? ' -focused' : '')}
+                                            {...inputProps}
+                                        />
+                                    )}
+                                </DatePicker>
                                 :
                                 null
                             }
@@ -273,10 +324,13 @@ class Main extends Component {
                     }
 
                     {
-                        this.state.weekShow ? <Week date={this.state.startDate}></Week> : null
+                        this.state.weekShow ? <Week
+                            date={this.state.startDate}
+                            resetDate={this.resetDate}
+                        ></Week> : null
                     }
 
-                    <Toast />
+                    <Toast/>
                 </div>
             </PageLoader>
         )

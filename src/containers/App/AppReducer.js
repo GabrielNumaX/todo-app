@@ -5,8 +5,10 @@ const initialState = {
     toastMessage: '',
     toastIcon: null,
     isLoggedIn: false,
-    userType: 'guest',
-    username: null,
+    // userType: 'guest',
+    // username: null,
+    userType: 'user',
+    username: 'gabriel.numax',
 }
 const appReducer = (state = initialState, action) => {
     switch (action.type) {

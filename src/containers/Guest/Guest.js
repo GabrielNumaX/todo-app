@@ -280,7 +280,7 @@ class Guest extends Component {
 
     handleChange = (date) => {
 
-        console.log(date);
+        // console.log(date);
 
         // aca prodria validar que la fecha sea dentro de una semana
         // 6 dias mas
