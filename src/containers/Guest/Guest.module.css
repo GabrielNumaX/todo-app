@@ -296,6 +296,10 @@
         height: 38px;
     }
 
+    .ScheduleDiv span {
+        font-size: 16px;
+    }
+
     .FolderIcon {
         font-size: 17px;
     }
