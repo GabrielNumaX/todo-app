@@ -16,10 +16,12 @@ import Guest from './containers/Guest/Guest';
 
 import PasswordReset from './containers/PasswordReset/PasswordReset';
 
+// import Fav from './assets/favico';
+
 import axios from 'axios';
 import { backendUrl } from './config/config';
 
-const hist = createBrowserHistory();
+// const hist = createBrowserHistory();
 
 axios.interceptors.request.use(async (config) => {
 
@@ -35,6 +37,8 @@ axios.interceptors.request.use(async (config) => {
   }
   return config
 });
+
+
 
 function App(props) {
 
@@ -67,6 +71,8 @@ function App(props) {
       <Switch>
 
         <Route exact path="/" component={Welcome}></Route>
+
+        {/* <Route exact path="/" component={Fav}></Route> */}
 
         <Route exact path="/guest" component={Guest}></Route>
 

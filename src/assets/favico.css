@@ -1,0 +1,14 @@
+div {
+    min-height: 100vh;
+    /* background: url('../../assets/calendar.jpg') center no-repeat; */
+    background: url("./cool-background.png") center no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 520px;
+    color: white;
+    font-weight: 800;
+}

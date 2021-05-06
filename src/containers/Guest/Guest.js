@@ -373,6 +373,7 @@ class Guest extends Component {
     render() {
 
         // console.log('GUEST');
+        // console.log(this.state)
 
         return (
 
@@ -424,7 +425,7 @@ class Guest extends Component {
                             }
 
                             {
-                                this.state.toggleHeader &&
+                                this.state.toggleHeader && 
                                 <FontAwesomeIcon icon={faTimes} className={css.times}
                                     onClick={this.toggleHeader}
                                 />
@@ -440,7 +441,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Old</span>
-                                {/* <span>{this.props.pastTask.length === 0 ? null : this.props.pastTask.length}</span> */}
+                                <span>{this.state.pastTask.length === 0 ? null : this.state.pastTask.length}</span>
                             </div>
                         </div>
 
@@ -453,7 +454,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Today</span>
-                                {/* <span>{this.props.todayTask.length === 0 ? null : this.props.todayTask.length}</span> */}
+                                <span>{this.state.todayTask.length === 0 ? null : this.state.todayTask.length}</span>
                             </div>
                         </div>
 
@@ -466,7 +467,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Tomorrow</span>
-                                {/* <span>{this.props.tomorrowTask.length === 0 ? null : this.props.tomorrowTask.length}</span> */}
+                                <span>{this.state.tomorrowTask.length === 0 ? null : this.state.tomorrowTask.length}</span>
                             </div>
                         </div>
 
@@ -479,7 +480,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>This Week</span>
-                                {/* <span>{this.props.weekTask.length === 0 ? null : this.props.weekTask.length}</span> */}
+                                <span>{this.state.weekTask.length === 0 ? null : this.state.weekTask.length}</span>
                             </div>
                         </div>
 
@@ -487,11 +488,6 @@ class Guest extends Component {
 
                             {this.state.weekShow ?
 
-                                // <DatePicker
-                                //     selected={this.state.startDate}
-                                //     onChange={this.handleChange}
-                                //     className={css.DatePicker}
-                                // />
                                 <DatePicker date={this.state.startDate} onDateChange={this.handleChange} locale={enUS}>
                                     {({ inputProps, focused }) => (
                                         <input

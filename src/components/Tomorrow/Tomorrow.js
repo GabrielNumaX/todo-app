@@ -156,7 +156,7 @@ class Tomorrow extends Component {
 
         // console.log('render')
 
-        console.log(this.state.addTask);
+        // console.log(this.state.addTask);
         
         const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.tomorrowTask
 
