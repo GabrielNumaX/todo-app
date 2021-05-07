@@ -27,7 +27,7 @@ axios.interceptors.request.use(async (config) => {
 
   config.url = backendUrl + config.url
 
-  console.log('config.url', config.url);
+  // console.log('config.url', config.url);
 
   if (localStorage.token) {
     config.headers = {

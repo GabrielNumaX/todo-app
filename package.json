@@ -1,6 +1,6 @@
 {
-  "homepage": "http://gabrielnumax.github.io/todo-app",
-  "name": "todo-app",
+  "homepage": "https://calendarium-app.herokuapp.com",
+  "name": "calendarium",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,11 +40,12 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+    "react-start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon ./server/server.js --watch ./server/*",
-    "all": "run-p server start",
+    "all": "run-p server react-start",
     "start": "node ./server/server.js",
 	  "heroku-postbuild": "npm install && npm run build"
   },
