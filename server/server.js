@@ -27,11 +27,13 @@ app.use(loginRoute);
 app.use(taskRoute);
 app.use('/password', resetRoute);
 
+console.log(path.join(__dirname, '..', 'build'))
+
 
 if (process.env.NODE_ENV === 'production') {
 
     //serves react app  
-    app.use(express.static(__dirname, '..', 'build'));
+    app.use(express.static(path.join(__dirname, '..', 'build')));
 
     app.get('*', (req, res) => {
 
