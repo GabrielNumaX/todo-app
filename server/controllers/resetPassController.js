@@ -40,11 +40,13 @@ resetPassController.requestLink = async (req, res) => {
     await savedToken.save();
 
     // this should be app URL for reset PAGE
-    // const resetLink = `http://localhost:3000/reset-password/?token=${token}`;
 
-    const resetLink = `http://localhost:3000/reset-password/?token=${resetToken}&id=${user._id}`;
+    // const resetLink = `http://localhost:3000/reset-password/?token=${resetToken}&id=${user._id}`;
 
-    // console.log('resetLink', resetLink);
+    const APP_URL = process.env.APP_URL
+
+    const resetLink = `${APP_URL}/reset-password/?token=${resetToken}&id=${user._id}`;
+    
     
     // aca mandar EMAIL
     sendEmail(
@@ -89,12 +91,15 @@ resetPassController.resetPass = async (req, res) => {
 
     await passwordResetToken.deleteOne();
 
+    const APP_URL = process.env.APP_URL
+
     sendEmail(
         updatedUserPass.email,
         "Calendarium Password Reset Confirmation",
         {
             name: updatedUserPass.username,
-            link: "http://localhost:3000"
+            // link: "http://localhost:3000"
+            link: APP_URL,
         },
         '../utils/emailTemplates/passwordResetConfirmation.handlebars'
     );

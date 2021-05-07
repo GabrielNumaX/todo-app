@@ -30,7 +30,7 @@ const PrivateRoute = (props) => {
         else {
             setLoaded(true)
 
-            console.log('NO TOKEN');
+            // console.log('NO TOKEN');
 
             props.history.push("/")
         }

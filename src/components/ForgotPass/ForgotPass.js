@@ -23,7 +23,7 @@ const ForgotPass = (props) => {
 
     const validateEmail = (email) => {
 
-        console.log(email);
+        // console.log(email);
 
 
         if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {

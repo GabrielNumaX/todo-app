@@ -156,7 +156,7 @@ class Guest extends Component {
 
                 if (moment(itemDate).isSame(thisDay)) {
 
-                    console.log('isSame(thisDay)')
+                    // console.log('isSame(thisDay)')
 
                     return today.push(item);
                 }

@@ -111,7 +111,7 @@ class Past extends Component {
 
     render() {
 
-        console.log('PAST');
+        // console.log('PAST');
 
         // const taskArr = this.state.pastTask === undefined ? this.state.pastTask : this.props.pastTask
 
