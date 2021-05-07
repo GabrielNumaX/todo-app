@@ -30,7 +30,7 @@ app.use('/password', resetRoute);
 console.log(path.join(__dirname, '..', 'build'))
 
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
 
     //serves react app  
     app.use(express.static(path.join(__dirname, '..', 'build')));
@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, '..', 'build', 'index.html')) //relative path
     })
 
-}
+// }
 
 app.use(error);
 
