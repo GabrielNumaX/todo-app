@@ -4,6 +4,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const path = require('path');
+
 require('./db/db');
 
 // router routes
@@ -20,10 +22,22 @@ const dev = process.env.NODE_ENV !== "production";
 app.use(express.json());
 app.use(cors());
 
-app.use( signUpRoute );
-app.use( loginRoute );
-app.use( taskRoute ); 
-app.use( '/password', resetRoute ); 
+app.use(signUpRoute);
+app.use(loginRoute);
+app.use(taskRoute);
+app.use('/password', resetRoute);
+
+if (process.env.NODE_ENV === 'production') {
+
+    //serves react app  
+    app.use(express.static('./src/build'));
+
+    app.get('*', (req, res) => {
+
+        res.sendFile(path.join(__dirname, 'src', 'build', 'index.html')) //relative path
+    })
+
+}
 
 app.use(error);
 
