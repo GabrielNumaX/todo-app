@@ -27,30 +27,29 @@ app.use(loginRoute);
 app.use(taskRoute);
 app.use('/password', resetRoute);
 
+console.log('heroku repo UPDATED');
 
 // this works on DEV ENV
 // app.use(express.static(path.join(__dirname, '..', 'build')));
 
-    // app.get('*', (req, res) => {
+//     app.get('*', (req, res) => {
 
-    //     console.log('get *')
+//         console.log('get *')
 
-    //     console.log(path.join(__dirname, '..', 'build'));
+//         res.sendFile(path.join(__dirname, '..', 'build', 'index.html')) //relative path
+//     })
 
-    //     res.sendFile(path.join(__dirname, '..', './build', 'index.html')) //relative path
-    // })
-
-    console.log('heroku repo UPDATED');
+    
 
 if (process.env.NODE_ENV === 'production') {
 
     //serves react app  
     app.use(express.static(path.join(__dirname, '..', 'build')));
 
-    // app.get('*', (req, res) => {
+    app.get('*', (req, res) => {
 
-    //     res.sendFile(path.join(__dirname, '..', 'build', 'index.html')) //relative path
-    // })
+        res.sendFile(path.join(__dirname, '..', 'build', 'index.html')) //relative path
+    })
 
 }
 

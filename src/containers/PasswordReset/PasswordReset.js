@@ -178,8 +178,8 @@ const PasswordReset = (props) => {
 
             <div className={css.welcome}>
                 <WelcomeHeader 
-                    show={'login'} 
-                    // onShowLogin={() => setShowComponent('login')} 
+                    show={'reset-pass'} 
+                    onShowLogin={() => history.push('/')} 
                 />
                 <div className={css.welcomeContainer}>
 
