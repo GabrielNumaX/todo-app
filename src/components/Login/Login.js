@@ -109,6 +109,7 @@ const Login = (props) => {
                     localStorage.setItem('token', res.data.token);
 
                     localStorage.setItem('username', res.data.username);
+                    localStorage.setItem('usertype', 'user');
 
                     props.setUsername(res.data.username);
                     props.setUserType('user');
