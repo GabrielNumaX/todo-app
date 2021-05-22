@@ -88,7 +88,7 @@ h1 {
     }
 
     .iconDiv {
-        width: 110px;
+        width: 120px;
         /* background: chartreuse; */
         /* display: flex;
     /* justify-content: space-between; */
@@ -103,7 +103,7 @@ h1 {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        width: 110px;
+        width: 120px;
         cursor: pointer;
         /* background: chartreuse; */
         /* display: flex;
@@ -124,6 +124,7 @@ h1 {
  
     .guestDiv p {
         font-size: 16px;
+        margin-right: 10px;
     }
 
     .iconDiv div {
@@ -158,7 +159,7 @@ h1 {
     }
 
     .iconDiv {
-        width: 110px;
+        width: 120px;
         /* background: red; */
         /* display: flex;
     /* justify-content: space-between; */
@@ -170,7 +171,8 @@ h1 {
     }
 
     .iconDivSecret {
-        width: 110px;
+        width: 120px;
+        /* background-color: greenyellow; */
     }
 
     .iconContainer {
@@ -186,6 +188,7 @@ h1 {
  
     .guestDiv p {
         font-size: 14px;
+        margin-right: 4px;
     }
 
     /* .iconDiv p {
@@ -243,6 +246,7 @@ h1 {
     .guestDiv p {
         font-size: 14px;
         display: none;
+        margin-right: 10px;
     }
 
     /* .iconDiv p {

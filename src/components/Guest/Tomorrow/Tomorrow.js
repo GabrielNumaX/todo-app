@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import {connect} from 'react-redux';
+import { onGuestTomorrowTask } from '../../../containers/Guest/actions';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -39,12 +42,14 @@ class Tomorrow extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+
         if (prevState.todayTask !== this.state.todayTask) {
 
-            localStorage.setItem('tomorrow-task',JSON.stringify(this.state.todayTask))
+            localStorage.setItem('tomorrow-task',JSON.stringify(this.state.todayTask));
+
+            this.props.onGuestTomorrowTask(this.state.todayTask);
         }
     }
-      
 
     onChangeTask = (e) => {
 
@@ -122,14 +127,6 @@ class Tomorrow extends Component {
     }
 
     render() {
-
-        // console.log('render')
-
-        // console.log(this.state.todayTask);
-
-        // console.log('tomorrowProps', this.props.tomorrowTask);
-        
-        // const taskArr = this.state.todayTask === undefined ? this.state.todayTask : this.props.tomorrowTask
 
         const taskArr = this.state.todayTask
 
@@ -219,4 +216,5 @@ class Tomorrow extends Component {
 
 
 // export default connect(mapGlobalStateToProps, { onTomorrowTask })(Tomorrow);
-export default Tomorrow;
+// export default Tomorrow;
+export default connect(null, { onGuestTomorrowTask })(Tomorrow);

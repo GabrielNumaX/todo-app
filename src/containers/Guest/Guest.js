@@ -15,8 +15,6 @@ import {
     faTimes
 } from '@fortawesome/free-solid-svg-icons'
 
-
-
 import css from './Guest.module.css';
 
 // import DatePicker from "react-datepicker";
@@ -40,6 +38,10 @@ import Toast from '../../components/Toast/Toast';
 import PageLoader from '../../components/PageLoader/PageLoader';
 
 import moment from 'moment';
+
+// redux
+
+import { onGuestPastTask, onGuestTodayTask, onGuestTomorrowTask, onGuestWeekTask } from './actions';
 
 
 class Guest extends Component {
@@ -83,10 +85,6 @@ class Guest extends Component {
         const tomorrowLocal = JSON.parse(localStorage.getItem('tomorrow-task'))
         const weekLocal = JSON.parse(localStorage.getItem('week-task'))
 
-        // console.log('tomorrow LOCAL', tomorrowLocal);
-
-        // console.log('week LOCAL', weekLocal);
-
         const week = [];
         const tomorrow = [];
         const today = [];
@@ -98,10 +96,13 @@ class Guest extends Component {
 
             pastLocal.map(item => {
 
-
                 const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
 
                 const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                const yesterday = moment(thisDay).subtract(1, 'd');
+
+                const olderThan30 = moment(thisDay).subtract(30, 'days');
 
                 if (moment(dayTomorrow).isBefore(itemDate)) {
 
@@ -122,7 +123,9 @@ class Guest extends Component {
                     return today.push(item);
                 }
 
-                if (moment(thisDay).isAfter(itemDate)) {
+                // if (moment(thisDay).isAfter(itemDate) && !moment(itemDate).isBefore(olderThan30)) {
+
+                if (moment(itemDate).isBetween(olderThan30, yesterday)) {
 
                     return past.push(item);
                 }
@@ -140,6 +143,10 @@ class Guest extends Component {
 
                 const dayTomorrow = moment(thisDay).add(1, 'd');
 
+                const yesterday = moment(thisDay).subtract(1, 'd');
+
+                const olderThan30 = moment(thisDay).subtract(30, 'days');
+
                 if (moment(dayTomorrow).isBefore(itemDate)) {
 
                     return week.push(item);
@@ -156,12 +163,10 @@ class Guest extends Component {
 
                 if (moment(itemDate).isSame(thisDay)) {
 
-                    // console.log('isSame(thisDay)')
-
                     return today.push(item);
                 }
 
-                if (moment(thisDay).isAfter(itemDate)) {
+                if (moment(itemDate).isBetween(olderThan30, yesterday)) {
 
                     return past.push(item);
                 }
@@ -180,6 +185,10 @@ class Guest extends Component {
 
                 const dayTomorrow = moment(thisDay).add(1, 'd');
 
+                const yesterday = moment(thisDay).subtract(1, 'd');
+
+                const olderThan30 = moment(thisDay).subtract(30, 'days');
+
                 if (moment(dayTomorrow).isBefore(itemDate)) {
 
                     return week.push(item);
@@ -199,7 +208,7 @@ class Guest extends Component {
                     return today.push(item);
                 }
 
-                if (moment(thisDay).isAfter(itemDate)) {
+                if (moment(itemDate).isBetween(olderThan30, yesterday)) {
 
                     return past.push(item);
                 }
@@ -213,10 +222,13 @@ class Guest extends Component {
 
             weekLocal.map(item => {
 
-
                 const itemDate = moment(new Date(item.date)).format('YYYY-MM-DD');
 
                 const dayTomorrow = moment(thisDay).add(1, 'd');
+
+                const yesterday = moment(thisDay).subtract(1, 'd');
+
+                const olderThan30 = moment(thisDay).subtract(30, 'days');
 
                 if (moment(dayTomorrow).isBefore(itemDate)) {
 
@@ -239,7 +251,7 @@ class Guest extends Component {
                     return today.push(item);
                 }
 
-                if (moment(thisDay).isAfter(itemDate)) {
+                if (moment(itemDate).isBetween(olderThan30, yesterday)) {
 
                     return past.push(item);
                 }
@@ -249,12 +261,6 @@ class Guest extends Component {
 
         }
 
-
-        // const sortedWeek = week.sort((a, b) => 
-        //     (a.date > b.date) ? 1 
-        //     : ((b.date > a.date) ? -1 : 0)
-        // )
-
         const sortedWeek = week.sort((a, b) =>
             (new Date(a.date) > new Date(b.date)) ? 1
                 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
@@ -262,12 +268,41 @@ class Guest extends Component {
 
         this.setState({
             showLoader: false,
-            pastTask: [...past],
-            todayTask: [...today],
-            tomorrowTask: [...tomorrow],
-            // weekTask: [...week],
-            weekTask: [...sortedWeek],
+            // pastTask: [...past],
+            // todayTask: [...today],
+            // tomorrowTask: [...tomorrow],
+            // // weekTask: [...week],
+            // weekTask: [...sortedWeek],
         })
+
+        this.props.onGuestPastTask(past);
+        this.props.onGuestTodayTask(today);
+        this.props.onGuestTomorrowTask(tomorrow);
+        this.props.onGuestWeekTask(sortedWeek);
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        if (prevProps.guestPastTask !== this.props.guestPastTask) {
+
+            localStorage.setItem('past-task', JSON.stringify(this.props.guestPastTask));
+        }
+
+        if (prevProps.guestTodayTask !== this.props.guestTodayTask) {
+
+            localStorage.setItem('today-task', JSON.stringify(this.props.guestTodayTask));
+        }
+
+        if (prevProps.guestTomorrowTask !== this.props.guestTomorrowTask) {
+
+            localStorage.setItem('tomorrow-task', JSON.stringify(this.props.guestTomorrowTask));
+        }
+
+        if (prevProps.guestWeekTask !== this.props.guestWeekTask) {
+
+            localStorage.setItem('tomorrow-week', JSON.stringify(this.props.guestWeekTask));
+        }
 
     }
 
@@ -373,7 +408,6 @@ class Guest extends Component {
     render() {
 
         // console.log('GUEST');
-        // console.log(this.state)
 
         return (
 
@@ -425,7 +459,7 @@ class Guest extends Component {
                             }
 
                             {
-                                this.state.toggleHeader && 
+                                this.state.toggleHeader &&
                                 <FontAwesomeIcon icon={faTimes} className={css.times}
                                     onClick={this.toggleHeader}
                                 />
@@ -441,7 +475,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Old</span>
-                                <span>{this.state.pastTask.length === 0 ? null : this.state.pastTask.length}</span>
+                                <span>{this.props.guestPastTask.length === 0 ? null : this.props.guestPastTask.length}</span>
                             </div>
                         </div>
 
@@ -454,7 +488,8 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Today</span>
-                                <span>{this.state.todayTask.length === 0 ? null : this.state.todayTask.length}</span>
+                                {/* <span>{this.state.todayTask.length === 0 ? null : this.state.todayTask.length}</span> */}
+                                <span>{this.props.guestTodayTask.length === 0 ? null : this.props.guestTodayTask.length}</span>
                             </div>
                         </div>
 
@@ -467,7 +502,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>Tomorrow</span>
-                                <span>{this.state.tomorrowTask.length === 0 ? null : this.state.tomorrowTask.length}</span>
+                                <span>{this.props.guestTomorrowTask.length === 0 ? null : this.props.guestTomorrowTask.length}</span>
                             </div>
                         </div>
 
@@ -480,7 +515,7 @@ class Guest extends Component {
 
                             <div className={css.ScheduleDiv}>
                                 <span>This Week</span>
-                                <span>{this.state.weekTask.length === 0 ? null : this.state.weekTask.length}</span>
+                                <span>{this.props.guestWeekTask.length === 0 ? null : this.props.guestWeekTask.length}</span>
                             </div>
                         </div>
 
@@ -504,22 +539,29 @@ class Guest extends Component {
                     </header>
 
                     {
-                        this.state.pastShow ? <Past></Past> : null
+                        this.state.pastShow ? <Past
+                            pastTask={this.props.guestPastTask}
+                        /> : null
                     }
 
                     {
-                        this.state.todayShow ? <Today todayTask={this.state.todayTask} /> : null
+                        this.state.todayShow ? <Today
+                            // todayTask={this.state.todayTask} 
+                            todayTask={this.props.guestTodayTask}
+                        /> : null
                     }
 
                     {
-                        this.state.tomorrowShow ? <Tomorrow tomorrowTask={this.state.tomorrowTask} /> : null
+                        this.state.tomorrowShow ? <Tomorrow
+                            tomorrowTask={this.props.guestTomorrowTask}
+                        /> : null
                     }
 
                     {
                         this.state.weekShow ?
                             <Week date={this.state.startDate}
                                 resetDate={this.resetDate}
-                                weekTask={this.state.weekTask} /> : null
+                                weekTask={this.props.guestWeekTask} /> : null
                     }
 
                     <Toast />
@@ -535,8 +577,12 @@ const mapGlobalStateToProps = (globalState) => {
 
     return {
         userType: globalState.app.userType,
+        guestPastTask: globalState.guest.guestPastTask,
+        guestTodayTask: globalState.guest.guestTodayTask,
+        guestTomorrowTask: globalState.guest.guestTomorrowTask,
+        guestWeekTask: globalState.guest.guestWeekTask,
     }
 }
 
 
-export default connect(mapGlobalStateToProps, { onShowToast })(Guest);
+export default connect(mapGlobalStateToProps, { onShowToast, onGuestPastTask, onGuestTodayTask, onGuestTomorrowTask, onGuestWeekTask })(Guest);

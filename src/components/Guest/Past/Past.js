@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-// import { connect } from 'react-redux';
-// import { onPastTask } from '../../containers/Main/actions';
-// import { delTask, setCheckUncheck  } from '../../containers/App/actions';
+import {connect} from 'react-redux';
+import { onGuestPastTask } from '../../../containers/Guest/actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -27,24 +26,47 @@ class Past extends Component {
             },
             pastTask: [],
 
+            hasPastTasks: false,
+
         }
     }
 
     componentDidMount() {
 
-        // this.setState({
-        //     pastTask: [...this.props.pastTask]
-        // })
+        let hasPast = false;
+
+        if (Array.isArray(this.props.pastTask) && this.props.pastTask.length) {
+
+            hasPast = true;
+        }
+
+        this.setState({
+            pastTask: [...this.props.pastTask],
+            hasPastTasks: hasPast,
+        })
     }
-
-
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.pastTask !== this.state.pastTask) {
-            //   console.log('pokemons state has changed.')
-            this.props.onPastTask(this.state.pastTask)
+
+            console.log('didUp Past')
+
+            localStorage.setItem('past-task', JSON.stringify(this.state.pastTask));
+
+            this.props.onGuestPastTask(this.state.pastTask);
+
+
         }
     }
+
+
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevState.pastTask !== this.state.pastTask) {
+    //         //   console.log('pokemons state has changed.')
+    //         this.props.onPastTask(this.state.pastTask)
+    //     }
+    // }
 
 
     onChangeTask = (e) => {
@@ -162,28 +184,30 @@ class Past extends Component {
                     Old Tasks
                 </div>
 
+                {
+
+                    !this.state.hasPastTasks ?
+
+                        <div className={css.NoOldTasks}>
+                            You have no Old Task. <br />
+                            Your Old Task will be deleted after 30 days
+                        </div>
+
+                        :
+                        null
+                }
                 {/* NO addind OLD TASKS */}
 
                 <div className={css.AddTodayTask}>
 
-                    {/* <div className={css.AddTask}>
-                        <FontAwesomeIcon icon={faPlus}
-                            className={css.Icon}
-                            onClick={this.addTask}
-                        />
-
-                        <input placeholder='Add Past Task'
-                            className={css.Input}
-                            value={this.state.addTask.task}
-                            onChange={(e) => this.onChangeTask(e)}
-                            onKeyUp={this.keyPress}>
-                        </input>
-
-                    </div> */}
-
                     <div className={css.TaskContainer}>
 
                         {task}
+
+                        {/* <div className={css.NoOldTasks}>
+                            You have no Old Task. <br/>
+                            Your Old Task will be deleted after 30 days
+                        </div> */}
 
                     </div>
 
@@ -204,4 +228,5 @@ class Past extends Component {
 // }
 
 // export default connect(mapGlobalStateToProps, { onPastTask, delTask, setCheckUncheck })(Past);
-export default Past;
+// export default Past;
+export default connect(null, { onGuestPastTask })(Past);

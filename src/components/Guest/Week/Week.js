@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import {connect} from 'react-redux';
+import { onGuestWeekTask } from '../../../containers/Guest/actions';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -35,6 +38,7 @@ class Week extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        
         if (prevState.todayTask !== this.state.todayTask) {
 
             this.props.resetDate();
@@ -44,7 +48,10 @@ class Week extends Component {
             //         : ((b.date > a.date) ? -1 : 0)
             // )
 
-            localStorage.setItem('week-task', JSON.stringify(this.state.todayTask))
+            localStorage.setItem('week-task', JSON.stringify(this.state.todayTask));
+
+            this.props.onGuestWeekTask(this.state.todayTask);
+
         }
     }
 
@@ -230,12 +237,5 @@ class Week extends Component {
 
 }
 
-// this reads from STORE
-// const mapGlobalStateToProps = (globalState) => {
-//     return {
-//         weekTask: globalState.main.weekTask,
-//     }
-// }
-
-// export default connect(mapGlobalStateToProps, { onWeekTask })(Week);
-export default Week;
+export default connect(null, { onGuestWeekTask })(Week);
+// export default Week;

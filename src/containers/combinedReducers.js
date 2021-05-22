@@ -9,10 +9,12 @@ import { combineReducers } from 'redux';
 
 import mainReducer from './Main/MainReducer';
 import appReducer from './App/AppReducer';
+import guestReducer from './Guest/GuestReducer';
 
 export default combineReducers({
     main: mainReducer,
     app: appReducer,
+    guest: guestReducer,
     //   product: productReducer,
     //   category: categoryReducer,
     //   banner: bannerReducer,

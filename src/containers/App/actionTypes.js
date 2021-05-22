@@ -5,6 +5,6 @@ export const SET_USERNAME = 'SET_USERNAME';
 
 export const POST_TASK = 'POST_TASK';
 export const GET_TASKS = 'GET_TASKS';
-export const DEL_TASK = 'DEL_tASK';
+export const DEL_TASK = 'DEL_TASK';
 export const PUT_TASK = 'PUT_TASK';
 
