@@ -4,9 +4,28 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const cron = require('node-cron');
+const deleteOlderThan30 = require('./cronjob/olderThan30Delete')
+
 const path = require('path');
 
 require('./db/db');
+
+// cronjob
+cron.schedule('0 0 * * *', () => { //every day at 00:00
+    console.log('running a task every day at 00:00');
+
+    try {
+
+        deleteOlderThan30();
+    }
+    catch(error) {
+
+        console.log('Error executing CRON');
+
+        console.log(error);
+    }
+});
 
 // router routes
 const signUpRoute = require('./routes/signUpRoute');

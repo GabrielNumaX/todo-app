@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.26.0",
     "mongoose": "^5.12.5",
+    "node-cron": "^3.0.0",
     "nodemailer": "^6.6.0",
     "react": "^16.13.1",
     "react-datepicker": "^3.0.0",
@@ -47,7 +48,7 @@
     "server": "nodemon ./server/server.js --watch ./server/*",
     "all": "run-p server react-start",
     "start": "node ./server/server.js",
-	  "heroku-postbuild": "npm install && npm run build"
+    "heroku-postbuild": "npm install && npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
