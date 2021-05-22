@@ -29,13 +29,23 @@ class Past extends Component {
             },
             pastTask: [],
 
+            hasPastTasks: false,
+
         }
     }
 
     componentDidMount() {
 
+        let hasPast = false;
+
+        if (Array.isArray(this.props.pastTask) && this.props.pastTask.length) {
+
+            hasPast = true;
+        }
+
         this.setState({
-            pastTask: [...this.props.pastTask]
+            pastTask: [...this.props.pastTask],
+            hasPastTasks: hasPast,
         })
     }
 
@@ -47,7 +57,7 @@ class Past extends Component {
         //     this.props.onPastTask(this.state.pastTask)
         // }
 
-        if(prevProps.pastTask !== this.props.pastTask) {
+        if (prevProps.pastTask !== this.props.pastTask) {
 
             this.setState({
                 pastTask: [...this.props.pastTask]
@@ -173,26 +183,24 @@ class Past extends Component {
 
                     <div className={css.TodayTask}>
                         Old Tasks
-                </div>
+                    </div>
+
+                    {
+
+                        !this.state.hasPastTasks ?
+
+                            <div className={css.NoOldTasks}>
+                                You have no Old Task. <br />
+                                Your Old Tasks will be deleted after 30 days
+                            </div>
+
+                            :
+                            null
+                    }
 
                     {/* NO addind OLD TASKS */}
 
                     <div className={css.AddTodayTask}>
-
-                        {/* <div className={css.AddTask}>
-                        <FontAwesomeIcon icon={faPlus}
-                            className={css.Icon}
-                            onClick={this.addTask}
-                        />
-
-                        <input placeholder='Add Past Task'
-                            className={css.Input}
-                            value={this.state.addTask.task}
-                            onChange={(e) => this.onChangeTask(e)}
-                            onKeyUp={this.keyPress}>
-                        </input>
-
-                    </div> */}
 
                         <div className={css.TaskContainer}>
 

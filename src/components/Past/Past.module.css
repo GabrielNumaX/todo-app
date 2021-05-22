@@ -78,6 +78,20 @@
     overflow-y: auto;
 }
 
+.NoOldTasks {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    line-height: 40px;
+}
+
 .Task {
     display: flex;
     align-items: center;
@@ -160,6 +174,10 @@
         /* background-color: rgba(0, 0, 0, 0.7); */
         height: 258px;
         overflow-y: auto;
+    }
+
+    .NoOldTasks {
+        line-height: 30px;
     }
 
     .AddTodayTask {

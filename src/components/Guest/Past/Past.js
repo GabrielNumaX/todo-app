@@ -49,7 +49,7 @@ class Past extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.pastTask !== this.state.pastTask) {
 
-            console.log('didUp Past')
+            // console.log('didUp Past')
 
             localStorage.setItem('past-task', JSON.stringify(this.state.pastTask));
 
@@ -190,7 +190,7 @@ class Past extends Component {
 
                         <div className={css.NoOldTasks}>
                             You have no Old Task. <br />
-                            Your Old Task will be deleted after 30 days
+                            Your Old Tasks will be deleted after 30 days
                         </div>
 
                         :
