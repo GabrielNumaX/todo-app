@@ -27,6 +27,8 @@ const CreateAccount = (props) => {
         message: '',
     });
 
+    const [isUserTaken, setIsUserTaken] = useState(false);
+
     const [email, setEmail] = useState({
         isInvalid: null,
         message: '',
@@ -133,13 +135,24 @@ const CreateAccount = (props) => {
                 .then(res => {
 
                     // console.log(res);
+                    setIsUserTaken(false)
 
                 })
                 .catch(error => {
 
                     // console.log(error.response);
+                    if(error?.response.status === 422) {
 
-                    props.onShowToast('Something Went Wrong.Try Again!!!', 'error');
+                        setUser({
+                            isInvalid: true,
+                            message: error.response.data.error[0],
+                        })
+
+                        setIsUserTaken(true)
+                    }
+                    else {   
+                        props.onShowToast('Something Went Wrong.Try Again!!!', 'error');
+                    }
 
                 })
         }
@@ -244,6 +257,16 @@ const CreateAccount = (props) => {
 
 
             // console.log('SUBMIT FALSE');
+            return;
+        }
+
+        if(isUserTaken) {
+
+            setUser({
+                isInvalid: true,
+                message: 'Username NOT available',
+            })
+
             return;
         }
 
